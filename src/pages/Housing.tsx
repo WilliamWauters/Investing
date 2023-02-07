@@ -1,6 +1,4 @@
 import Head from "next/head";
-import "../styles/Home.module.css";
-import styles from "@/styles/Home.module.css";
 
 export default function Housing() {
   return (
@@ -10,10 +8,8 @@ export default function Housing() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.center}>
-          <h1>Housing</h1>
-        </div>
+      <main>
+        <h1>Housing</h1>
       </main>
     </>
   );

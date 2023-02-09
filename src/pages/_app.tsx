@@ -1,4 +1,4 @@
-import Drawer from "@/components/Drawer";
+import Drawer from "@/components/navigation/Drawer";
 import "@/styles/globals.css";
 import * as React from "react";
 import Head from "next/head";

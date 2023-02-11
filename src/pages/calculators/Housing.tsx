@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Page from "../../components/layout/Page";
 import Header from "@/components/content/Header";
 import {
   Box,
   Checkbox,
-  Chip,
   FormControlLabel,
   FormGroup,
   Slider,
-  Stack,
   Typography,
 } from "@mui/material";
 import { NumericFormat } from "react-number-format";
 import Head from "next/head";
 import InputSection from "@/components/layout/InputSection";
+import ChoiceChipGroup from "@/components/inputs/ChoiceChipGroup";
+import MoneySlider from "@/components/inputs/MoneySlider";
 
 function valueLabelFormat(value: number) {
   return (
@@ -78,53 +78,31 @@ export default function Housing() {
         <Page>
           <Header text="Housing Calculator" />
           <InputSection>
-            <Typography gutterBottom>Situation habitation</Typography>
-            <Stack direction="row" spacing={1} justifyContent="center">
-              {["Bruxelles", "Flandre", "Wallonia"].map((loca) => {
-                return (
-                  <Chip
-                    color={loca === location ? "primary" : undefined}
-                    label={loca}
-                    variant="outlined"
-                    onClick={() => handleChangeLocation(loca)}
-                    sx={{ width: "33%" }}
-                  />
-                );
-              })}
-            </Stack>
+            <ChoiceChipGroup
+              label="Situation habitation"
+              options={["Bruxelles", "Flandre", "Wallonia"]}
+              value={location}
+              handleChange={handleChangeLocation}
+            />
           </InputSection>
           <InputSection>
-            <Typography>Prix :{valueLabelFormat(price)}</Typography>
-            <Slider
-              sx={{
-                mb: -1,
-              }}
-              size="small"
-              value={price}
+            <MoneySlider
+              label="Prix"
               min={0}
               step={5000}
               max={1000000}
               defaultValue={250000}
-              onChange={(e, val) => handleChangePrice(val)}
+              value={price}
+              handleChange={handleChangePrice}
             />
           </InputSection>
           <InputSection>
-            <Typography gutterBottom>Type de bien</Typography>
-            <Stack direction="row" spacing={1} justifyContent="center">
-              {["Maison / appartement", "Terrain à bâtir"].map(
-                (habitatType) => {
-                  return (
-                    <Chip
-                      color={habitatType === type ? "primary" : undefined}
-                      label={habitatType}
-                      variant="outlined"
-                      onClick={() => handleChangeType(habitatType)}
-                      sx={{ width: "50%" }}
-                    />
-                  );
-                }
-              )}
-            </Stack>
+            <ChoiceChipGroup
+              label="Type de bien"
+              options={["Maison / appartement", "Terrain à bâtir"]}
+              value={type}
+              handleChange={handleChangeType}
+            />
           </InputSection>
           <InputSection>
             <FormGroup>

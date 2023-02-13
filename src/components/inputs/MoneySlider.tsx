@@ -1,6 +1,6 @@
+import formatMoney from "@/utils/formatMoney";
 import { Slider, Typography } from "@mui/material";
 import { useState } from "react";
-import { NumericFormat } from "react-number-format";
 
 type MoneySliderProps = {
   label: string;
@@ -31,7 +31,7 @@ const MoneySlider = ({
   return (
     <>
       <Typography>
-        {label} :{valueLabelFormat(value || valueInput)}
+        {label} :{formatMoney(value || valueInput)}
       </Typography>
       <Slider
         sx={{
@@ -50,19 +50,5 @@ const MoneySlider = ({
     </>
   );
 };
-
-function valueLabelFormat(value: number) {
-  return (
-    <Typography component="span" sx={{ fontWeight: "bold", color: "#38BDF8" }}>
-      <NumericFormat
-        value={value}
-        displayType={"text"}
-        thousandSeparator={true}
-        prefix={" "}
-        suffix={" €"}
-      />
-    </Typography>
-  );
-}
 
 export default MoneySlider;

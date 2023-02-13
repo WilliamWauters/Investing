@@ -1,15 +1,18 @@
 import { Box } from "@mui/material";
 
-type InputSectionProps = {
+type FormSectionProps = {
   children: any;
 };
 
-const InputSection = ({ children }: InputSectionProps) => {
+const FormSection = ({ children }: FormSectionProps) => {
   return (
     <Box
       sx={{
         py: 2,
         px: 2,
+        border: 1,
+        borderRadius: "5px",
+        borderColor: "#1E293B",
         "&:hover": {
           // borderColor: "primary.main",
         },
@@ -20,4 +23,4 @@ const InputSection = ({ children }: InputSectionProps) => {
   );
 };
 
-export default InputSection;
+export default FormSection;

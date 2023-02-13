@@ -1,34 +1,56 @@
-import { Box, Paper, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Collapse,
+  Paper,
+  Typography,
+} from "@mui/material";
+import React from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 type HeaderProps = {
   text: string;
 };
 
 const Header = ({ text }: HeaderProps) => {
+  const [isChecked, setIsChecked] = React.useState(false);
   return (
     <>
-      <Paper
+      <Accordion
         sx={{
-          px: 3,
-          py: 2,
+          px: 1,
           backgroundColor: "#1E293B",
           color: "#CBD5E1",
+          borderRadius: "5px",
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: "bold", color: "#38BDF8" }}>
-          {text}
-        </Typography>
-        <Typography
-          sx={{
-            mt: 1,
-            mb: 1,
-          }}
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
         >
-          Morbi ut efficitur velit. Aenean pellentesque dui ut tincidunt
-          rhoncus. Etiam quis posuere ante. Curabitur lobortis neque et mollis
-          tristique. Mauris et euismod metus.
-        </Typography>
-      </Paper>
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: "bold", color: "#38BDF8" }}
+          >
+            {text}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography
+            sx={{
+              mt: 1,
+              mb: 1,
+            }}
+          >
+            Morbi ut efficitur velit. Aenean pellentesque dui ut tincidunt
+            rhoncus. Etiam quis posuere ante. Curabitur lobortis neque et mollis
+            tristique. Mauris et euismod metus.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
     </>
   );
 };

@@ -12,14 +12,6 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.container}>
-        <div>
-          <span>With default Theme:</span>
-        </div>
-        <Switch {...label} defaultChecked />
-        <Switch {...label} />
-        <Switch {...label} disabled defaultChecked />
-      </div>
     </>
   );
 }

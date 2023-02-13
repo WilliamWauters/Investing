@@ -14,6 +14,7 @@ const Page = ({ children }: PagePrpops) => {
       >
         <Box sx={{ height: "9vh" }}></Box>
         {children}
+        <Box sx={{ height: "2vh" }}></Box>
       </Box>
     </>
   );

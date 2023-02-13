@@ -18,6 +18,7 @@ import {
   MenuItem,
   InputLabel,
   Select,
+  TextField,
 } from "@mui/material";
 import Head from "next/head";
 import InputSection from "@/components/layout/InputSection";
@@ -163,44 +164,32 @@ export default function Housing() {
                 >
                   <InputSection>
                     <FormControl fullWidth size="small">
-                      <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Age"
-                      >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                      <Typography gutterBottom>Location</Typography>
+                      <Select>
+                        <MenuItem value={10}>Brussels</MenuItem>
+                        <MenuItem value={20}>Flanders</MenuItem>
+                        <MenuItem value={30}>Wallonia</MenuItem>
                       </Select>
                     </FormControl>
                   </InputSection>
                   <InputSection>
                     <FormControl fullWidth size="small">
-                      <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Age"
-                      >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                      <Typography gutterBottom>Type</Typography>
+                      <Select>
+                        <MenuItem value={10}>House</MenuItem>
+                        <MenuItem value={20}>Appartment</MenuItem>
+                        <MenuItem value={30}>Domain</MenuItem>
                       </Select>
                     </FormControl>
                   </InputSection>
                   <InputSection>
                     <FormControl fullWidth size="small">
-                      <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Age"
-                      >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                      </Select>
+                      <Typography gutterBottom>Amount</Typography>
+                      <TextField
+                        size="small"
+                        id="outlined-basic"
+                        variant="outlined"
+                      />
                     </FormControl>
                   </InputSection>
                   <InputSection>
@@ -214,12 +203,26 @@ export default function Housing() {
                             }
                           />
                         }
-                        label="Cette habitation est ma propre et unique habitation"
+                        label="This home is my own an unique home"
+                      />
+                    </FormGroup>
+                  </InputSection>
+                  <InputSection>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={isOwnAndUnique}
+                            onClick={() =>
+                              handleChangeIsOwnAndUnique(!isOwnAndUnique)
+                            }
+                          />
+                        }
+                        label="I have the right to get an Abattement"
                       />
                     </FormGroup>
                   </InputSection>
                 </Box>
-
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                   <Button
                     color="inherit"

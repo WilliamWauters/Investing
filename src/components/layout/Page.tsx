@@ -10,10 +10,9 @@ const Page = ({ children }: PagePrpops) => {
       <Box
         sx={{
           display: "grid",
-          gap: 2,
         }}
       >
-        <Box sx={{ height: "50px" }}></Box>
+        <Box sx={{ height: "9vh" }}></Box>
         {children}
       </Box>
     </>

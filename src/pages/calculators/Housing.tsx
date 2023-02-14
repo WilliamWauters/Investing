@@ -1,127 +1,48 @@
-import { useEffect, useState } from "react";
 import Page from "../../components/layout/Page";
 import Header from "@/components/content/Header";
 import {
   Box,
   Button,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
   Step,
-  StepLabel,
   Stepper,
   Typography,
-  useTheme,
-  Collapse,
   StepButton,
-  FormControl,
-  MenuItem,
-  InputLabel,
-  Select,
-  TextField,
 } from "@mui/material";
 import Head from "next/head";
-import InputSection from "@/components/layout/InputSection";
-import ChoiceChipGroup from "@/components/inputs/ChoiceChipGroup";
-import MoneySlider from "@/components/inputs/MoneySlider";
-import formatMoney from "@/utils/formatMoney";
-import { getRegistrationFee, getNotaryFee, getTVA } from "@/utils/calculation";
-import MobileStepper from "@mui/material/MobileStepper";
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import React from "react";
 import FormSection from "@/components/layout/FormSection";
+import FormPane from "@/components/layout/FormPane";
+import HouseSituationForm from "@/components/forms/housing/HouseSituationForm";
+import PersonalSituationForm from "@/components/forms/housing/PersonalSituationForm";
+import FinancialSituationForm from "@/components/forms/housing/FinancialSituationForm";
+import useStepper from "@/hooks/useStepperAction";
+import { HousingFormProvider } from "@/contexts/HousingFormContext";
 
-const steps = ["House", "Finance", "Analysis"];
+const forms = [
+  {
+    label: "House",
+    component: <HouseSituationForm />,
+  },
+  {
+    label: "Person",
+    component: <PersonalSituationForm />,
+  },
+  {
+    label: "Finance",
+    component: <FinancialSituationForm />,
+  },
+];
 
 export default function Housing() {
-  // State Variable
-  const [location, setLocation] = useState("Bruxelles");
-  const [price, setPrice] = useState(250000);
-  const [type, setType] = useState("Maison / appartement");
-  const [isOwnAndUnique, setIsOwnAndUnique] = useState(true);
-  const [isEntiteldToReduction, setIsEntiteldToReduction] = useState(true);
-
-  // Derived State values
-  const RegistrationFee = getRegistrationFee(price, isEntiteldToReduction);
-  const NotaryFee = getNotaryFee(price);
-  const TVA = getTVA(price);
-
-  // HANDLE CHANGES
-  const handleChangeLocation = (newLocation: string) => {
-    setLocation(newLocation);
-  };
-  const handleChangePrice = (newPrice: number | number[]) => {
-    if (typeof newPrice === "number") {
-      setPrice(newPrice);
-    }
-  };
-  const handleChangeType = (newType: string) => {
-    setType(newType);
-  };
-  const handleChangeIsOwnAndUnique = (newVal: boolean) => {
-    setIsOwnAndUnique(newVal);
-  };
-
-  useEffect(() => {
-    if (price < 500000 && isOwnAndUnique) {
-      setIsEntiteldToReduction(true);
-    } else {
-      setIsEntiteldToReduction(false);
-    }
-  }, [price, isOwnAndUnique]);
-
-  // STEPPER FUNCTIONS
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState<{
-    [k: number]: boolean;
-  }>({});
-
-  const totalSteps = () => {
-    return steps.length;
-  };
-
-  const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
-
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
-
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
-
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStep = (step: number) => () => {
-    setActiveStep(step);
-  };
-
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
-
+  const [
+    activeForm,
+    completed,
+    handleNext,
+    handleBack,
+    handleStep,
+    handleReset,
+    allStepsCompleted,
+  ] = useStepper(forms);
   return (
     <>
       <Head>
@@ -132,111 +53,43 @@ export default function Housing() {
       <main>
         <Page>
           <Header text="Housing Calculator" />
-          <FormSection>
-            <Box sx={{ my: 2 }}>
-              <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-                {steps.map((label, index) => (
-                  <Step key={label} completed={completed[index]}>
-                    <StepButton color="inherit" onClick={handleStep(index)}>
-                      {label}
-                    </StepButton>
-                  </Step>
-                ))}
-              </Stepper>
-            </Box>
-            {allStepsCompleted() ? (
-              <>
-                <Typography sx={{ mt: 2, mb: 1 }}>
-                  All steps completed - you're finished
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button onClick={handleReset}>Reset</Button>
-                </Box>
-              </>
-            ) : (
-              <>
-                <Box
-                  sx={{
-                    mx: "auto",
-                  }}
-                  maxWidth="480px"
-                >
-                  <InputSection>
-                    <FormControl fullWidth size="small">
-                      <Typography gutterBottom>Location</Typography>
-                      <Select>
-                        <MenuItem value={10}>Brussels</MenuItem>
-                        <MenuItem value={20}>Flanders</MenuItem>
-                        <MenuItem value={30}>Wallonia</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </InputSection>
-                  <InputSection>
-                    <FormControl fullWidth size="small">
-                      <Typography gutterBottom>Type</Typography>
-                      <Select>
-                        <MenuItem value={10}>House</MenuItem>
-                        <MenuItem value={20}>Appartment</MenuItem>
-                        <MenuItem value={30}>Domain</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </InputSection>
-                  <InputSection>
-                    <FormControl fullWidth size="small">
-                      <Typography gutterBottom>Amount</Typography>
-                      <TextField
-                        size="small"
-                        id="outlined-basic"
-                        variant="outlined"
-                      />
-                    </FormControl>
-                  </InputSection>
-                  <InputSection>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={isOwnAndUnique}
-                            onClick={() =>
-                              handleChangeIsOwnAndUnique(!isOwnAndUnique)
-                            }
-                          />
-                        }
-                        label="This home is my own an unique home"
-                      />
-                    </FormGroup>
-                  </InputSection>
-                  <InputSection>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={isOwnAndUnique}
-                            onClick={() =>
-                              handleChangeIsOwnAndUnique(!isOwnAndUnique)
-                            }
-                          />
-                        }
-                        label="I have the right to get an Abattement"
-                      />
-                    </FormGroup>
-                  </InputSection>
-                </Box>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                  >
-                    Back
-                  </Button>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button onClick={handleNext}>Next</Button>
-                </Box>
-              </>
-            )}
-          </FormSection>
+          <HousingFormProvider>
+            <FormSection>
+              <Box sx={{ my: 2 }}>
+                <Stepper alternativeLabel nonLinear activeStep={activeForm}>
+                  {forms.map((form, index) => (
+                    <Step key={form.label} completed={completed[index]}>
+                      <StepButton color="inherit" onClick={handleStep(index)}>
+                        {form.label}
+                      </StepButton>
+                    </Step>
+                  ))}
+                </Stepper>
+              </Box>
+              {allStepsCompleted() ? (
+                <>
+                  <Typography sx={{ mt: 2, mb: 1 }}>
+                    All forms completed - you're finished
+                  </Typography>
+                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                    <Box sx={{ flex: "1 1 auto" }} />
+                    <Button onClick={handleReset}>Reset</Button>
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <FormPane>{forms[activeForm].component}</FormPane>
+                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                    <Button disabled={activeForm === 0} onClick={handleBack}>
+                      Back
+                    </Button>
+                    <Box sx={{ flex: "1 1 auto" }} />
+                    <Button onClick={handleNext}>Next</Button>
+                  </Box>
+                </>
+              )}
+            </FormSection>
+          </HousingFormProvider>
         </Page>
       </main>
     </>

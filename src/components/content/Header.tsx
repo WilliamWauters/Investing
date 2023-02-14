@@ -2,9 +2,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
-  Collapse,
-  Paper,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -15,7 +12,6 @@ type HeaderProps = {
 };
 
 const Header = ({ text }: HeaderProps) => {
-  const [isChecked, setIsChecked] = React.useState(false);
   return (
     <>
       <Accordion
@@ -33,7 +29,8 @@ const Header = ({ text }: HeaderProps) => {
         >
           <Typography
             variant="h6"
-            sx={{ fontWeight: "bold", color: "#38BDF8" }}
+            align="center"
+            sx={{ width: "100%", fontWeight: "bold", color: "#38BDF8" }}
           >
             {text}
           </Typography>

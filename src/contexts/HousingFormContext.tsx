@@ -1,82 +1,98 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface HousingForm {
-  location: any;
-  price: any;
-  type: any;
-  isOwnAndUnique: any;
-  isEntiteldToReduction: any;
+  HousingFormState: HousingFormState;
   handleChangeLocation: any;
   handleChangePrice: any;
+  handleChangePriceIncrementation: any;
   handleChangeType: any;
   handleChangeIsOwnAndUnique: any;
+  handleChangeIsEntiteldToReduction: any;
+}
+
+interface HousingFormState {
+  location: string;
+  type: string;
+  price: number;
+  isOwnAndUnique: boolean;
+  isEntiteldToReduction: boolean;
 }
 
 type HousingFormProviderProps = {
   children: any;
 };
 
-function housingFormReducer(state: any, action: any) {
-  switch (action.type) {
-    case "increment": {
-      return { count: state.count + 1 };
-    }
-    case "decrement": {
-      return { count: state.count - 1 };
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
-    }
-  }
-}
-
 // 1 - CREATING CONTEXT
 const HousingFormContext = createContext<HousingForm>({} as HousingForm);
 
 // 2 - CREATING PROVIDER (will be used in the Housing Page)
 const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
-  const [location, setLocation] = useState("Brussels");
-  const [price, setPrice] = useState(250000);
-  const [type, setType] = useState("Maison / appartement");
-  const [isOwnAndUnique, setIsOwnAndUnique] = useState(true);
-  const [isEntiteldToReduction, setIsEntiteldToReduction] = useState(true);
+  const [HousingFormState, setHousingFormState] = useState({
+    location: "Brussels",
+    type: "House",
+    price: 250000,
+    isOwnAndUnique: true,
+    isEntiteldToReduction: true,
+  });
 
   // HANDLE CHANGES
   const handleChangeLocation = (newLocation: string) => {
-    setLocation(newLocation);
+    setHousingFormState((prevState) => {
+      return { ...prevState, location: newLocation };
+    });
+  };
+  const handleChangeType = (newType: string) => {
+    setHousingFormState((prevState) => {
+      return { ...prevState, type: newType };
+    });
   };
   const handleChangePrice = (newPrice: number | number[]) => {
     if (typeof newPrice === "number") {
-      setPrice(newPrice);
+      setHousingFormState((prevState) => {
+        return { ...prevState, price: newPrice };
+      });
     }
   };
-  const handleChangeType = (newType: string) => {
-    setType(newType);
+
+  const handleChangePriceIncrementation = (key: string) => {
+    if (key === "ArrowUp") {
+      setHousingFormState((prevState) => {
+        return { ...prevState, price: prevState.price + 5000 };
+      });
+    }
+    if (key === "ArrowDown") {
+      setHousingFormState((prevState) => {
+        return { ...prevState, price: prevState.price - 5000 };
+      });
+    }
   };
+
   const handleChangeIsOwnAndUnique = (newVal: boolean) => {
-    setIsOwnAndUnique(newVal);
+    setHousingFormState((prevState) => {
+      return { ...prevState, isOwnAndUnique: newVal };
+    });
+  };
+
+  const handleChangeIsEntiteldToReduction = (newVal: boolean) => {
+    setHousingFormState((prevState) => {
+      return { ...prevState, isEntiteldToReduction: newVal };
+    });
   };
 
   useEffect(() => {
-    if (price < 500000 && isOwnAndUnique) {
-      setIsEntiteldToReduction(true);
-    } else {
-      setIsEntiteldToReduction(false);
-    }
-  }, [price, isOwnAndUnique]);
+    console.log(HousingFormState);
+  }, [HousingFormState]);
 
   return (
     <HousingFormContext.Provider
       value={{
-        location,
-        price,
-        type,
-        isOwnAndUnique,
-        isEntiteldToReduction,
+        HousingFormState,
         handleChangeLocation,
         handleChangePrice,
+        handleChangePriceIncrementation,
         handleChangeType,
         handleChangeIsOwnAndUnique,
+        handleChangeIsEntiteldToReduction,
       }}
     >
       {children}

@@ -1,4 +1,3 @@
-import { useEffect, useState, useContext } from "react";
 import InputSection from "@/components/layout/InputSection";
 import {
   Checkbox,
@@ -11,20 +10,27 @@ import {
   Typography,
 } from "@mui/material";
 import { useHousingForm } from "@/contexts/HousingFormContext";
+import { NumericFormat } from "react-number-format";
 
 const HouseSituationForm = () => {
-  const { location, handleChangeLocation } = useHousingForm();
-
-  console.log(location);
-
+  const {
+    HousingFormState,
+    handleChangeLocation,
+    handleChangeType,
+    handleChangePrice,
+    handleChangePriceIncrementation,
+    handleChangeIsOwnAndUnique,
+    handleChangeIsEntiteldToReduction,
+  } = useHousingForm();
   return (
     <>
       <InputSection>
-        <FormControl fullWidth size="small">
+        <FormControl fullWidth>
           <Typography gutterBottom>Location</Typography>
           <Select
-            value={location || ""}
+            value={HousingFormState.location || ""}
             onChange={(e) => handleChangeLocation(e.target.value)}
+            size="small"
           >
             <MenuItem value={"Brussels"}>Brussels</MenuItem>
             <MenuItem value={"Flanders"}>Flanders</MenuItem>
@@ -33,25 +39,50 @@ const HouseSituationForm = () => {
         </FormControl>
       </InputSection>
       <InputSection>
-        <FormControl fullWidth size="small">
+        <FormControl fullWidth>
           <Typography gutterBottom>Type</Typography>
-          <Select>
-            <MenuItem value={10}>House</MenuItem>
-            <MenuItem value={20}>Appartment</MenuItem>
-            <MenuItem value={30}>Domain</MenuItem>
+          <Select
+            value={HousingFormState.type || ""}
+            onChange={(e) => handleChangeType(e.target.value)}
+            size="small"
+          >
+            <MenuItem value={"House"}>House</MenuItem>
+            <MenuItem value={"Appartment"}>Appartment</MenuItem>
+            <MenuItem value={"Domain"}>Domain</MenuItem>
           </Select>
         </FormControl>
       </InputSection>
       <InputSection>
-        <FormControl fullWidth size="small">
+        <FormControl fullWidth>
           <Typography gutterBottom>Amount</Typography>
-          <TextField size="small" id="outlined-basic" variant="outlined" />
+          <NumericFormat
+            customInput={TextField}
+            value={HousingFormState.price}
+            variant="outlined"
+            size="small"
+            thousandSeparator={"."}
+            decimalSeparator={","}
+            prefix={" "}
+            suffix={" €"}
+            onValueChange={({ value: v }) => {
+              handleChangePrice(+v);
+            }}
+            onKeyDown={(e) => {
+              handleChangePriceIncrementation(e.key);
+            }}
+          />
         </FormControl>
       </InputSection>
       <InputSection>
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox />}
+            control={
+              <Checkbox
+                size="small"
+                checked={HousingFormState.isOwnAndUnique || false}
+                onChange={(e) => handleChangeIsOwnAndUnique(e.target.checked)}
+              />
+            }
             label="This home is my own an unique home"
           />
         </FormGroup>
@@ -59,8 +90,16 @@ const HouseSituationForm = () => {
       <InputSection>
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox />}
-            label="I have the right to get an Abattement"
+            control={
+              <Checkbox
+                size="small"
+                checked={HousingFormState.isEntiteldToReduction || false}
+                onChange={(e) =>
+                  handleChangeIsEntiteldToReduction(e.target.checked)
+                }
+              />
+            }
+            label="I have the right to get an abattement"
           />
         </FormGroup>
       </InputSection>

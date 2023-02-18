@@ -69,7 +69,7 @@ export default function Housing() {
               {allStepsCompleted() ? (
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>
-                    All forms completed - you're finished
+                    All forms completed
                   </Typography>
                   <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                     <Box sx={{ flex: "1 1 auto" }} />

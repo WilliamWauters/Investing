@@ -55,13 +55,20 @@ export default function Housing() {
           <Header text="Housing Calculator" />
           <HousingFormProvider>
             <FormSection>
-              <Box sx={{ my: 2 }}>
-                <Stepper alternativeLabel nonLinear activeStep={activeForm}>
+              <Box
+                sx={{
+                  mx: "auto",
+                  my: 2,
+                  px: 2,
+                }}
+              >
+                <Stepper nonLinear activeStep={activeForm}>
                   {forms.map((form, index) => (
                     <Step key={form.label} completed={completed[index]}>
-                      <StepButton color="inherit" onClick={handleStep(index)}>
-                        {form.label}
-                      </StepButton>
+                      <StepButton
+                        color="inherit"
+                        onClick={handleStep(index)}
+                      ></StepButton>
                     </Step>
                   ))}
                 </Stepper>
@@ -79,12 +86,32 @@ export default function Housing() {
               ) : (
                 <>
                   <FormPane>{forms[activeForm].component}</FormPane>
-                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                    <Button disabled={activeForm === 0} onClick={handleBack}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      mx: 2,
+                      my: 1,
+                    }}
+                  >
+                    <Button
+                      disabled={activeForm === 0}
+                      onClick={handleBack}
+                      sx={{
+                        bgcolor: "#1E293B",
+                      }}
+                    >
                       Back
                     </Button>
                     <Box sx={{ flex: "1 1 auto" }} />
-                    <Button onClick={handleNext}>Next</Button>
+                    <Button
+                      onClick={handleNext}
+                      sx={{
+                        bgcolor: "#1E293B",
+                      }}
+                    >
+                      Next
+                    </Button>
                   </Box>
                 </>
               )}

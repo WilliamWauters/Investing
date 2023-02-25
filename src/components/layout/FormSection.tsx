@@ -8,8 +8,8 @@ const FormSection = ({ children }: FormSectionProps) => {
   return (
     <Box
       sx={{
-        py: 2,
-        px: 2,
+        py: 1,
+        px: 1,
         border: 1,
         borderRadius: "5px",
         borderColor: "#1E293B",

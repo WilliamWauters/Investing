@@ -10,7 +10,6 @@ const FormPane = ({ children }: FormPaneProps) => {
       sx={{
         mx: "auto",
       }}
-      maxWidth="480px"
     >
       {children}
     </Box>

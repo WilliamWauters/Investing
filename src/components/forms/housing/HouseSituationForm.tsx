@@ -83,40 +83,27 @@ const HouseSituationForm = () => {
             }}
             InputProps={{
               style: {
-                paddingRight: 6,
+                paddingRight: 0,
               },
               endAdornment: (
                 <InputAdornment position="end">
                   <Box
                     sx={{
                       display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-evenly",
+                      flexDirection: "row",
                       height: "40px",
+                      py: 1,
+                      px: 1,
                     }}
                   >
                     <IconButton
                       sx={{
-                        height: "15px",
-                        width: "25px",
+                        height: "25px",
+                        width: "30px",
+                        bgcolor: "#1E293B",
+                        borderRadius: 1,
                         "&:hover": { bgcolor: "#374151" },
-                      }}
-                      onClick={() => handleChangePriceIncrementation("ArrowUp")}
-                    >
-                      <AddIcon
-                        sx={{
-                          bgcolor: "#1E293B",
-                          borderRadius: 1,
-                          height: "15px",
-                          width: "25px",
-                        }}
-                      />
-                    </IconButton>
-                    <IconButton
-                      sx={{
-                        height: "15px",
-                        width: "25px",
-                        "&:hover": { bgcolor: "#374151" },
+                        mr: 1,
                       }}
                       onClick={() =>
                         handleChangePriceIncrementation("ArrowDown")
@@ -124,10 +111,26 @@ const HouseSituationForm = () => {
                     >
                       <RemoveIcon
                         sx={{
-                          bgcolor: "#1E293B",
-                          borderRadius: 1,
-                          height: "15px",
-                          width: "25px",
+                          height: "20px",
+                          width: "20px",
+                        }}
+                      />
+                    </IconButton>
+                    <IconButton
+                      sx={{
+                        // border: 1,
+                        height: "25px",
+                        width: "30px",
+                        bgcolor: "#1E293B",
+                        borderRadius: 1,
+                        "&:hover": { bgcolor: "#374151" },
+                      }}
+                      onClick={() => handleChangePriceIncrementation("ArrowUp")}
+                    >
+                      <AddIcon
+                        sx={{
+                          height: "20px",
+                          width: "20px",
                         }}
                       />
                     </IconButton>

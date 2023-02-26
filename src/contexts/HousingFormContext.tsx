@@ -79,10 +79,6 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     });
   };
 
-  useEffect(() => {
-    console.log(HousingFormState);
-  }, [HousingFormState]);
-
   return (
     <HousingFormContext.Provider
       value={{

@@ -14,10 +14,8 @@ const getRegistrationFee = (price: number, isEntiteldToAbattement: boolean) => {
 const getNotaryFee = (price: number) => {
   var registratierechten = 200000 * 0.125;
   registratierechten -= 21875;
-  console.log("registratierechten", registratierechten);
 
   registratierechten = Math.max(registratierechten, 50.0);
-  console.log("registratierechten", registratierechten);
 
   var notaryFee = (4.56 * Math.min(price, 7500)) / 100;
 

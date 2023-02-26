@@ -75,7 +75,6 @@ const HouseSituationForm = () => {
             decimalSeparator={","}
             prefix={" "}
             suffix={" €"}
-            sx={{}}
             onValueChange={({ value: v }) => {
               handleChangePrice(+v);
             }}

@@ -65,7 +65,7 @@ const HousingResultsChart = () => {
     labels: ["10 %", "20 %", "30 %"],
     datasets: [
       {
-        label: "Contribution",
+        label: "Apport",
         data: [
           HousingFormState.price * 0.1,
           HousingFormState.price * 0.2,
@@ -77,7 +77,7 @@ const HousingResultsChart = () => {
         stack: "Stack 1",
       },
       {
-        label: "Total contribution",
+        label: "Total",
         data: [
           HousingFormState.price * 0.1 + total,
           HousingFormState.price * 0.2 + total,
@@ -136,6 +136,7 @@ const HousingResultsChart = () => {
           plugins={[ChartDataLabels]}
           data={dataBar}
           options={{
+            indexAxis: "y" as const,
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -144,14 +145,12 @@ const HousingResultsChart = () => {
                 text: "How much do I need ?",
               },
               legend: {
-                position: "left",
+                position: "bottom",
                 maxWidth: 9999,
-                fullSize: false,
                 labels: {
                   font: {
                     size: 12,
                   },
-                  padding: 10,
                 },
               },
             },

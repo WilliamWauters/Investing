@@ -1,10 +1,13 @@
 import InputSection from "@/components/layout/InputSection";
 import {
   Box,
+  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -14,6 +17,8 @@ import {
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { NumericFormat } from "react-number-format";
 import FormPaneHeader from "@/components/content/FormPaneHeader";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 const HouseSituationForm = () => {
   const {
@@ -70,11 +75,66 @@ const HouseSituationForm = () => {
             decimalSeparator={","}
             prefix={" "}
             suffix={" €"}
+            sx={{}}
             onValueChange={({ value: v }) => {
               handleChangePrice(+v);
             }}
             onKeyDown={(e) => {
               handleChangePriceIncrementation(e.key);
+            }}
+            InputProps={{
+              style: {
+                paddingRight: 6,
+              },
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-evenly",
+                      height: "40px",
+                    }}
+                  >
+                    <IconButton
+                      sx={{
+                        height: "15px",
+                        width: "25px",
+                        "&:hover": { bgcolor: "#374151" },
+                      }}
+                      onClick={() => handleChangePriceIncrementation("ArrowUp")}
+                    >
+                      <AddIcon
+                        sx={{
+                          bgcolor: "#1E293B",
+                          borderRadius: 1,
+                          height: "15px",
+                          width: "25px",
+                        }}
+                      />
+                    </IconButton>
+                    <IconButton
+                      sx={{
+                        height: "15px",
+                        width: "25px",
+                        "&:hover": { bgcolor: "#374151" },
+                      }}
+                      onClick={() =>
+                        handleChangePriceIncrementation("ArrowDown")
+                      }
+                    >
+                      <RemoveIcon
+                        sx={{
+                          bgcolor: "#1E293B",
+                          borderRadius: 1,
+                          height: "15px",
+                          width: "25px",
+                        }}
+                      />
+                    </IconButton>
+                  </Box>
+                </InputAdornment>
+              ),
             }}
           />
         </FormControl>

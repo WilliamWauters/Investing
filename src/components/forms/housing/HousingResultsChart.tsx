@@ -3,15 +3,18 @@ import { getFees } from "@/utils/calculation";
 import formatMoney from "@/utils/formatMoney";
 import { Box } from "@mui/material";
 import "chart.js/auto";
+import { createRef, useRef } from "react";
 import { Doughnut } from "react-chartjs-2";
 
 const HousingResultsChart = () => {
   const { HousingFormState } = useHousingForm();
-
+  const ref = useRef(null);
   const fees = getFees(
     HousingFormState.price,
     HousingFormState.isEntiteldToReduction
   );
+
+  console.log(ref.current);
 
   const data = {
     labels: [
@@ -62,22 +65,33 @@ const HousingResultsChart = () => {
 
   return (
     <>
-      <Doughnut
-        data={data}
-        options={{
-          responsive: true,
-          plugins: {
-            title: {
-              display: true,
-              text: "TOTAL " + formatMoney(total),
+      <Box style={{ height: "240px" }}>
+        <Doughnut
+          ref={ref}
+          data={data}
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: "TOTAL " + formatMoney(total),
+              },
+              legend: {
+                position: "left",
+                maxWidth: 9999,
+                fullSize: false,
+                labels: {
+                  font: {
+                    size: 12,
+                  },
+                  padding: 10,
+                },
+              },
             },
-            legend: {
-              position: "left",
-              align: "center",
-            },
-          },
-        }}
-      />
+          }}
+        />
+      </Box>
     </>
   );
 };

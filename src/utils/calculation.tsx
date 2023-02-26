@@ -1,5 +1,5 @@
 const getRegistrationFee = (price: number, isEntiteldToAbattement: boolean) => {
-  const abatement = 200000;
+  const abatement = 175000;
   var priceBase = price;
   if (isEntiteldToAbattement) {
     if (priceBase < abatement) {

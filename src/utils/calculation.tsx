@@ -52,4 +52,17 @@ const getTVA = (price: number) => {
   return Math.round(rateTVA * (getNotaryFee(price) + u) * 100) / 100;
 };
 
-export { getRegistrationFee, getNotaryFee, getTVA };
+const getFees = (price: number, isEntiteldToAbattement: boolean) => {
+  return {
+    registrationFee: getRegistrationFee(price, isEntiteldToAbattement),
+    notaryFee: getNotaryFee(price),
+    annexesFee: 100,
+    administrativeFee: 750,
+    disbursementsFee: 262,
+    mortgageTranscriptFee: 240,
+    writePermissionFee: 100,
+    TVA: getTVA(price),
+  };
+};
+
+export { getRegistrationFee, getNotaryFee, getTVA, getFees };

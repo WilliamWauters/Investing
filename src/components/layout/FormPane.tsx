@@ -1,10 +1,11 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type FormPaneProps = {
+  title?: string;
   children: any;
 };
 
-const FormPane = ({ children }: FormPaneProps) => {
+const FormPane = ({ title, children }: FormPaneProps) => {
   return (
     <Box
       sx={{

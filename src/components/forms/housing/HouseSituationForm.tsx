@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { NumericFormat } from "react-number-format";
+import FormPaneHeader from "@/components/content/FormPaneHeader";
 
 const HouseSituationForm = () => {
   const {
@@ -26,30 +27,7 @@ const HouseSituationForm = () => {
   } = useHousingForm();
   return (
     <>
-      <Box
-        sx={{
-          px: 2,
-          py: 1,
-          mx: 2,
-          mt: 3,
-          mb: 2,
-          backgroundColor: "#1E293B",
-          color: "#CBD5E1",
-          borderRadius: "5px",
-        }}
-      >
-        <Typography
-          variant="h6"
-          align="center"
-          sx={{
-            width: "100%",
-            color: "#38BDF8",
-            fontSize: "1rem",
-          }}
-        >
-          House Situation
-        </Typography>
-      </Box>
+      <FormPaneHeader title="House Situation" />
       <InputSection>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Location</InputLabel>

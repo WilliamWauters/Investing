@@ -62,33 +62,22 @@ const HousingResultsChart = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          // border: 1,
-          width: "100%",
-          display: "flex",
-          direction: "column",
-          justifyContent: "center",
-          height: "500px",
-        }}
-      >
-        <Doughnut
-          data={data}
-          options={{
-            responsive: true,
-            plugins: {
-              title: {
-                display: true,
-                text: "TOTAL " + formatMoney(total),
-              },
-              legend: {
-                position: "left",
-                align: "center",
-              },
+      <Doughnut
+        data={data}
+        options={{
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: "TOTAL " + formatMoney(total),
             },
-          }}
-        />
-      </Box>
+            legend: {
+              position: "left",
+              align: "center",
+            },
+          },
+        }}
+      />
     </>
   );
 };

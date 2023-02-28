@@ -90,14 +90,16 @@ export default function Housing() {
                   Back
                 </Button>
                 <Box sx={{ flex: "1 1 auto" }} />
-                <Button
-                  onClick={handleNext}
-                  sx={{
-                    bgcolor: "#1E293B",
-                  }}
-                >
-                  Next
-                </Button>
+                {activeForm !== forms.length - 1 && (
+                  <Button
+                    onClick={handleNext}
+                    sx={{
+                      bgcolor: "#1E293B",
+                    }}
+                  >
+                    Next
+                  </Button>
+                )}
               </Box>
             </FormSection>
           </HousingFormProvider>

@@ -10,13 +10,15 @@ import {
 } from "@mui/material";
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import FormPaneHeader from "@/components/content/FormPaneHeader";
-import MoneyField from "./inputs/moneyField";
+import MoneyField from "@/components/inputs/MoneyField";
 
 const HouseSituationForm = () => {
   const {
     HousingFormState,
     handleChangeLocation,
     handleChangeType,
+    handleChangePrice,
+    handleChangePriceIncrementation,
     handleChangeIsOwnAndUnique,
     handleChangeIsEntiteldToReduction,
   } = useHousingForm();
@@ -55,7 +57,11 @@ const HouseSituationForm = () => {
       </InputSection>
       <InputSection>
         <FormControl fullWidth>
-          <MoneyField />
+          <MoneyField
+            value={HousingFormState.price}
+            handleChange={handleChangePrice}
+            handleIncrement={handleChangePriceIncrementation}
+          />
         </FormControl>
       </InputSection>
       <InputSection>

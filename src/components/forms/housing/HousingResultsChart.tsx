@@ -1,10 +1,9 @@
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { getFees } from "@/utils/calculation";
 import formatMoney from "@/utils/formatMoney";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import "chart.js/auto";
-import { Bar, Doughnut } from "react-chartjs-2";
-import ChartDataLabels from "chartjs-plugin-datalabels";
+import { Doughnut } from "react-chartjs-2";
 
 const HousingResultsChart = () => {
   const { HousingFormState } = useHousingForm();
@@ -105,7 +104,7 @@ const HousingResultsChart = () => {
 
   return (
     <>
-      <Box style={{ height: "240px" }}>
+      <Box style={{ height: "230px" }}>
         <Doughnut
           data={data}
           options={{
@@ -131,31 +130,67 @@ const HousingResultsChart = () => {
           }}
         />
       </Box>
-      <Box style={{ height: "240px" }}>
-        <Bar
-          plugins={[ChartDataLabels]}
-          data={dataBar}
-          options={{
-            indexAxis: "y" as const,
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              title: {
-                display: true,
-                text: "How much do I need ?",
-              },
-              legend: {
-                position: "bottom",
-                maxWidth: 9999,
-                labels: {
-                  font: {
-                    size: 12,
-                  },
-                },
-              },
-            },
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          mx: "auto",
+          my: 1,
+        }}
+      >
+        <Box
+          sx={{
+            border: 1,
+            mx: "auto",
+            borderRadius: 2,
+            p: 1,
+            width: "20%",
+            fontSize: "0.75rem",
+            fontWeight: "700",
           }}
-        />
+        >
+          <p align="right">{formatMoney(0)}</p>
+          <p align="right">{formatMoney(total)}</p>
+          <p align="right">{formatMoney(HousingFormState.price - 0)}</p>
+        </Box>
+        <Box
+          sx={{
+            border: 1,
+            mx: "auto",
+            borderRadius: 2,
+            p: 1,
+            width: "20%",
+            fontSize: "0.75rem",
+            fontWeight: "700",
+          }}
+        >
+          <p align="right">{formatMoney(HousingFormState.price * 0.1)}</p>
+          <p align="right">
+            {formatMoney(HousingFormState.price * 0.1 + total)}
+          </p>
+          <p align="right">
+            {formatMoney(HousingFormState.price - HousingFormState.price * 0.1)}
+          </p>
+        </Box>
+        <Box
+          sx={{
+            border: 1,
+            mx: "auto",
+            borderRadius: 2,
+            p: 1,
+            width: "20%",
+            fontSize: "0.75rem",
+            fontWeight: "700",
+          }}
+        >
+          <p align="right">{formatMoney(HousingFormState.price * 0.2)}</p>
+          <p align="right">
+            {formatMoney(HousingFormState.price * 0.2 + total)}
+          </p>
+          <p align="right">
+            {formatMoney(HousingFormState.price - HousingFormState.price * 0.2)}
+          </p>
+        </Box>
       </Box>
     </>
   );

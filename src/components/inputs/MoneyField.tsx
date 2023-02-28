@@ -3,18 +3,43 @@ import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import { NumericFormat } from "react-number-format";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useState } from "react";
 
-const MoneyField = () => {
-  const {
-    HousingFormState,
-    handleChangePrice,
-    handleChangePriceIncrementation,
-  } = useHousingForm();
+type MoneyFieldProps = {
+  value?: number;
+  handleChange?: any;
+  handleIncrement?: any;
+};
+
+const MoneyField = ({
+  value,
+  handleChange,
+  handleIncrement,
+}: MoneyFieldProps) => {
+  const [valueInput, setValueInput] = useState(250000);
+  const handleChangeInput = (newPrice: number | number[]) => {
+    if (typeof newPrice === "number") {
+      setValueInput(newPrice);
+    }
+  };
+
+  const handleIncrementInput = (key: string) => {
+    if (key === "ArrowUp") {
+      setValueInput((prevState) => {
+        return prevState + 5000;
+      });
+    }
+    if (key === "ArrowDown") {
+      setValueInput((prevState) => {
+        return prevState - 5000;
+      });
+    }
+  };
 
   return (
     <NumericFormat
       customInput={TextField}
-      value={HousingFormState.price}
+      value={value || valueInput}
       label="Amount"
       variant="outlined"
       size="small"
@@ -23,10 +48,10 @@ const MoneyField = () => {
       prefix={" "}
       suffix={" €"}
       onValueChange={({ value: v }) => {
-        handleChangePrice(+v);
+        handleChange ? handleChange(+v) : handleChangeInput(+v);
       }}
       onKeyDown={(e) => {
-        handleChangePriceIncrementation(e.key);
+        handleIncrement ? handleIncrement(e.key) : handleIncrementInput(e.key);
       }}
       InputProps={{
         style: {
@@ -52,7 +77,11 @@ const MoneyField = () => {
                   "&:hover": { bgcolor: "#374151" },
                   mr: 1,
                 }}
-                onClick={() => handleChangePriceIncrementation("ArrowDown")}
+                onClick={() => {
+                  handleIncrement
+                    ? handleIncrement("ArrowDown")
+                    : handleIncrementInput("ArrowDown");
+                }}
               >
                 <RemoveIcon
                   sx={{
@@ -70,7 +99,11 @@ const MoneyField = () => {
                   borderRadius: 1,
                   "&:hover": { bgcolor: "#374151" },
                 }}
-                onClick={() => handleChangePriceIncrementation("ArrowUp")}
+                onClick={() => {
+                  handleIncrement
+                    ? handleIncrement("ArrowUp")
+                    : handleIncrementInput("ArrowUp");
+                }}
               >
                 <AddIcon
                   sx={{

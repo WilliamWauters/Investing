@@ -18,6 +18,7 @@ import FinancialSituationForm from "@/components/forms/housing/FinancialSituatio
 import useStepper from "@/hooks/useStepperAction";
 import { HousingFormProvider } from "@/contexts/HousingFormContext";
 import HousingResultsChart from "@/components/forms/housing/HousingResultsChart";
+import ResultsForm from "@/components/forms/housing/ResultsForm";
 
 const forms = [
   {
@@ -32,18 +33,15 @@ const forms = [
     label: "Finance",
     component: <FinancialSituationForm />,
   },
+  {
+    label: "Results",
+    component: <ResultsForm />,
+  },
 ];
 
 export default function Housing() {
-  const [
-    activeForm,
-    completed,
-    handleNext,
-    handleBack,
-    handleStep,
-    handleReset,
-    allStepsCompleted,
-  ] = useStepper(forms);
+  const [activeForm, handleNext, handleBack, handleStep] = useStepper(forms);
+
   return (
     <>
       <Head>
@@ -65,7 +63,7 @@ export default function Housing() {
               >
                 <Stepper nonLinear activeStep={activeForm}>
                   {forms.map((form, index) => (
-                    <Step key={form.label} completed={completed[index]}>
+                    <Step key={form.label}>
                       <StepButton
                         color="inherit"
                         onClick={handleStep(index)}
@@ -74,49 +72,34 @@ export default function Housing() {
                   ))}
                 </Stepper>
               </Box>
-              {allStepsCompleted() ? (
-                <>
-                  <Typography sx={{ mt: 2, mb: 1 }}>
-                    All forms completed
-                  </Typography>
-                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                    <Box sx={{ flex: "1 1 auto" }} />
-                    <Button onClick={handleReset}>Reset</Button>
-                  </Box>
-                </>
-              ) : (
-                <>
-                  <FormPane>{forms[activeForm].component}</FormPane>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      mx: 2,
-                      my: 1,
-                    }}
-                  >
-                    <Button
-                      disabled={activeForm === 0}
-                      onClick={handleBack}
-                      sx={{
-                        bgcolor: "#1E293B",
-                      }}
-                    >
-                      Back
-                    </Button>
-                    <Box sx={{ flex: "1 1 auto" }} />
-                    <Button
-                      onClick={handleNext}
-                      sx={{
-                        bgcolor: "#1E293B",
-                      }}
-                    >
-                      Next
-                    </Button>
-                  </Box>
-                </>
-              )}
-              <HousingResultsChart />
+              <FormPane>{forms[activeForm].component}</FormPane>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  mx: 2,
+                  my: 1,
+                }}
+              >
+                <Button
+                  disabled={activeForm === 0}
+                  onClick={handleBack}
+                  sx={{
+                    bgcolor: "#1E293B",
+                  }}
+                >
+                  Back
+                </Button>
+                <Box sx={{ flex: "1 1 auto" }} />
+                <Button
+                  onClick={handleNext}
+                  sx={{
+                    bgcolor: "#1E293B",
+                  }}
+                >
+                  Next
+                </Button>
+              </Box>
             </FormSection>
           </HousingFormProvider>
         </Page>

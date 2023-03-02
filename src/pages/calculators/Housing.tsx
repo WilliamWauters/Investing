@@ -17,7 +17,7 @@ import PersonalSituationForm from "@/components/forms/housing/PersonalSituationF
 import FinancialSituationForm from "@/components/forms/housing/FinancialSituationForm";
 import useStepper from "@/hooks/useStepperAction";
 import { HousingFormProvider } from "@/contexts/HousingFormContext";
-import ResultsForm from "@/components/forms/housing/ResultsForm";
+import ResultsForm from "@/components/forms/housing/HousingResultsForm";
 
 const forms = [
   {

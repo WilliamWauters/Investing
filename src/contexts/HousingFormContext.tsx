@@ -13,9 +13,10 @@ interface HousingForm {
 interface HousingFormState {
   location: string;
   type: string;
-  price: number;
+  housePrice: number;
   isOwnAndUnique: boolean;
   isEntiteldToReduction: boolean;
+  initialContribution: number;
 }
 
 type HousingFormProviderProps = {
@@ -30,9 +31,10 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
   const [HousingFormState, setHousingFormState] = useState({
     location: "Brussels",
     type: "House",
-    price: 250000,
+    housePrice: 250000,
     isOwnAndUnique: true,
     isEntiteldToReduction: true,
+    initialContribution: 25000,
   });
 
   // HANDLE CHANGES
@@ -46,23 +48,35 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
       return { ...prevState, type: newType };
     });
   };
-  const handleChangePrice = (newPrice: number | number[]) => {
+  const handleChangePrice = (
+    inputName: string,
+    newPrice: number | number[]
+  ) => {
+    console.log(inputName);
     if (typeof newPrice === "number") {
       setHousingFormState((prevState) => {
-        return { ...prevState, price: newPrice };
+        return { ...prevState, [inputName]: newPrice };
       });
     }
   };
 
-  const handleChangePriceIncrementation = (key: string) => {
+  const handleChangePriceIncrementation = (inputName: string, key: string) => {
     if (key === "ArrowUp") {
       setHousingFormState((prevState) => {
-        return { ...prevState, price: prevState.price + 5000 };
+        return {
+          ...prevState,
+          [inputName]:
+            +prevState[inputName as keyof typeof HousingFormState] + 5000,
+        };
       });
     }
     if (key === "ArrowDown") {
       setHousingFormState((prevState) => {
-        return { ...prevState, price: prevState.price - 5000 };
+        return {
+          ...prevState,
+          [inputName]:
+            +prevState[inputName as keyof typeof HousingFormState] - 5000,
+        };
       });
     }
   };

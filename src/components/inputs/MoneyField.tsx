@@ -6,17 +6,21 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { useState } from "react";
 
 type MoneyFieldProps = {
+  name: string;
+  label: string;
   value?: number;
   handleChange?: any;
   handleIncrement?: any;
 };
 
 const MoneyField = ({
+  name,
+  label,
   value,
   handleChange,
   handleIncrement,
 }: MoneyFieldProps) => {
-  const [valueInput, setValueInput] = useState(250000);
+  const [valueInput, setValueInput] = useState(0);
   const handleChangeInput = (newPrice: number | number[]) => {
     if (typeof newPrice === "number") {
       setValueInput(newPrice);
@@ -39,8 +43,9 @@ const MoneyField = ({
   return (
     <NumericFormat
       customInput={TextField}
+      name={name}
       value={value || valueInput}
-      label="Amount"
+      label={label}
       variant="outlined"
       size="small"
       thousandSeparator={"."}
@@ -48,10 +53,12 @@ const MoneyField = ({
       prefix={" "}
       suffix={" €"}
       onValueChange={({ value: v }) => {
-        handleChange ? handleChange(+v) : handleChangeInput(+v);
+        handleChange ? handleChange(name, +v) : handleChangeInput(+v);
       }}
       onKeyDown={(e) => {
-        handleIncrement ? handleIncrement(e.key) : handleIncrementInput(e.key);
+        handleIncrement
+          ? handleIncrement(name, e.key)
+          : handleIncrementInput(e.key);
       }}
       InputProps={{
         style: {
@@ -79,7 +86,7 @@ const MoneyField = ({
                 }}
                 onClick={() => {
                   handleIncrement
-                    ? handleIncrement("ArrowDown")
+                    ? handleIncrement(name, "ArrowDown")
                     : handleIncrementInput("ArrowDown");
                 }}
               >
@@ -101,7 +108,7 @@ const MoneyField = ({
                 }}
                 onClick={() => {
                   handleIncrement
-                    ? handleIncrement("ArrowUp")
+                    ? handleIncrement(name, "ArrowUp")
                     : handleIncrementInput("ArrowUp");
                 }}
               >

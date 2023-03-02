@@ -53,15 +53,31 @@ const getTVA = (price: number) => {
 };
 
 const getFees = (price: number, isEntiteldToAbattement: boolean) => {
+  const registrationFee = getRegistrationFee(price, isEntiteldToAbattement);
+  const notaryFee = getNotaryFee(price);
+  const annexesFee = 100;
+  const administrativeFee = 750;
+  const disbursementsFee = 262;
+  const mortgageTranscriptFee = 240;
+  const writePermissionFee = 100;
+  const TVA = getTVA(price);
   return {
-    registrationFee: getRegistrationFee(price, isEntiteldToAbattement),
-    notaryFee: getNotaryFee(price),
-    annexesFee: 100,
-    administrativeFee: 750,
-    disbursementsFee: 262,
-    mortgageTranscriptFee: 240,
-    writePermissionFee: 100,
-    TVA: getTVA(price),
+    registrationFee: registrationFee,
+    notaryFee: notaryFee,
+    annexesFee: annexesFee,
+    administrativeFee: administrativeFee,
+    disbursementsFee: disbursementsFee,
+    mortgageTranscriptFee: mortgageTranscriptFee,
+    writePermissionFee: writePermissionFee,
+    TVA: TVA,
+    total:
+      registrationFee +
+      notaryFee +
+      annexesFee +
+      administrativeFee +
+      disbursementsFee +
+      mortgageTranscriptFee +
+      writePermissionFee,
   };
 };
 

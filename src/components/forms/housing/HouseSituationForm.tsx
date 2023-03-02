@@ -58,7 +58,9 @@ const HouseSituationForm = () => {
       <InputSection>
         <FormControl fullWidth>
           <MoneyField
-            value={HousingFormState.price}
+            label="Price"
+            name="housePrice"
+            value={HousingFormState.housePrice}
             handleChange={handleChangePrice}
             handleIncrement={handleChangePriceIncrementation}
           />

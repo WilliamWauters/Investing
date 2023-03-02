@@ -1,6 +1,5 @@
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { getFees } from "@/utils/calculation";
-import formatMoney from "@/utils/formatMoney";
 import { Box } from "@mui/material";
 import InvestementPercentageTile from "./InvestmentPercentageTile";
 const InvestementPercentages = () => {
@@ -23,6 +22,7 @@ const InvestementPercentages = () => {
         {investmentOptions.map((x) => {
           return (
             <InvestementPercentageTile
+              key={`InvestementPercentageTile${x * 100}%`}
               percentage={x}
               housePrice={HousingFormState.housePrice}
               initialContribution={HousingFormState.initialContribution}

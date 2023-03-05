@@ -7,18 +7,22 @@ import { useState } from "react";
 
 type MoneyFieldProps = {
   name: string;
+  index?: number;
   label: string;
   value?: number;
   handleChange?: any;
   handleIncrement?: any;
+  step?: number;
 };
 
 const MoneyField = ({
   name,
+  index,
   label,
   value,
   handleChange,
   handleIncrement,
+  step,
 }: MoneyFieldProps) => {
   const [valueInput, setValueInput] = useState(0);
   const handleChangeInput = (newPrice: number | number[]) => {
@@ -30,12 +34,12 @@ const MoneyField = ({
   const handleIncrementInput = (key: string) => {
     if (key === "ArrowUp") {
       setValueInput((prevState) => {
-        return prevState + 5000;
+        return step ? prevState + step : prevState + 5000;
       });
     }
     if (key === "ArrowDown") {
       setValueInput((prevState) => {
-        return prevState - 5000;
+        return step ? prevState + step : prevState - 5000;
       });
     }
   };
@@ -53,7 +57,13 @@ const MoneyField = ({
       prefix={" "}
       suffix={" €"}
       onValueChange={({ value: v }) => {
-        handleChange ? handleChange(name, +v) : handleChangeInput(+v);
+        if (index !== undefined) {
+          handleChange(name, +v, index);
+        } else if (handleChange) {
+          handleChange(name, +v);
+        } else {
+          handleChangeInput(+v);
+        }
       }}
       onKeyDown={(e) => {
         handleIncrement
@@ -85,9 +95,13 @@ const MoneyField = ({
                   mr: 1,
                 }}
                 onClick={() => {
-                  handleIncrement
-                    ? handleIncrement(name, "ArrowDown")
-                    : handleIncrementInput("ArrowDown");
+                  if (index !== undefined) {
+                    handleIncrement(name, "ArrowDown", index);
+                  } else if (handleChange) {
+                    handleIncrement(name, "ArrowDown");
+                  } else {
+                    handleIncrementInput("ArrowDown");
+                  }
                 }}
               >
                 <RemoveIcon
@@ -107,9 +121,13 @@ const MoneyField = ({
                   "&:hover": { bgcolor: "#374151" },
                 }}
                 onClick={() => {
-                  handleIncrement
-                    ? handleIncrement(name, "ArrowUp")
-                    : handleIncrementInput("ArrowUp");
+                  if (index !== undefined) {
+                    handleIncrement(name, "ArrowUp", index);
+                  } else if (handleChange) {
+                    handleIncrement(name, "ArrowUp");
+                  } else {
+                    handleIncrementInput("ArrowUp");
+                  }
                 }}
               >
                 <AddIcon

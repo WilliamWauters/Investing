@@ -2,56 +2,69 @@ import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 import InputSection from "@/components/layout/InputSection";
 import { useHousingForm } from "@/contexts/HousingFormContext";
-import { Box, Button, FormControl, IconButton } from "@mui/material";
+import { Box, FormControl, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Typography from "@mui/material/Typography";
+import formatMoney from "@/utils/formatMoney";
 
 const PersonalSituationForm = () => {
-  const { HousingFormState, handleChangeNbBorrowers } = useHousingForm();
+  const {
+    HousingFormState,
+    handleChangePrice,
+    handleChangePriceIncrementation,
+    handleChangeNbBorrowers,
+  } = useHousingForm();
+
   return (
     <>
       <FormPaneHeader title="Personal Situation" />
-      <Box sx={{ mx: 2.2 }}>Borrower 1</Box>
-      <InputSection>
-        <FormControl fullWidth>
-          <MoneyField name="income" label="Net monthly salary" />
-        </FormControl>
-      </InputSection>
-      <InputSection>
-        <FormControl fullWidth>
-          <MoneyField name="expenses" label="Expenses" />
-        </FormControl>
-      </InputSection>
-      <Box sx={{ height: "10px" }}></Box>
-      {HousingFormState.nbBorrowers > 1 && (
-        <>
-          <Box
-            sx={{ mx: 2.2, display: "flex", justifyContent: "space-between" }}
-          >
-            <Typography>Borrower 2</Typography>
-            <IconButton
-              onClick={(e) => handleChangeNbBorrowers(1)}
-              sx={{ ml: 2, border: 1, height: "25px", width: "25px" }}
-              color="error"
-              size="small"
+      {HousingFormState.borrowers.map((x, i) => {
+        return (
+          <Box key={`borrower_${i}`} sx={{ my: 2 }}>
+            <Box
+              sx={{ mx: 2.2, display: "flex", justifyContent: "space-between" }}
             >
-              <RemoveIcon />
-            </IconButton>
+              <Typography>Borrower {i + 1}</Typography>
+              {i === 1 && (
+                <IconButton
+                  onClick={(e) => handleChangeNbBorrowers("remove")}
+                  sx={{ ml: 2, border: 1, height: "20px", width: "20px" }}
+                  color="error"
+                  size="small"
+                >
+                  <RemoveIcon />
+                </IconButton>
+              )}
+            </Box>
+            <InputSection>
+              <FormControl fullWidth>
+                <MoneyField
+                  name="monthlyIncome"
+                  index={i}
+                  label="Net monthly salary"
+                  value={x.monthlyIncome}
+                  handleChange={handleChangePrice}
+                  handleIncrement={handleChangePriceIncrementation}
+                />
+              </FormControl>
+            </InputSection>
+            <InputSection>
+              <FormControl fullWidth>
+                <MoneyField
+                  name="monthlyExpenses"
+                  index={i}
+                  label="Expenses"
+                  value={x.monthlyExpenses}
+                  handleChange={handleChangePrice}
+                  handleIncrement={handleChangePriceIncrementation}
+                />
+              </FormControl>
+            </InputSection>
           </Box>
-          <InputSection>
-            <FormControl fullWidth>
-              <MoneyField name="income" label="Net monthly salary" />
-            </FormControl>
-          </InputSection>
-          <InputSection>
-            <FormControl fullWidth>
-              <MoneyField name="expenses" label="Expenses" />
-            </FormControl>
-          </InputSection>
-        </>
-      )}
-      {HousingFormState.nbBorrowers === 1 && (
+        );
+      })}
+      {HousingFormState.borrowers.length === 1 && (
         <Box
           sx={{
             mx: 3,
@@ -60,7 +73,7 @@ const PersonalSituationForm = () => {
           }}
         >
           <IconButton
-            onClick={(e) => handleChangeNbBorrowers(2)}
+            onClick={(e) => handleChangeNbBorrowers("add")}
             sx={{ border: 1 }}
             color="primary"
             size="small"
@@ -69,6 +82,19 @@ const PersonalSituationForm = () => {
           </IconButton>
         </Box>
       )}
+      <Box sx={{ mx: 2 }}>
+        <Typography color="primary">
+          Total :{" "}
+          {formatMoney(
+            HousingFormState.borrowers.reduce(
+              (accumulator, currentValue) =>
+                accumulator +
+                (currentValue.monthlyIncome - currentValue.monthlyExpenses),
+              0
+            )
+          )}
+        </Typography>
+      </Box>
     </>
   );
 };

@@ -19,6 +19,12 @@ interface HousingFormState {
   isEntiteldToReduction: boolean;
   initialContribution: number;
   nbBorrowers: number;
+  borrowers: Borrower[];
+}
+
+interface Borrower {
+  monthlyIncome: number;
+  monthlyExpenses: number;
 }
 
 type HousingFormProviderProps = {
@@ -38,6 +44,7 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     isEntiteldToReduction: true,
     initialContribution: 25000,
     nbBorrowers: 1,
+    borrowers: [{ monthlyIncome: 1000, monthlyExpenses: 0 }],
   });
 
   // HANDLE CHANGES
@@ -55,34 +62,88 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
 
   const handleChangePrice = (
     inputName: string,
-    newPrice: number | number[]
+    newPrice: number | number[],
+    index?: number
   ) => {
-    console.log(inputName);
-    if (typeof newPrice === "number") {
-      setHousingFormState((prevState) => {
-        return { ...prevState, [inputName]: newPrice };
-      });
+    if (index !== undefined) {
+      if (typeof newPrice === "number") {
+        setHousingFormState((prevState) => {
+          // 1. Make a shallow copy of the items
+          let borrowers = [...prevState.borrowers];
+          // 2. Make a shallow copy of the item you want to mutate
+          let borrower = { ...borrowers[index] };
+          // 3. Replace the property you're intested in
+          borrower[inputName as keyof Borrower] = newPrice;
+          // 4. Put it back into our array. N.B. we *are* mutating the array here,
+          //    but that's why we made a copy first
+          borrowers[index] = borrower;
+          return { ...prevState, ["borrowers"]: borrowers };
+        });
+      }
+    } else {
+      if (typeof newPrice === "number") {
+        setHousingFormState((prevState) => {
+          return { ...prevState, [inputName]: newPrice };
+        });
+      }
     }
   };
 
-  const handleChangePriceIncrementation = (inputName: string, key: string) => {
-    if (key === "ArrowUp") {
-      setHousingFormState((prevState) => {
-        return {
-          ...prevState,
-          [inputName]:
-            +prevState[inputName as keyof typeof HousingFormState] + 5000,
-        };
-      });
-    }
-    if (key === "ArrowDown") {
-      setHousingFormState((prevState) => {
-        return {
-          ...prevState,
-          [inputName]:
-            +prevState[inputName as keyof typeof HousingFormState] - 5000,
-        };
-      });
+  const handleChangePriceIncrementation = (
+    inputName: string,
+    key: string,
+    index?: number
+  ) => {
+    if (index !== undefined) {
+      if (key === "ArrowUp") {
+        setHousingFormState((prevState) => {
+          // 1. Make a shallow copy of the items
+          let borrowers = [...prevState.borrowers];
+          // 2. Make a shallow copy of the item you want to mutate
+          let borrower = { ...borrowers[index] };
+          // 3. Replace the property you're intested in
+          borrower[inputName as keyof Borrower] =
+            borrower[inputName as keyof Borrower] + 50;
+          // 4. Put it back into our array. N.B. we *are* mutating the array here,
+          //    but that's why we made a copy first
+          borrowers[index] = borrower;
+          return { ...prevState, ["borrowers"]: borrowers };
+        });
+      }
+      if (key === "ArrowDown") {
+        setHousingFormState((prevState) => {
+          // 1. Make a shallow copy of the items
+          let borrowers = [...prevState.borrowers];
+          // 2. Make a shallow copy of the item you want to mutate
+          let borrower = { ...borrowers[index] };
+          // 3. Replace the property you're intested in
+          borrower[inputName as keyof Borrower] =
+            borrower[inputName as keyof Borrower] - 50;
+          // 4. Put it back into our array. N.B. we *are* mutating the array here,
+          //    but that's why we made a copy first
+          borrowers[index] = borrower;
+          return { ...prevState, ["borrowers"]: borrowers };
+        });
+      }
+    } else {
+      if (key === "ArrowUp") {
+        setHousingFormState((prevState) => {
+          return {
+            ...prevState,
+            [inputName]:
+              +prevState[inputName as keyof typeof HousingFormState] + 5000,
+          };
+        });
+      }
+      if (key === "ArrowDown") {
+        setHousingFormState((prevState) => {
+          return {
+            ...prevState,
+            [inputName]:
+              +prevState[inputName as keyof typeof HousingFormState] - 5000,
+          };
+        });
+      }
     }
   };
 
@@ -98,10 +159,32 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     });
   };
 
-  const handleChangeNbBorrowers = (nbBorrowers: number) => {
-    setHousingFormState((prevState) => {
-      return { ...prevState, nbBorrowers: nbBorrowers };
-    });
+  const handleChangeNbBorrowers = (action: string) => {
+    if (action === "add") {
+      setHousingFormState((prevState) => {
+        return {
+          ...prevState,
+          nbBorrowers: 2,
+          borrowers: [
+            ...prevState.borrowers,
+            {
+              monthlyIncome: 1000,
+              monthlyExpenses: 0,
+            },
+          ],
+        };
+      });
+    } else {
+      setHousingFormState((prevState) => {
+        const copyArr = [...prevState.borrowers];
+        copyArr.splice(-1);
+        return {
+          ...prevState,
+          nbBorrowers: 1,
+          borrowers: [...copyArr],
+        };
+      });
+    }
   };
 
   return (

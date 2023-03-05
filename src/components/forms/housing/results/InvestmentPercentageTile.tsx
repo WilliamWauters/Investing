@@ -18,8 +18,6 @@ const InvestementPercentageTile = ({
   const totalCost = suggesionContriution + totalFees;
   const totalLoan = housePrice - suggesionContriution;
 
-  console.log(initialContribution);
-
   return (
     <Box
       sx={{

@@ -8,6 +8,7 @@ interface HousingForm {
   handleChangeType: any;
   handleChangeIsOwnAndUnique: any;
   handleChangeIsEntiteldToReduction: any;
+  handleChangeNbBorrowers: any;
 }
 
 interface HousingFormState {
@@ -17,6 +18,7 @@ interface HousingFormState {
   isOwnAndUnique: boolean;
   isEntiteldToReduction: boolean;
   initialContribution: number;
+  nbBorrowers: number;
 }
 
 type HousingFormProviderProps = {
@@ -35,6 +37,7 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     isOwnAndUnique: true,
     isEntiteldToReduction: true,
     initialContribution: 25000,
+    nbBorrowers: 1,
   });
 
   // HANDLE CHANGES
@@ -43,11 +46,13 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
       return { ...prevState, location: newLocation };
     });
   };
+
   const handleChangeType = (newType: string) => {
     setHousingFormState((prevState) => {
       return { ...prevState, type: newType };
     });
   };
+
   const handleChangePrice = (
     inputName: string,
     newPrice: number | number[]
@@ -93,6 +98,12 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     });
   };
 
+  const handleChangeNbBorrowers = (nbBorrowers: number) => {
+    setHousingFormState((prevState) => {
+      return { ...prevState, nbBorrowers: nbBorrowers };
+    });
+  };
+
   return (
     <HousingFormContext.Provider
       value={{
@@ -103,6 +114,7 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
         handleChangeType,
         handleChangeIsOwnAndUnique,
         handleChangeIsEntiteldToReduction,
+        handleChangeNbBorrowers,
       }}
     >
       {children}

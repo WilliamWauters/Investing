@@ -1,7 +1,7 @@
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { getFees } from "@/utils/calculation";
 import formatMoney from "@/utils/formatMoney";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 
@@ -59,6 +59,7 @@ const HousingResultsChart = () => {
 
   return (
     <>
+      <Button disableRipple={false}>TEST</Button>
       <Box style={{ height: "230px" }}>
         <Doughnut
           data={data}

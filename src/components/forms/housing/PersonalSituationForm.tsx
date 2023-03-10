@@ -1,7 +1,10 @@
 import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 import InputSection from "@/components/layout/InputSection";
-import { useHousingForm } from "@/contexts/HousingFormContext";
+import {
+  HousingFormActionKind,
+  useHousingForm,
+} from "@/contexts/HousingFormContext";
 import { Box, FormControl, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -9,12 +12,7 @@ import Typography from "@mui/material/Typography";
 import formatMoney from "@/utils/formatMoney";
 
 const PersonalSituationForm = () => {
-  const {
-    HousingFormState,
-    handleChangePrice,
-    handleChangePriceIncrementation,
-    handleChangeNbBorrowers,
-  } = useHousingForm();
+  const { HousingFormState, dispatch } = useHousingForm();
 
   return (
     <>
@@ -28,7 +26,12 @@ const PersonalSituationForm = () => {
               <Typography>Borrower {i + 1}</Typography>
               {i === 1 && (
                 <IconButton
-                  onClick={(e) => handleChangeNbBorrowers("remove")}
+                  onClick={(e) =>
+                    dispatch({
+                      type: HousingFormActionKind.DEL_BORROWER,
+                      payload: {},
+                    })
+                  }
                   sx={{ ml: 2, border: 1, height: "20px", width: "20px" }}
                   color="error"
                   size="small"
@@ -44,8 +47,6 @@ const PersonalSituationForm = () => {
                   index={i}
                   label="Net monthly salary"
                   value={x.monthlyIncome}
-                  handleChange={handleChangePrice}
-                  handleIncrement={handleChangePriceIncrementation}
                 />
               </FormControl>
             </InputSection>
@@ -56,8 +57,6 @@ const PersonalSituationForm = () => {
                   index={i}
                   label="Expenses"
                   value={x.monthlyExpenses}
-                  handleChange={handleChangePrice}
-                  handleIncrement={handleChangePriceIncrementation}
                 />
               </FormControl>
             </InputSection>
@@ -73,7 +72,12 @@ const PersonalSituationForm = () => {
           }}
         >
           <IconButton
-            onClick={(e) => handleChangeNbBorrowers("add")}
+            onClick={(e) =>
+              dispatch({
+                type: HousingFormActionKind.ADD_BORROWER,
+                payload: {},
+              })
+            }
             sx={{ border: 1 }}
             color="primary"
             size="small"

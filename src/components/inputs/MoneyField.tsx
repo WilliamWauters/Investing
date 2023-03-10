@@ -1,4 +1,7 @@
-import { useHousingForm } from "@/contexts/HousingFormContext";
+import {
+  HousingFormActionKind,
+  useHousingForm,
+} from "@/contexts/HousingFormContext";
 import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import { NumericFormat } from "react-number-format";
 import AddIcon from "@mui/icons-material/Add";
@@ -10,8 +13,7 @@ type MoneyFieldProps = {
   index?: number;
   label: string;
   value?: number;
-  handleChange?: any;
-  handleIncrement?: any;
+  dispatch?: any;
   step?: number;
 };
 
@@ -20,8 +22,7 @@ const MoneyField = ({
   index,
   label,
   value,
-  handleChange,
-  handleIncrement,
+  dispatch,
   step,
 }: MoneyFieldProps) => {
   const [valueInput, setValueInput] = useState(0);
@@ -58,17 +59,18 @@ const MoneyField = ({
       suffix={" €"}
       onValueChange={({ value: v }) => {
         if (index !== undefined) {
-          handleChange(name, +v, index);
-        } else if (handleChange) {
-          handleChange(name, +v);
+          dispatch({
+            type: HousingFormActionKind.UPD_BORROWER,
+            payload: { name: name, data: +v, index: index },
+          });
+        } else if (dispatch) {
+          dispatch({
+            type: HousingFormActionKind.UPD_INPUT,
+            payload: { name: name, data: +v },
+          });
         } else {
           handleChangeInput(+v);
         }
-      }}
-      onKeyDown={(e) => {
-        handleIncrement
-          ? handleIncrement(name, e.key)
-          : handleIncrementInput(e.key);
       }}
       InputProps={{
         style: {
@@ -96,9 +98,15 @@ const MoneyField = ({
                 }}
                 onClick={() => {
                   if (index !== undefined) {
-                    handleIncrement(name, "ArrowDown", index);
-                  } else if (handleChange) {
-                    handleIncrement(name, "ArrowDown");
+                    dispatch({
+                      type: HousingFormActionKind.UPD_BORROWER_DECREASE,
+                      payload: { name: name, step: 50, index: index },
+                    });
+                  } else if (dispatch) {
+                    dispatch({
+                      type: HousingFormActionKind.UPD_PRICE_DECREASE,
+                      payload: { name: name, step: 5000 },
+                    });
                   } else {
                     handleIncrementInput("ArrowDown");
                   }
@@ -122,9 +130,15 @@ const MoneyField = ({
                 }}
                 onClick={() => {
                   if (index !== undefined) {
-                    handleIncrement(name, "ArrowUp", index);
-                  } else if (handleChange) {
-                    handleIncrement(name, "ArrowUp");
+                    dispatch({
+                      type: HousingFormActionKind.UPD_BORROWER_INCREASE,
+                      payload: { name: name, step: 50, index: index },
+                    });
+                  } else if (dispatch) {
+                    dispatch({
+                      type: HousingFormActionKind.UPD_PRICE_INCREASE,
+                      payload: { name: name, step: 5000 },
+                    });
                   } else {
                     handleIncrementInput("ArrowUp");
                   }

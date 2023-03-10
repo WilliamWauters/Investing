@@ -8,20 +8,15 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { useHousingForm } from "@/contexts/HousingFormContext";
+import {
+  HousingFormActionKind,
+  useHousingForm,
+} from "@/contexts/HousingFormContext";
 import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 
 const HouseSituationForm = () => {
-  const {
-    HousingFormState,
-    handleChangeLocation,
-    handleChangeType,
-    handleChangePrice,
-    handleChangePriceIncrementation,
-    handleChangeIsOwnAndUnique,
-    handleChangeIsEntiteldToReduction,
-  } = useHousingForm();
+  const { HousingFormState, dispatch } = useHousingForm();
   return (
     <>
       <FormPaneHeader title="House Situation" />
@@ -30,7 +25,12 @@ const HouseSituationForm = () => {
           <InputLabel id="demo-simple-select-label">Location</InputLabel>
           <Select
             value={HousingFormState.location || ""}
-            onChange={(e) => handleChangeLocation(e.target.value)}
+            onChange={(e) =>
+              dispatch({
+                type: HousingFormActionKind.UPD_INPUT,
+                payload: { name: "location", data: e.target.value },
+              })
+            }
             size="small"
             label="Location"
           >
@@ -45,7 +45,12 @@ const HouseSituationForm = () => {
           <InputLabel id="demo-simple-select-label">Type</InputLabel>
           <Select
             value={HousingFormState.type || ""}
-            onChange={(e) => handleChangeType(e.target.value)}
+            onChange={(e) =>
+              dispatch({
+                type: HousingFormActionKind.UPD_INPUT,
+                payload: { name: "Type", data: e.target.value },
+              })
+            }
             size="small"
             label="Type"
           >
@@ -61,8 +66,7 @@ const HouseSituationForm = () => {
             label="Price"
             name="housePrice"
             value={HousingFormState.housePrice}
-            handleChange={handleChangePrice}
-            handleIncrement={handleChangePriceIncrementation}
+            dispatch={dispatch}
           />
         </FormControl>
       </InputSection>
@@ -73,7 +77,12 @@ const HouseSituationForm = () => {
               <Checkbox
                 size="small"
                 checked={HousingFormState.isOwnAndUnique || false}
-                onChange={(e) => handleChangeIsOwnAndUnique(e.target.checked)}
+                onChange={(e) =>
+                  dispatch({
+                    type: HousingFormActionKind.UPD_INPUT,
+                    payload: { name: "isOwnAndUnique", data: e.target.checked },
+                  })
+                }
               />
             }
             label="This home is my own an unique home"
@@ -88,7 +97,13 @@ const HouseSituationForm = () => {
                 size="small"
                 checked={HousingFormState.isEntiteldToReduction || false}
                 onChange={(e) =>
-                  handleChangeIsEntiteldToReduction(e.target.checked)
+                  dispatch({
+                    type: HousingFormActionKind.UPD_INPUT,
+                    payload: {
+                      name: "isEntiteldToReduction",
+                      data: e.target.checked,
+                    },
+                  })
                 }
               />
             }

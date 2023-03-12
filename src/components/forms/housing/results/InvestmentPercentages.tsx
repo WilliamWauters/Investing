@@ -6,7 +6,7 @@ const InvestementPercentages = () => {
   const { HousingFormState } = useHousingForm();
   const fees = getFees(
     HousingFormState.housePrice,
-    HousingFormState.isEntiteldToReduction
+    HousingFormState.taxationRegime
   );
   const investmentOptions = [0, 0.05, 0.1, 0.2];
   return (

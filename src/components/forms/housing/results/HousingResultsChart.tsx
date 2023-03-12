@@ -9,7 +9,7 @@ const HousingResultsChart = () => {
   const { HousingFormState } = useHousingForm();
   const fees = getFees(
     HousingFormState.housePrice,
-    HousingFormState.isEntiteldToReduction
+    HousingFormState.taxationRegime
   );
 
   const data = {

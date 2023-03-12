@@ -1,11 +1,21 @@
-const getRegistrationFee = (price: number, isEntiteldToAbattement: boolean) => {
-  const abatement = 175000;
+import { TaxationRegime } from "@/contexts/HousingFormContext";
+
+const getRegistrationFee = (price: number, taxationRegime: string) => {
   var priceBase = price;
-  if (isEntiteldToAbattement) {
-    if (priceBase < abatement) {
+  if (
+    taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_175 ||
+    taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_200
+  ) {
+    var abattement = 0;
+    if (taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_175) {
+      abattement = 175000;
+    } else if (taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_200) {
+      abattement = 200000;
+    }
+    if (priceBase < abattement) {
       priceBase = 0;
     } else {
-      priceBase = priceBase - abatement;
+      priceBase = priceBase - abattement;
     }
   }
   return priceBase * 0.125;
@@ -52,8 +62,8 @@ const getTVA = (price: number) => {
   return Math.round(rateTVA * (getNotaryFee(price) + u) * 100) / 100;
 };
 
-const getFees = (price: number, isEntiteldToAbattement: boolean) => {
-  const registrationFee = getRegistrationFee(price, isEntiteldToAbattement);
+const getFees = (price: number, taxationRegime: string) => {
+  const registrationFee = getRegistrationFee(price, taxationRegime);
   const notaryFee = getNotaryFee(price);
   const annexesFee = 100;
   const administrativeFee = 750;
@@ -62,6 +72,36 @@ const getFees = (price: number, isEntiteldToAbattement: boolean) => {
   const writePermissionFee = 100;
   const TVA = getTVA(price);
   return {
+    fees: [
+      {
+        name: "Registration Fee",
+        value: registrationFee,
+      },
+      {
+        name: "Notary Fee",
+        value: notaryFee,
+      },
+      {
+        name: "Annexes Fee",
+        value: annexesFee,
+      },
+      {
+        name: "Administrative Fee",
+        value: administrativeFee,
+      },
+      {
+        name: "Disbursement Fee",
+        value: disbursementsFee,
+      },
+      {
+        name: "Mortgage Transcript Fee",
+        value: mortgageTranscriptFee,
+      },
+      {
+        name: "Write Permission Fee",
+        value: writePermissionFee,
+      },
+    ],
     registrationFee: registrationFee,
     notaryFee: notaryFee,
     annexesFee: annexesFee,

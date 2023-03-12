@@ -18,23 +18,28 @@ import FinancialSituationForm from "@/components/forms/housing/FinancialSituatio
 import useStepper from "@/hooks/useStepperAction";
 import { HousingFormProvider } from "@/contexts/HousingFormContext";
 import ResultsForm from "@/components/forms/housing/HousingResultsForm";
+import HousingResultsChart from "@/components/forms/housing/results/HousingResultsChart";
 
 const forms = [
   {
     label: "House",
     component: <HouseSituationForm />,
+    results: <HousingResultsChart />,
   },
   {
     label: "Person",
     component: <PersonalSituationForm />,
+    results: <HousingResultsChart />,
   },
   {
     label: "Finance",
     component: <FinancialSituationForm />,
+    results: <HousingResultsChart />,
   },
   {
     label: "Results",
     component: <ResultsForm />,
+    results: <HousingResultsChart />,
   },
 ];
 

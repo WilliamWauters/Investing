@@ -1,5 +1,11 @@
 import { createContext, useContext, useReducer } from "react";
 
+enum TaxationRegime {
+  BXL_WITHOUT_ABATTEMENT = "BXL_WITHOUT_ABATTEMENT",
+  BXL_WITH_ABATTEMENT_175 = "BXL_WITH_ABATTEMENT_175",
+  BXL_WITH_ABATTEMENT_200 = "BXL_WITH_ABATTEMENT_200",
+}
+
 interface HousingForm {
   HousingFormState: HousingFormState;
   dispatch: any;
@@ -9,8 +15,7 @@ interface HousingFormState {
   location: string;
   type: string;
   housePrice: number;
-  isOwnAndUnique: boolean;
-  isEntiteldToReduction: boolean;
+  taxationRegime: string;
   initialContribution: number;
   nbBorrowers: number;
   borrowers: Borrower[];
@@ -27,6 +32,7 @@ type HousingFormProviderProps = {
 
 enum HousingFormActionKind {
   UPD_INPUT = "UPD_INPUT",
+  UPD_ENUM = "UPD_ENUM",
   UPD_PRICE_INCREASE = "UPD_PRICE_INCREASE",
   UPD_PRICE_DECREASE = "UPD_PRICE_DECREASE",
   ADD_BORROWER = "ADD_BORROWER",
@@ -72,7 +78,7 @@ function HousingFormReducer(
         borrowers: [
           ...state.borrowers,
           {
-            monthlyIncome: 1000,
+            monthlyIncome: 2000,
             monthlyExpenses: 0,
           },
         ],
@@ -103,7 +109,7 @@ function HousingFormReducer(
       let borrowerInc = { ...borrowersInc[payload.index] };
       // 3. Replace the property you're intested in
       borrowerInc[payload.name as keyof Borrower] =
-        borrowerInc[payload.name as keyof Borrower] - payload.step;
+        borrowerInc[payload.name as keyof Borrower] + payload.step;
       // 4. Put it back into our array. N.B. we *are* mutating the array here,
       //    but that's why we made a copy first
       borrowersInc[payload.index] = borrowerInc;
@@ -134,11 +140,10 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     location: "Brussels",
     type: "House",
     housePrice: 250000,
-    isOwnAndUnique: true,
-    isEntiteldToReduction: true,
+    taxationRegime: "",
     initialContribution: 25000,
     nbBorrowers: 1,
-    borrowers: [{ monthlyIncome: 1000, monthlyExpenses: 0 }],
+    borrowers: [{ monthlyIncome: 2000, monthlyExpenses: 0 }],
   });
 
   return (
@@ -158,4 +163,10 @@ const useHousingForm = () => {
   return useContext(HousingFormContext);
 };
 
-export { HousingFormProvider, useHousingForm, HousingFormActionKind };
+export {
+  HousingFormProvider,
+  useHousingForm,
+  HousingFormActionKind,
+  TaxationRegime,
+};
+export type { Borrower };

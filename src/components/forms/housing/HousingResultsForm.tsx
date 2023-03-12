@@ -3,15 +3,13 @@ import MoneyField from "@/components/inputs/MoneyField";
 import InputSection from "@/components/layout/InputSection";
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { FormControl } from "@mui/material";
+import HousingSituationResults from "./results/HouseSituationResults";
 import HousingResultsChart from "./results/HousingResultsChart";
 import InvestementPercentages from "./results/InvestmentPercentages";
+import PersonalSituationResults from "./results/PersonalSituationResults";
 
 const HousingResultsForm = () => {
-  const {
-    HousingFormState,
-    handleChangePrice,
-    handleChangePriceIncrementation,
-  } = useHousingForm();
+  const { HousingFormState, dispatch } = useHousingForm();
 
   return (
     <>
@@ -22,8 +20,7 @@ const HousingResultsForm = () => {
             name="housePrice"
             label="House Price"
             value={HousingFormState.housePrice}
-            handleChange={handleChangePrice}
-            handleIncrement={handleChangePriceIncrementation}
+            dispatch={dispatch}
           />
         </FormControl>
       </InputSection>
@@ -33,13 +30,12 @@ const HousingResultsForm = () => {
             name="initialContribution"
             label="Initial Contribution"
             value={HousingFormState.initialContribution}
-            handleChange={handleChangePrice}
-            handleIncrement={handleChangePriceIncrementation}
+            dispatch={dispatch}
           />
         </FormControl>
       </InputSection>
-      <HousingResultsChart />
-      <br />
+      <HousingSituationResults />
+      <PersonalSituationResults />
       <InvestementPercentages />
     </>
   );

@@ -1,19 +1,13 @@
 import InputSection from "@/components/layout/InputSection";
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import {
   HousingFormActionKind,
+  TaxationRegime,
   useHousingForm,
 } from "@/contexts/HousingFormContext";
 import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
+import HousingSituationResults from "./results/HouseSituationResults";
 
 const HouseSituationForm = () => {
   const { HousingFormState, dispatch } = useHousingForm();
@@ -56,7 +50,6 @@ const HouseSituationForm = () => {
           >
             <MenuItem value={"House"}>House</MenuItem>
             <MenuItem value={"Appartment"}>Appartment</MenuItem>
-            <MenuItem value={"Domain"}>Domain</MenuItem>
           </Select>
         </FormControl>
       </InputSection>
@@ -71,46 +64,32 @@ const HouseSituationForm = () => {
         </FormControl>
       </InputSection>
       <InputSection>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                size="small"
-                checked={HousingFormState.isOwnAndUnique || false}
-                onChange={(e) =>
-                  dispatch({
-                    type: HousingFormActionKind.UPD_INPUT,
-                    payload: { name: "isOwnAndUnique", data: e.target.checked },
-                  })
-                }
-              />
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Taxation Regime</InputLabel>
+          <Select
+            value={HousingFormState.taxationRegime || ""}
+            onChange={(e) =>
+              dispatch({
+                type: HousingFormActionKind.UPD_INPUT,
+                payload: { name: "taxationRegime", data: e.target.value },
+              })
             }
-            label="This home is my own an unique home"
-          />
-        </FormGroup>
+            size="small"
+            label="taxationRegime"
+          >
+            <MenuItem value={TaxationRegime.BXL_WITH_ABATTEMENT_175}>
+              With "Abattement" of 175.000 €
+            </MenuItem>
+            <MenuItem value={TaxationRegime.BXL_WITH_ABATTEMENT_200}>
+              With "Abattement" of 200.000 €
+            </MenuItem>
+            <MenuItem value={TaxationRegime.BXL_WITHOUT_ABATTEMENT}>
+              Without "Abbatment"
+            </MenuItem>
+          </Select>
+        </FormControl>
       </InputSection>
-      <InputSection>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                size="small"
-                checked={HousingFormState.isEntiteldToReduction || false}
-                onChange={(e) =>
-                  dispatch({
-                    type: HousingFormActionKind.UPD_INPUT,
-                    payload: {
-                      name: "isEntiteldToReduction",
-                      data: e.target.checked,
-                    },
-                  })
-                }
-              />
-            }
-            label="I have the right to get an abattement"
-          />
-        </FormGroup>
-      </InputSection>
+      <HousingSituationResults />
     </>
   );
 };

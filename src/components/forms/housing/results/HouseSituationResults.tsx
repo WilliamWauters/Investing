@@ -42,6 +42,7 @@ const HousingSituationResults = () => {
             display: "flex",
             justifyContent: "space-between",
           }}
+          key={"HouseSituationResults" + x.name}
         >
           <>
             <Typography

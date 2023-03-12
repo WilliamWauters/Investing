@@ -78,13 +78,13 @@ const HouseSituationForm = () => {
             label="taxationRegime"
           >
             <MenuItem value={TaxationRegime.BXL_WITH_ABATTEMENT_175}>
-              With "Abattement" of 175.000 €
+              With Abattement of 175.000 €
             </MenuItem>
             <MenuItem value={TaxationRegime.BXL_WITH_ABATTEMENT_200}>
-              With "Abattement" of 200.000 €
+              With Abattement of 200.000 €
             </MenuItem>
             <MenuItem value={TaxationRegime.BXL_WITHOUT_ABATTEMENT}>
-              Without "Abbatment"
+              Without Abbatment
             </MenuItem>
           </Select>
         </FormControl>

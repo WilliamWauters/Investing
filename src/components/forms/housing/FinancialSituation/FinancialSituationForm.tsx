@@ -3,7 +3,7 @@ import MoneyField from "@/components/inputs/MoneyField";
 import InputSection from "@/components/layout/InputSection";
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { FormControl } from "@mui/material";
-import FinancialSituationResults from "./results/FinancialSituationResults";
+import FinancialSituationResults from "./FinancialSituationResults";
 
 const FinancialSituationForm = () => {
   const { HousingFormState, dispatch } = useHousingForm();

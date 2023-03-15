@@ -12,34 +12,35 @@ import Head from "next/head";
 import React from "react";
 import FormSection from "@/components/layout/FormSection";
 import FormPane from "@/components/layout/FormPane";
-import HouseSituationForm from "@/components/forms/housing/HouseSituationForm";
-import PersonalSituationForm from "@/components/forms/housing/PersonalSituationForm";
-import FinancialSituationForm from "@/components/forms/housing/FinancialSituationForm";
+import HouseSituationForm from "@/components/forms/housing/HouseSituation/HouseSituationForm";
+import PersonalSituationForm from "@/components/forms/housing/PersonalSituation/PersonalSituationForm";
+import FinancialSituationForm from "@/components/forms/housing/FinancialSituation/FinancialSituationForm";
 import useStepper from "@/hooks/useStepperAction";
 import { HousingFormProvider } from "@/contexts/HousingFormContext";
-import ResultsForm from "@/components/forms/housing/HousingResultsForm";
-import HousingResultsChart from "@/components/forms/housing/results/HousingResultsChart";
+import ResultsForm from "@/components/forms/housing/HousingResults/HousingResultsForm";
+import HouseSituationResults from "@/components/forms/housing/HouseSituation/HouseSituationResults";
+import PersonalSituationResults from "@/components/forms/housing/PersonalSituation/PersonalSituationResults";
+import FinancialSituationResults from "@/components/forms/housing/FinancialSituation/FinancialSituationResults";
 
 const forms = [
   {
     label: "House",
     component: <HouseSituationForm />,
-    results: <HousingResultsChart />,
+    results: <HouseSituationResults />,
   },
   {
     label: "Person",
     component: <PersonalSituationForm />,
-    results: <HousingResultsChart />,
+    results: <PersonalSituationResults />,
   },
   {
     label: "Finance",
     component: <FinancialSituationForm />,
-    results: <HousingResultsChart />,
+    results: <FinancialSituationResults />,
   },
   {
     label: "Results",
     component: <ResultsForm />,
-    results: <HousingResultsChart />,
   },
 ];
 

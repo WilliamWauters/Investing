@@ -7,7 +7,7 @@ import {
 } from "@/contexts/HousingFormContext";
 import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
-import HousingSituationResults from "./results/HouseSituationResults";
+import HousingSituationResults from "./HouseSituationResults";
 
 const HouseSituationForm = () => {
   const { HousingFormState, dispatch } = useHousingForm();

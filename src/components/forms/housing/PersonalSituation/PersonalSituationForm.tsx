@@ -19,7 +19,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Typography from "@mui/material/Typography";
 import formatMoney from "@/utils/formatMoney";
 import { TransitionGroup } from "react-transition-group";
-import PersonalSituationResults from "./results/PersonalSituationResults";
+import PersonalSituationResults from "./PersonalSituationResults";
 
 interface RenderItemOptions {
   i: number;
@@ -71,9 +71,6 @@ function renderItem({ i, borrower, dispatch }: RenderItemOptions) {
 
 const PersonalSituationForm = () => {
   const { HousingFormState, dispatch } = useHousingForm();
-
-  console.log(HousingFormState.borrowers.length === 1);
-
   return (
     <>
       <FormPaneHeader title="Personal Situation" />

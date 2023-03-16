@@ -7,9 +7,13 @@ const PersonalSituationResults = () => {
   const { HousingFormState } = useHousingForm();
 
   return (
-    <ExpensePane title="REVENU">
+    <ExpensePane title="INCOME">
       {HousingFormState.borrowers.map((x, i) => (
-        <ExpenseLine label={`Borrower ${i}`} value={x.monthlyIncome} />
+        <ExpenseLine
+          key={`BorrowerIcome${i}`}
+          label={`Income Borrower ${i + 1}`}
+          value={x.monthlyIncome}
+        />
       ))}
       <ExpenseResult
         result={HousingFormState.borrowers.reduce(

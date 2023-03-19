@@ -1,8 +1,12 @@
 import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
+import PercentageField from "@/components/inputs/PercentageField";
 import InputSection from "@/components/layout/InputSection";
-import { useHousingForm } from "@/contexts/HousingFormContext";
-import { FormControl } from "@mui/material";
+import {
+  HousingFormActionKind,
+  useHousingForm,
+} from "@/contexts/HousingFormContext";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import FinancialSituationResults from "./FinancialSituationResults";
 
 const FinancialSituationForm = () => {
@@ -14,21 +18,39 @@ const FinancialSituationForm = () => {
       <InputSection>
         <FormControl fullWidth>
           <MoneyField
-            label="Price"
-            name="housePrice"
-            value={HousingFormState.housePrice}
+            name="initialContribution"
+            label="Initial Contribution"
+            value={HousingFormState.initialContribution}
             dispatch={dispatch}
           />
         </FormControl>
       </InputSection>
       <InputSection>
         <FormControl fullWidth>
-          <MoneyField
-            name="initialContribution"
-            label="Initial Contribution"
-            value={HousingFormState.initialContribution}
+          <PercentageField
+            name="creditInterestRate"
+            label="Credit Interest Rate"
+            value={HousingFormState.creditInterestRate}
             dispatch={dispatch}
           />
+        </FormControl>
+      </InputSection>
+      <InputSection>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Credit Duration</InputLabel>
+          <Select
+            value={HousingFormState.creditDuration || ""}
+            onChange={(e) =>
+              dispatch({
+                type: HousingFormActionKind.UPD_INPUT,
+                payload: { name: "creditDuration", data: e.target.value },
+              })
+            }
+            label="Credit Duration"
+          >
+            <MenuItem value={20}>20 Years</MenuItem>
+            <MenuItem value={25}>25 Years</MenuItem>
+          </Select>
         </FormControl>
       </InputSection>
       <FinancialSituationResults />

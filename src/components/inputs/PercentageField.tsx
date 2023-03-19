@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useState } from "react";
 
-type MoneyFieldProps = {
+type PercentageProps = {
   name: string;
   index?: number;
   label: string;
@@ -17,14 +17,13 @@ type MoneyFieldProps = {
   step?: number;
 };
 
-const MoneyField = ({
+const PercentageField = ({
   name,
-  index,
   label,
   value,
   dispatch,
   step,
-}: MoneyFieldProps) => {
+}: PercentageProps) => {
   const [valueInput, setValueInput] = useState(0);
   const handleChangeInput = (newPrice: number | number[]) => {
     if (typeof newPrice === "number") {
@@ -35,12 +34,12 @@ const MoneyField = ({
   const handleIncrementInput = (key: string) => {
     if (key === "ArrowUp") {
       setValueInput((prevState) => {
-        return step ? prevState + step : prevState + 5000;
+        return step ? prevState + step : prevState + 0.25;
       });
     }
     if (key === "ArrowDown") {
       setValueInput((prevState) => {
-        return step ? prevState + step : prevState - 5000;
+        return step ? prevState + step : prevState - 0.25;
       });
     }
   };
@@ -55,14 +54,9 @@ const MoneyField = ({
       thousandSeparator={"."}
       decimalSeparator={","}
       prefix={" "}
-      suffix={" €"}
+      suffix={" %"}
       onValueChange={({ value: v }) => {
-        if (index !== undefined) {
-          dispatch({
-            type: HousingFormActionKind.UPD_BORROWER,
-            payload: { name: name, data: +v, index: index },
-          });
-        } else if (dispatch) {
+        if (dispatch) {
           dispatch({
             type: HousingFormActionKind.UPD_INPUT,
             payload: { name: name, data: +v },
@@ -96,15 +90,10 @@ const MoneyField = ({
                   mr: 1,
                 }}
                 onClick={() => {
-                  if (index !== undefined) {
-                    dispatch({
-                      type: HousingFormActionKind.UPD_BORROWER_DECREASE,
-                      payload: { name: name, step: 50, index: index },
-                    });
-                  } else if (dispatch) {
+                  if (dispatch) {
                     dispatch({
                       type: HousingFormActionKind.UPD_PRICE_DECREASE,
-                      payload: { name: name, step: 5000 },
+                      payload: { name: name, step: 0.25 },
                     });
                   } else {
                     handleIncrementInput("ArrowDown");
@@ -128,15 +117,10 @@ const MoneyField = ({
                   "&:hover": { bgcolor: "#374151" },
                 }}
                 onClick={() => {
-                  if (index !== undefined) {
-                    dispatch({
-                      type: HousingFormActionKind.UPD_BORROWER_INCREASE,
-                      payload: { name: name, step: 50, index: index },
-                    });
-                  } else if (dispatch) {
+                  if (dispatch) {
                     dispatch({
                       type: HousingFormActionKind.UPD_PRICE_INCREASE,
-                      payload: { name: name, step: 5000 },
+                      payload: { name: name, step: 0.25 },
                     });
                   } else {
                     handleIncrementInput("ArrowUp");
@@ -158,4 +142,4 @@ const MoneyField = ({
   );
 };
 
-export default MoneyField;
+export default PercentageField;

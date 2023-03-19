@@ -3,11 +3,14 @@ import ExpensePane from "@/components/content/ExpensePane";
 import ExpenseResult from "@/components/content/ExpenseResult";
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { getFees } from "@/utils/calculation";
-import formatMoney from "@/utils/formatMoney";
-import { Box, Divider, Typography } from "@mui/material";
-import "chart.js/auto";
 
-const HousingSituationResults = () => {
+type HousingSituationResultsProps = {
+  collapsible?: boolean;
+};
+
+const HousingSituationResults = ({
+  collapsible,
+}: HousingSituationResultsProps) => {
   const { HousingFormState } = useHousingForm();
   const fees = getFees(
     HousingFormState.housePrice,
@@ -15,7 +18,7 @@ const HousingSituationResults = () => {
   );
 
   return (
-    <ExpensePane title="NOTARY FEES">
+    <ExpensePane collapsible={collapsible} title="NOTARY FEES">
       {fees.fees.map((x) => (
         <ExpenseLine
           label={x.name}

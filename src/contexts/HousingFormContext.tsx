@@ -19,6 +19,8 @@ interface HousingFormState {
   initialContribution: number;
   nbBorrowers: number;
   borrowers: Borrower[];
+  creditInterestRate: number;
+  creditDuration: number;
 }
 
 interface Borrower {
@@ -144,6 +146,8 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     initialContribution: 25000,
     nbBorrowers: 1,
     borrowers: [{ monthlyIncome: 2000, monthlyExpenses: 0 }],
+    creditInterestRate: 3.5,
+    creditDuration: 20,
   });
 
   return (

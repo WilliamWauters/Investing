@@ -25,7 +25,6 @@ const HouseSituationForm = () => {
                 payload: { name: "location", data: e.target.value },
               })
             }
-            size="small"
             label="Location"
           >
             <MenuItem value={"Brussels"}>Brussels</MenuItem>
@@ -45,7 +44,6 @@ const HouseSituationForm = () => {
                 payload: { name: "Type", data: e.target.value },
               })
             }
-            size="small"
             label="Type"
           >
             <MenuItem value={"House"}>House</MenuItem>
@@ -74,7 +72,6 @@ const HouseSituationForm = () => {
                 payload: { name: "taxationRegime", data: e.target.value },
               })
             }
-            size="small"
             label="taxationRegime"
           >
             <MenuItem value={TaxationRegime.BXL_WITH_ABATTEMENT_175}>

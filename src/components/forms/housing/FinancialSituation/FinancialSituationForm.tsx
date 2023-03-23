@@ -53,7 +53,7 @@ const FinancialSituationForm = () => {
           </Select>
         </FormControl>
       </InputSection>
-      <FinancialSituationResults />
+      <FinancialSituationResults collapsed={false} />
     </>
   );
 };

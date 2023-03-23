@@ -139,15 +139,15 @@ const HousingFormContext = createContext<HousingForm>({} as HousingForm);
 // 2 - CREATING PROVIDER (will be used in the Housing Page)
 const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
   const [HousingFormState, dispatch] = useReducer(HousingFormReducer, {
-    location: "Brussels",
-    type: "House",
-    housePrice: 250000,
+    location: "",
+    type: "",
+    housePrice: 0,
     taxationRegime: "",
-    initialContribution: 25000,
+    initialContribution: 0,
     nbBorrowers: 1,
-    borrowers: [{ monthlyIncome: 2000, monthlyExpenses: 0 }],
-    creditInterestRate: 3.5,
-    creditDuration: 20,
+    borrowers: [{ monthlyIncome: 0, monthlyExpenses: 0 }],
+    creditInterestRate: 0,
+    creditDuration: 0,
   });
 
   return (

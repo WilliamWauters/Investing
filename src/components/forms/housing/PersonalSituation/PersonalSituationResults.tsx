@@ -4,16 +4,16 @@ import ExpenseResult from "@/components/content/ExpenseResult";
 import { useHousingForm } from "@/contexts/HousingFormContext";
 
 type PersonalSituationResultsProps = {
-  collapsible?: boolean;
+  collapsed?: boolean;
 };
 
 const PersonalSituationResults = ({
-  collapsible,
+  collapsed,
 }: PersonalSituationResultsProps) => {
   const { HousingFormState } = useHousingForm();
 
   return (
-    <ExpensePane collapsible={collapsible} title="INCOME">
+    <ExpensePane collapsed={collapsed} title="INCOME">
       {HousingFormState.borrowers.map((x, i) => (
         <ExpenseLine
           key={`BorrowerIcome${i}`}

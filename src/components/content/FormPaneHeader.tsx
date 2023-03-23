@@ -9,7 +9,7 @@ const FormPaneHeader = ({ title }: FormPaneHeaderProps) => {
     <Box
       sx={{
         px: 2,
-        py: 1,
+        py: 1.5,
         mx: 2,
         mt: 3,
         mb: 2,
@@ -24,10 +24,11 @@ const FormPaneHeader = ({ title }: FormPaneHeaderProps) => {
         sx={{
           width: "100%",
           color: "#38BDF8",
-          fontSize: "1rem",
+          fontSize: "0.9rem",
+          fontWeight: "bold",
         }}
       >
-        {title}
+        {title.toUpperCase()}
       </Typography>
     </Box>
   );

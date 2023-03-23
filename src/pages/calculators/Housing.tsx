@@ -56,7 +56,6 @@ export default function Housing() {
       </Head>
       <main>
         <Page>
-          <Header text="Housing Calculator" />
           <HousingFormProvider>
             <FormSection>
               <Box

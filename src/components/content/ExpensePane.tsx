@@ -10,22 +10,24 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 type ExpensePaneProps = {
   title: string;
-  collapsible?: boolean;
+  collapsed?: boolean;
   children: any;
 };
 
-const ExpensePane = ({ title, collapsible, children }: ExpensePaneProps) => {
-  let defaultState = "";
-  if (!collapsible) {
+const ExpensePane = ({ title, collapsed, children }: ExpensePaneProps) => {
+  let defaultState;
+  if (collapsed) {
+    defaultState = false;
+  } else {
     defaultState = "panel1";
   }
-  const [expanded, setExpanded] = React.useState<string | false>(defaultState);
+  const [expanded, setExpanded] = React.useState<string | false>(
+    defaultState.toString()
+  );
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      if (collapsible) {
-        setExpanded(isExpanded ? panel : false);
-      }
+      setExpanded(isExpanded ? panel : false);
     };
 
   console.log(expanded);

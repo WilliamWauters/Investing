@@ -5,11 +5,11 @@ import { useHousingForm } from "@/contexts/HousingFormContext";
 import { getFees } from "@/utils/calculation";
 
 type FinancialSituationResultsProps = {
-  collapsible?: boolean;
+  collapsed?: boolean;
 };
 
 const FinancialSituationResults = ({
-  collapsible,
+  collapsed,
 }: FinancialSituationResultsProps) => {
   const { HousingFormState } = useHousingForm();
   const fees = getFees(
@@ -29,7 +29,7 @@ const FinancialSituationResults = ({
   //   mens = montant_pret * tm / (1 - Math.pow(1 / (1 + tm), 12 * duree_emprunt)),
 
   return (
-    <ExpensePane collapsible={collapsible} title="LOAN">
+    <ExpensePane collapsed={collapsed} title="LOAN">
       <ExpenseLine label="Notary Fees" value={fees.total} />
       <ExpenseLine
         label="Initial Contribution"

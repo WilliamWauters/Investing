@@ -5,11 +5,11 @@ import { useHousingForm } from "@/contexts/HousingFormContext";
 import { getFees } from "@/utils/calculation";
 
 type HousingSituationResultsProps = {
-  collapsible?: boolean;
+  collapsed?: boolean;
 };
 
 const HousingSituationResults = ({
-  collapsible,
+  collapsed,
 }: HousingSituationResultsProps) => {
   const { HousingFormState } = useHousingForm();
   const fees = getFees(
@@ -18,7 +18,7 @@ const HousingSituationResults = ({
   );
 
   return (
-    <ExpensePane collapsible={collapsible} title="NOTARY FEES">
+    <ExpensePane collapsed={collapsed} title="NOTARY FEES">
       {fees.fees.map((x) => (
         <ExpenseLine
           label={x.name}

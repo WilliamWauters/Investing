@@ -51,9 +51,9 @@ const HousingResultsForm = () => {
           </InputSection>
         </Box>
       </Collapse>
-      <HousingSituationResults collapsible />
-      <PersonalSituationResults collapsible />
-      <FinancialSituationResults collapsible />
+      <HousingSituationResults collapsed />
+      <PersonalSituationResults collapsed />
+      <FinancialSituationResults collapsed />
     </>
   );
 };

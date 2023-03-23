@@ -18,11 +18,11 @@ const HouseSituationForm = () => {
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Location</InputLabel>
           <Select
-            value={HousingFormState.location || ""}
+            value={HousingFormState.houseLocation || ""}
             onChange={(e) =>
               dispatch({
                 type: HousingFormActionKind.UPD_INPUT,
-                payload: { name: "location", data: e.target.value },
+                payload: { name: "houseLocation", data: e.target.value },
               })
             }
             label="Location"
@@ -37,11 +37,11 @@ const HouseSituationForm = () => {
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Type</InputLabel>
           <Select
-            value={HousingFormState.type || ""}
+            value={HousingFormState.houseType || ""}
             onChange={(e) =>
               dispatch({
                 type: HousingFormActionKind.UPD_INPUT,
-                payload: { name: "Type", data: e.target.value },
+                payload: { name: "houseType", data: e.target.value },
               })
             }
             label="Type"

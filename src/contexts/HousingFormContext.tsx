@@ -12,8 +12,8 @@ interface HousingForm {
 }
 
 interface HousingFormState {
-  location: string;
-  type: string;
+  houseLocation: string;
+  houseType: string;
   housePrice: number;
   taxationRegime: string;
   initialContribution: number;
@@ -139,8 +139,8 @@ const HousingFormContext = createContext<HousingForm>({} as HousingForm);
 // 2 - CREATING PROVIDER (will be used in the Housing Page)
 const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
   const [HousingFormState, dispatch] = useReducer(HousingFormReducer, {
-    location: "",
-    type: "",
+    houseLocation: "",
+    houseType: "",
     housePrice: 0,
     taxationRegime: "",
     initialContribution: 0,

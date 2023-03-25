@@ -2,7 +2,7 @@ import ExpensePane from "@/components/content/ExpensePane";
 import ExpenseLine from "@/components/content/ExpenseLine";
 import ExpenseResult from "@/components/content/ExpenseResult";
 import { useHousingForm } from "@/contexts/HousingFormContext";
-import { getFees } from "@/utils/calculation";
+import { getNotaryFees } from "@/utils/calculation";
 
 type FinancialSituationResultsProps = {
   collapsed?: boolean;
@@ -12,7 +12,7 @@ const FinancialSituationResults = ({
   collapsed,
 }: FinancialSituationResultsProps) => {
   const { HousingFormState } = useHousingForm();
-  const fees = getFees(
+  const notaryFees = getNotaryFees(
     HousingFormState.housePrice,
     HousingFormState.taxationRegime
   );
@@ -30,27 +30,27 @@ const FinancialSituationResults = ({
 
   return (
     <ExpensePane collapsed={collapsed} title="LOAN">
-      <ExpenseLine label="Notary Fees" value={fees.total} />
+      <ExpenseLine label="Notary Fees" value={notaryFees.total} />
       <ExpenseLine
         label="Initial Contribution"
         value={HousingFormState.initialContribution}
       />
       <ExpenseResult
-        result={HousingFormState.initialContribution - fees.total}
+        result={HousingFormState.initialContribution - notaryFees.total}
       />
       <ExpenseLine
         label={`Rest of Initial Contribution (${(
-          ((HousingFormState.initialContribution - fees.total) /
+          ((HousingFormState.initialContribution - notaryFees.total) /
             HousingFormState.housePrice) *
           100
         ).toFixed(2)}% of House Price)`}
-        value={HousingFormState.initialContribution - fees.total}
+        value={HousingFormState.initialContribution - notaryFees.total}
       />
       <ExpenseLine label="House Price" value={HousingFormState.housePrice} />
       <ExpenseResult
         result={
           HousingFormState.housePrice +
-          fees.total -
+          notaryFees.total -
           HousingFormState.initialContribution
         }
       />
@@ -58,7 +58,7 @@ const FinancialSituationResults = ({
         label="Loan"
         value={
           HousingFormState.housePrice +
-          fees.total -
+          notaryFees.total -
           HousingFormState.initialContribution
         }
       />
@@ -66,7 +66,7 @@ const FinancialSituationResults = ({
         label="Loan Interest"
         value={
           (HousingFormState.housePrice +
-            fees.total -
+            notaryFees.total -
             HousingFormState.initialContribution) *
           (HousingFormState.creditInterestRate / 100)
         }

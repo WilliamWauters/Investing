@@ -1,5 +1,20 @@
 import { TaxationRegime } from "@/contexts/HousingFormContext";
 
+interface NotaryFees {
+  fees: Fee[];
+  total: number;
+}
+
+class Fee {
+  name: string;
+  value: number;
+
+  constructor(name: string, value: number) {
+    this.name = name;
+    this.value = value;
+  }
+}
+
 const getRegistrationFee = (price: number, taxationRegime: string) => {
   var priceBase = price;
   if (
@@ -62,63 +77,23 @@ const getTVA = (price: number) => {
   return Math.round(rateTVA * (getNotaryFee(price) + u) * 100) / 100;
 };
 
-const getFees = (price: number, taxationRegime: string) => {
-  const registrationFee = getRegistrationFee(price, taxationRegime);
-  const notaryFee = getNotaryFee(price);
-  const annexesFee = 100;
-  const administrativeFee = 750;
-  const disbursementsFee = 262;
-  const mortgageTranscriptFee = 240;
-  const writePermissionFee = 100;
-  const TVA = getTVA(price);
+const getNotaryFees = (price: number, taxationRegime: string): NotaryFees => {
+  var fees = [
+    new Fee("Registration Fee", getRegistrationFee(price, taxationRegime)),
+    new Fee("Notary Fee", getNotaryFee(price)),
+    new Fee("Annexes Fee", 100),
+    new Fee("Administrative Fee", 750),
+    new Fee("Disbursement Fee", 262),
+    new Fee("Mortgage Transcript Fee", 240),
+    new Fee("Write Permission", 100),
+    new Fee("TVA", getTVA(price)),
+  ];
   return {
-    fees: [
-      {
-        name: "Registration Fee",
-        value: registrationFee,
-      },
-      {
-        name: "Notary Fee",
-        value: notaryFee,
-      },
-      {
-        name: "Annexes Fee",
-        value: annexesFee,
-      },
-      {
-        name: "Administrative Fee",
-        value: administrativeFee,
-      },
-      {
-        name: "Disbursement Fee",
-        value: disbursementsFee,
-      },
-      {
-        name: "Mortgage Transcript Fee",
-        value: mortgageTranscriptFee,
-      },
-      {
-        name: "Write Permission Fee",
-        value: writePermissionFee,
-      },
-    ],
-    registrationFee: registrationFee,
-    notaryFee: notaryFee,
-    annexesFee: annexesFee,
-    administrativeFee: administrativeFee,
-    disbursementsFee: disbursementsFee,
-    mortgageTranscriptFee: mortgageTranscriptFee,
-    writePermissionFee: writePermissionFee,
-    TVA: TVA,
-    total:
-      registrationFee +
-      notaryFee +
-      annexesFee +
-      administrativeFee +
-      disbursementsFee +
-      mortgageTranscriptFee +
-      writePermissionFee,
+    fees: fees,
+    total: fees.reduce(function (acc, obj) {
+      return acc + obj.value;
+    }, 0),
   };
 };
 
-export { getRegistrationFee, getNotaryFee, getTVA, getFees };
+export { getNotaryFees };

@@ -80,7 +80,7 @@ function HousingFormReducer(
         borrowers: [
           ...state.borrowers,
           {
-            monthlyIncome: 2000,
+            monthlyIncome: 0,
             monthlyExpenses: 0,
           },
         ],

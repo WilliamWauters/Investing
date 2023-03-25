@@ -44,11 +44,20 @@ const PercentageField = ({
     }
   };
 
+  var valueOfInput = undefined;
+  if (value !== 0) {
+    valueOfInput = value;
+  }
+
+  if (valueInput !== 0) {
+    valueOfInput = valueInput;
+  }
+
   return (
     <NumericFormat
       customInput={TextField}
       name={name}
-      value={value || valueInput}
+      value={valueOfInput}
       label={label}
       variant="outlined"
       thousandSeparator={"."}

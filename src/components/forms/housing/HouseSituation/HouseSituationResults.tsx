@@ -11,10 +11,10 @@ type HousingSituationResultsProps = {
 const HousingSituationResults = ({
   collapsed,
 }: HousingSituationResultsProps) => {
-  const { HousingFormState } = useHousingForm();
+  const { housingFormState } = useHousingForm();
   const notaryFees = getNotaryFees(
-    HousingFormState.housePrice,
-    HousingFormState.taxationRegime
+    housingFormState.housePrice,
+    housingFormState.taxationRegime
   );
 
   return (

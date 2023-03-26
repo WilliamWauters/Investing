@@ -1,91 +1,45 @@
-import InputSection from "@/components/layout/InputSection";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import {
-  HousingFormActionKind,
-  TaxationRegime,
-  useHousingForm,
-} from "@/contexts/HousingFormContext";
+import { useHousingForm } from "@/contexts/HousingFormContext";
 import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
+import SelectField from "@/components/inputs/SelectField";
 import HousingSituationResults from "./HouseSituationResults";
+import { taxationRegimes } from "@/utils/enums/TaxationRegime";
+import { locations } from "@/utils/enums/Location";
+import { houseTypes } from "@/utils/enums/HouseType";
 
 const HouseSituationForm = () => {
-  const { HousingFormState, dispatch } = useHousingForm();
+  const { housingFormState, dispatch } = useHousingForm();
+
   return (
     <>
       <FormPaneHeader title="House Situation" />
-      <InputSection>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Location</InputLabel>
-          <Select
-            value={HousingFormState.houseLocation || ""}
-            onChange={(e) =>
-              dispatch({
-                type: HousingFormActionKind.UPD_INPUT,
-                payload: { name: "houseLocation", data: e.target.value },
-              })
-            }
-            label="Location"
-          >
-            <MenuItem value={"Brussels"}>Brussels</MenuItem>
-            <MenuItem value={"Flanders"}>Flanders</MenuItem>
-            <MenuItem value={"Wallonia"}>Wallonia</MenuItem>
-          </Select>
-        </FormControl>
-      </InputSection>
-      <InputSection>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Type</InputLabel>
-          <Select
-            value={HousingFormState.houseType || ""}
-            onChange={(e) =>
-              dispatch({
-                type: HousingFormActionKind.UPD_INPUT,
-                payload: { name: "houseType", data: e.target.value },
-              })
-            }
-            label="Type"
-          >
-            <MenuItem value={"House"}>House</MenuItem>
-            <MenuItem value={"Appartment"}>Appartment</MenuItem>
-          </Select>
-        </FormControl>
-      </InputSection>
-      <InputSection>
-        <FormControl fullWidth>
-          <MoneyField
-            label="Price"
-            name="housePrice"
-            value={HousingFormState.housePrice}
-            dispatch={dispatch}
-          />
-        </FormControl>
-      </InputSection>
-      <InputSection>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Taxation Regime</InputLabel>
-          <Select
-            value={HousingFormState.taxationRegime || ""}
-            onChange={(e) =>
-              dispatch({
-                type: HousingFormActionKind.UPD_INPUT,
-                payload: { name: "taxationRegime", data: e.target.value },
-              })
-            }
-            label="taxationRegime"
-          >
-            <MenuItem value={TaxationRegime.BXL_WITH_ABATTEMENT_175}>
-              With Abattement of 175.000 €
-            </MenuItem>
-            <MenuItem value={TaxationRegime.BXL_WITH_ABATTEMENT_200}>
-              With Abattement of 200.000 €
-            </MenuItem>
-            <MenuItem value={TaxationRegime.BXL_WITHOUT_ABATTEMENT}>
-              Without Abbatment
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </InputSection>
+      <SelectField
+        name="houseLocation"
+        label="Location"
+        value={housingFormState.houseLocation || ""}
+        dispatch={dispatch}
+        options={locations}
+      />
+      <SelectField
+        name="houseType"
+        label="Type"
+        value={housingFormState.houseType || ""}
+        dispatch={dispatch}
+        options={houseTypes}
+      />
+      <MoneyField
+        label="Price"
+        name="housePrice"
+        value={housingFormState.housePrice}
+        dispatch={dispatch}
+      />
+      <SelectField
+        name="taxationRegime"
+        label="Taxation Regime"
+        value={housingFormState.taxationRegime || ""}
+        dispatch={dispatch}
+        options={taxationRegimes}
+      />
       <HousingSituationResults />
     </>
   );

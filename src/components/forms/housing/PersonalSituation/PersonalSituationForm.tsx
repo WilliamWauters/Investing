@@ -1,23 +1,14 @@
 import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
-import InputSection from "@/components/layout/InputSection";
 import {
   Borrower,
   HousingFormActionKind,
   useHousingForm,
 } from "@/contexts/HousingFormContext";
-import {
-  Box,
-  Collapse,
-  Divider,
-  Fade,
-  FormControl,
-  IconButton,
-} from "@mui/material";
+import { Box, Collapse, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Typography from "@mui/material/Typography";
-import formatMoney from "@/utils/formatMoney";
 import { TransitionGroup } from "react-transition-group";
 import PersonalSituationResults from "./PersonalSituationResults";
 
@@ -54,28 +45,25 @@ function renderItem({ i, borrower, dispatch }: RenderItemOptions) {
           </IconButton>
         )}
       </Box>
-      <InputSection>
-        <FormControl fullWidth>
-          <MoneyField
-            name="monthlyIncome"
-            index={i}
-            label="Net monthly salary"
-            value={borrower.monthlyIncome}
-            dispatch={dispatch}
-          />
-        </FormControl>
-      </InputSection>
+
+      <MoneyField
+        name="monthlyIncome"
+        index={i}
+        label="Net monthly salary"
+        value={borrower.monthlyIncome}
+        dispatch={dispatch}
+      />
     </Box>
   );
 }
 
 const PersonalSituationForm = () => {
-  const { HousingFormState, dispatch } = useHousingForm();
+  const { housingFormState, dispatch } = useHousingForm();
   return (
     <>
       <FormPaneHeader title="Personal Situation" />
       <TransitionGroup>
-        {HousingFormState.borrowers.map((borrower, i) => {
+        {housingFormState.borrowers.map((borrower, i) => {
           return (
             <Collapse key={`borrowerCollapse_${i}`}>
               {renderItem({ i, borrower, dispatch })}
@@ -83,7 +71,7 @@ const PersonalSituationForm = () => {
           );
         })}
       </TransitionGroup>
-      {HousingFormState.borrowers.length === 1 && (
+      {housingFormState.borrowers.length === 1 && (
         <Box
           sx={{
             mx: 3,

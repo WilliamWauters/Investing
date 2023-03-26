@@ -2,7 +2,11 @@ import ExpensePane from "@/components/content/ExpensePane";
 import ExpenseLine from "@/components/content/ExpenseLine";
 import ExpenseResult from "@/components/content/ExpenseResult";
 import { useHousingForm } from "@/contexts/HousingFormContext";
-import { getNotaryFees } from "@/utils/calculation";
+import {
+  getLaonPaymentInfo,
+  getMonthlyPaymentCapacity,
+  getNotaryFees,
+} from "@/utils/calculation";
 
 type FinancialSituationResultsProps = {
   collapsed?: boolean;
@@ -11,66 +15,54 @@ type FinancialSituationResultsProps = {
 const FinancialSituationResults = ({
   collapsed,
 }: FinancialSituationResultsProps) => {
-  const { HousingFormState } = useHousingForm();
+  const { housingFormState } = useHousingForm();
   const notaryFees = getNotaryFees(
-    HousingFormState.housePrice,
-    HousingFormState.taxationRegime
+    housingFormState.housePrice,
+    housingFormState.taxationRegime
   );
-  // let montant_pret = 220000;
-
-  // let ta = 3.62 / 100;
-  // let tm = ta / 12;
-  // let mens = (montant_pret * tm) / (1 - Math.pow(1 / (1 + tm), 12 * 25));
-
-  // console.log(montant_pret * 0.0362 * 25);
-
-  // ta = taux / 100,
-  //   tm = ta / 12,
-  //   mens = montant_pret * tm / (1 - Math.pow(1 / (1 + tm), 12 * duree_emprunt)),
+  const monthlyPaymentCapacity = getMonthlyPaymentCapacity(
+    housingFormState.borrowers.reduce(
+      (accumulator, currentValue) =>
+        accumulator +
+        (currentValue.monthlyIncome - currentValue.monthlyExpenses),
+      0
+    )
+  );
+  const { loan, monthlyPayment, totalPayment } = getLaonPaymentInfo(
+    housingFormState.housePrice,
+    housingFormState.initialContribution,
+    notaryFees.total,
+    housingFormState.creditInterestRate,
+    Number(housingFormState.creditDuration)
+  );
 
   return (
     <ExpensePane collapsed={collapsed} title="LOAN">
       <ExpenseLine label="Notary Fees" value={notaryFees.total} />
       <ExpenseLine
         label="Initial Contribution"
-        value={HousingFormState.initialContribution}
+        value={housingFormState.initialContribution}
       />
       <ExpenseResult
-        result={HousingFormState.initialContribution - notaryFees.total}
+        result={housingFormState.initialContribution - notaryFees.total}
       />
       <ExpenseLine
         label={`Rest of Initial Contribution (${(
-          ((HousingFormState.initialContribution - notaryFees.total) /
-            HousingFormState.housePrice) *
+          ((housingFormState.initialContribution - notaryFees.total) /
+            housingFormState.housePrice) *
           100
         ).toFixed(2)}% of House Price)`}
-        value={HousingFormState.initialContribution - notaryFees.total}
+        value={housingFormState.initialContribution - notaryFees.total}
       />
-      <ExpenseLine label="House Price" value={HousingFormState.housePrice} />
-      <ExpenseResult
-        result={
-          HousingFormState.housePrice +
-          notaryFees.total -
-          HousingFormState.initialContribution
-        }
-      />
+      <ExpenseLine label="House Price" value={housingFormState.housePrice} />
+      <ExpenseResult result={loan} />
+      <ExpenseLine label="Loan" value={loan} />
+      <ExpenseLine label="Loan monthly payment" value={monthlyPayment} />
       <ExpenseLine
-        label="Loan"
-        value={
-          HousingFormState.housePrice +
-          notaryFees.total -
-          HousingFormState.initialContribution
-        }
+        label="Personal monthly payment capacity"
+        value={monthlyPaymentCapacity}
       />
-      <ExpenseLine
-        label="Loan Interest"
-        value={
-          (HousingFormState.housePrice +
-            notaryFees.total -
-            HousingFormState.initialContribution) *
-          (HousingFormState.creditInterestRate / 100)
-        }
-      />
+      <ExpenseLine label="Loan total Interest" value={totalPayment} />
     </ExpensePane>
   );
 };

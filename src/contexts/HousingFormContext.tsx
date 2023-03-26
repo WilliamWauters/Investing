@@ -1,13 +1,7 @@
-import { createContext, useContext, useReducer } from "react";
-
-enum TaxationRegime {
-  BXL_WITHOUT_ABATTEMENT = "BXL_WITHOUT_ABATTEMENT",
-  BXL_WITH_ABATTEMENT_175 = "BXL_WITH_ABATTEMENT_175",
-  BXL_WITH_ABATTEMENT_200 = "BXL_WITH_ABATTEMENT_200",
-}
+import { createContext, useContext, useReducer, useState } from "react";
 
 interface HousingForm {
-  HousingFormState: HousingFormState;
+  housingFormState: HousingFormState;
   dispatch: any;
 }
 
@@ -20,7 +14,7 @@ interface HousingFormState {
   nbBorrowers: number;
   borrowers: Borrower[];
   creditInterestRate: number;
-  creditDuration: number;
+  creditDuration: string;
 }
 
 interface Borrower {
@@ -138,7 +132,7 @@ const HousingFormContext = createContext<HousingForm>({} as HousingForm);
 
 // 2 - CREATING PROVIDER (will be used in the Housing Page)
 const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
-  const [HousingFormState, dispatch] = useReducer(HousingFormReducer, {
+  const [housingFormState, dispatch] = useReducer(HousingFormReducer, {
     houseLocation: "",
     houseType: "",
     housePrice: 0,
@@ -147,13 +141,13 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     nbBorrowers: 1,
     borrowers: [{ monthlyIncome: 0, monthlyExpenses: 0 }],
     creditInterestRate: 0,
-    creditDuration: 0,
+    creditDuration: "",
   });
 
   return (
     <HousingFormContext.Provider
       value={{
-        HousingFormState,
+        housingFormState,
         dispatch,
       }}
     >
@@ -167,10 +161,6 @@ const useHousingForm = () => {
   return useContext(HousingFormContext);
 };
 
-export {
-  HousingFormProvider,
-  useHousingForm,
-  HousingFormActionKind,
-  TaxationRegime,
-};
+export { HousingFormProvider, useHousingForm, HousingFormActionKind };
 export type { Borrower };
+export type { HousingFormState };

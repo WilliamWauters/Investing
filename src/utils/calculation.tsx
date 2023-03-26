@@ -1,4 +1,4 @@
-import { TaxationRegime } from "@/contexts/HousingFormContext";
+import { TaxationRegime } from "./enums/TaxationRegime";
 
 interface NotaryFees {
   fees: Fee[];
@@ -96,4 +96,78 @@ const getNotaryFees = (price: number, taxationRegime: string): NotaryFees => {
   };
 };
 
-export { getNotaryFees };
+const getMonthlyPaymentCapacity = (totalNettoSalary: number) => {
+  return totalNettoSalary * 0.33;
+};
+
+function roundTo(n: number, digits: number) {
+  var negative = false;
+  if (digits === undefined) {
+    digits = 0;
+  }
+  if (n < 0) {
+    negative = true;
+    n = n * -1;
+  }
+  var multiplicator = Math.pow(10, digits);
+  n = parseFloat((n * multiplicator).toFixed(11));
+  n = +(Math.round(n) / multiplicator).toFixed(digits);
+  if (negative) {
+    n = +(n * -1).toFixed(digits);
+  }
+  return n;
+}
+
+const getLoan = (
+  housePrice: number,
+  initialContribution: number,
+  notaryFees: number
+) => {
+  return housePrice + notaryFees - initialContribution;
+};
+
+const getMonthlyLoanPayement = (
+  loan: number,
+  interest: number,
+  duration: number
+) => {
+  var fractionUp = interest / 100 / 12;
+  var fractionUpNext = interest / 100 / 12 + 1;
+  var fractionDown = Number(duration) * 12;
+  var fractionResult = Math.pow(fractionUpNext, fractionDown);
+  var calculationOne = fractionUp * fractionResult;
+  var calculationTwo = fractionResult - 1;
+  var final = (calculationOne / calculationTwo) * loan;
+  return final;
+};
+
+const getTotalLoanPayement = (
+  monthlyLoandPayment: number,
+  duration: number
+) => {
+  return monthlyLoandPayment * Number(duration) * 12;
+};
+
+const getLaonPaymentInfo = (
+  housePrice: number,
+  initialContribution: number,
+  notaryFees: number,
+  interest: number,
+  duration: number
+) => {
+  const loan = getLoan(housePrice, initialContribution, notaryFees);
+
+  return {
+    loan: loan,
+    monthlyPayment: roundTo(
+      getMonthlyLoanPayement(loan, interest, duration),
+      2
+    ),
+    totalPayment: getTotalLoanPayement(
+      roundTo(getMonthlyLoanPayement(housePrice, interest, duration), 2),
+      duration
+    ),
+  };
+};
+
+export { getNotaryFees, getLaonPaymentInfo, getMonthlyPaymentCapacity };

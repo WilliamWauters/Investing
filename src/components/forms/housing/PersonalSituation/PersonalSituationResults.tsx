@@ -2,6 +2,7 @@ import ExpenseLine from "@/components/content/ExpenseLine";
 import ExpensePane from "@/components/content/ExpensePane";
 import ExpenseResult from "@/components/content/ExpenseResult";
 import { useHousingForm } from "@/contexts/HousingFormContext";
+import { getMonthlyPaymentCapacity } from "@/utils/calculation";
 
 type PersonalSituationResultsProps = {
   collapsed?: boolean;
@@ -10,11 +11,17 @@ type PersonalSituationResultsProps = {
 const PersonalSituationResults = ({
   collapsed,
 }: PersonalSituationResultsProps) => {
-  const { HousingFormState } = useHousingForm();
+  const { housingFormState } = useHousingForm();
+  const totalNettoSalary = housingFormState.borrowers.reduce(
+    (accumulator, currentValue) =>
+      accumulator + (currentValue.monthlyIncome - currentValue.monthlyExpenses),
+    0
+  );
+  const monthlyPaymentCapacity = getMonthlyPaymentCapacity(totalNettoSalary);
 
   return (
     <ExpensePane collapsed={collapsed} title="INCOME">
-      {HousingFormState.borrowers.map((x, i) => (
+      {housingFormState.borrowers.map((x, i) => (
         <ExpenseLine
           key={`BorrowerIcome${i}`}
           label={`Income Borrower ${i + 1}`}
@@ -22,12 +29,16 @@ const PersonalSituationResults = ({
         />
       ))}
       <ExpenseResult
-        result={HousingFormState.borrowers.reduce(
+        result={housingFormState.borrowers.reduce(
           (accumulator, currentValue) =>
             accumulator +
             (currentValue.monthlyIncome - currentValue.monthlyExpenses),
           0
         )}
+      />
+      <ExpenseLine
+        label={`Monthly Payment Capacity`}
+        value={monthlyPaymentCapacity}
       />
     </ExpensePane>
   );

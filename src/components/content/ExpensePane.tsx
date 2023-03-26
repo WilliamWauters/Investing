@@ -30,8 +30,6 @@ const ExpensePane = ({ title, collapsed, children }: ExpensePaneProps) => {
       setExpanded(isExpanded ? panel : false);
     };
 
-  console.log(expanded);
-
   return (
     <Box
       sx={{

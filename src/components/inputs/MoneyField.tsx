@@ -20,6 +20,8 @@ type MoneyFieldProps = {
   index?: number;
   label: string;
   value?: number;
+  touched?: boolean;
+  required?: boolean;
   dispatch?: any;
   step?: number;
 };
@@ -29,6 +31,8 @@ const MoneyField = ({
   index,
   label,
   value,
+  touched,
+  required,
   dispatch,
   step,
 }: MoneyFieldProps) => {
@@ -61,6 +65,11 @@ const MoneyField = ({
     valueOfInput = valueInput;
   }
 
+  var error = false;
+  if (touched && required && valueOfInput === undefined) {
+    error = true;
+  }
+
   return (
     <InputSection>
       <FormControl fullWidth>
@@ -75,6 +84,20 @@ const MoneyField = ({
           decimalSeparator={","}
           prefix={" "}
           suffix={" €"}
+          onBlur={(e) => {
+            if (index !== undefined) {
+              dispatch({
+                type: HousingFormActionKind.TOUCHED_BORROWER,
+                payload: { name: name, data: true, index: index },
+              });
+            } else if (dispatch) {
+              dispatch({
+                type: HousingFormActionKind.TOUCHED,
+                payload: { name: name, data: true },
+              });
+            }
+          }}
+          error={error}
           onValueChange={({ value: v }) => {
             if (index !== undefined) {
               dispatch({

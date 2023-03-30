@@ -7,8 +7,9 @@ type SelectFieldProps = {
   label: string;
   value?: string;
   options: any[];
+  touched?: boolean;
+  required?: boolean;
   dispatch?: any;
-  step?: number;
 };
 
 const SelectField = ({
@@ -16,12 +17,21 @@ const SelectField = ({
   label,
   value,
   options,
+  touched,
+  required,
   dispatch,
 }: SelectFieldProps) => {
+  var error = false;
+  if (touched && required && value === "") {
+    error = true;
+  }
+
   return (
     <InputSection>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+        <InputLabel id="demo-simple-select-label" error={error}>
+          {label}
+        </InputLabel>
         <Select
           value={value}
           onChange={(e) =>
@@ -30,7 +40,14 @@ const SelectField = ({
               payload: { name: name, data: e.target.value },
             })
           }
+          onClose={(e) => {
+            dispatch({
+              type: HousingFormActionKind.TOUCHED,
+              payload: { name: name, data: true },
+            });
+          }}
           label={label}
+          error={error}
         >
           {options.map((x) => (
             <MenuItem key={`${name}${x.value}`} value={x.value}>

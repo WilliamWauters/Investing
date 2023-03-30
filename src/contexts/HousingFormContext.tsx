@@ -15,6 +15,7 @@ interface HousingFormState {
   borrowers: Borrower[];
   creditInterestRate: number;
   creditDuration: string;
+  touched: any;
 }
 
 interface Borrower {
@@ -36,6 +37,8 @@ enum HousingFormActionKind {
   UPD_BORROWER = "UPD_BORROWER",
   UPD_BORROWER_INCREASE = "UPD_BORROWER_INCREASE",
   UPD_BORROWER_DECREASE = "UPD_BORROWER_DECREASE",
+  TOUCHED = "TOUCHED",
+  TOUCHED_BORROWER = "TOUCHED_BORROWER",
 }
 
 interface HousingFormAction {
@@ -54,18 +57,21 @@ function HousingFormReducer(
       return {
         ...state,
         [payload.name]: payload.data,
+        touched: { ...state.touched, [payload.name]: true },
       };
     case HousingFormActionKind.UPD_PRICE_INCREASE:
       return {
         ...state,
         [payload.name]:
           +state[payload.name as keyof HousingFormState] + payload.step,
+        touched: { ...state.touched, [payload.name]: true },
       };
     case HousingFormActionKind.UPD_PRICE_DECREASE:
       return {
         ...state,
         [payload.name]:
           +state[payload.name as keyof HousingFormState] - payload.step,
+        touched: { ...state.touched, [payload.name]: true },
       };
     case HousingFormActionKind.ADD_BORROWER:
       return {
@@ -122,6 +128,19 @@ function HousingFormReducer(
       //    but that's why we made a copy first
       borrowersDec[payload.index] = borrowerDec;
       return { ...state, ["borrowers"]: borrowersDec };
+    case HousingFormActionKind.TOUCHED:
+      return {
+        ...state,
+        touched: { ...state.touched, [payload.name]: true },
+      };
+    case HousingFormActionKind.TOUCHED_BORROWER:
+      return {
+        ...state,
+        touched: {
+          ...state.touched,
+          [payload.name + "_" + payload.index]: true,
+        },
+      };
     default:
       return state;
   }
@@ -142,6 +161,7 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     borrowers: [{ monthlyIncome: 0, monthlyExpenses: 0 }],
     creditInterestRate: 0,
     creditDuration: "",
+    touched: {},
   });
 
   return (

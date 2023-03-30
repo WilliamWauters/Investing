@@ -10,6 +10,8 @@ import { houseTypes } from "@/utils/enums/HouseType";
 const HouseSituationForm = () => {
   const { housingFormState, dispatch } = useHousingForm();
 
+  console.log(housingFormState.touched);
+
   return (
     <>
       <FormPaneHeader title="House Situation" />
@@ -17,26 +19,34 @@ const HouseSituationForm = () => {
         name="houseLocation"
         label="Location"
         value={housingFormState.houseLocation || ""}
+        required
+        touched={housingFormState.touched.houseLocation}
         dispatch={dispatch}
         options={locations}
       />
       <SelectField
         name="houseType"
         label="Type"
+        required
         value={housingFormState.houseType || ""}
+        touched={housingFormState.touched.houseType}
         dispatch={dispatch}
         options={houseTypes}
       />
       <MoneyField
         label="Price"
         name="housePrice"
+        required
         value={housingFormState.housePrice}
+        touched={housingFormState.touched.housePrice}
         dispatch={dispatch}
       />
       <SelectField
         name="taxationRegime"
         label="Taxation Regime"
+        required
         value={housingFormState.taxationRegime || ""}
+        touched={housingFormState.touched.taxationRegime}
         dispatch={dispatch}
         options={taxationRegimes}
       />

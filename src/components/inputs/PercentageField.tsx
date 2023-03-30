@@ -20,6 +20,8 @@ type PercentageProps = {
   index?: number;
   label: string;
   value?: number;
+  touched?: boolean;
+  required?: boolean;
   dispatch?: any;
   step?: number;
 };
@@ -28,6 +30,8 @@ const PercentageField = ({
   name,
   label,
   value,
+  touched,
+  required,
   dispatch,
   step,
 }: PercentageProps) => {
@@ -60,6 +64,11 @@ const PercentageField = ({
     valueOfInput = valueInput;
   }
 
+  var error = false;
+  if (touched && required && valueOfInput === undefined) {
+    error = true;
+  }
+
   return (
     <InputSection>
       <FormControl fullWidth>
@@ -73,6 +82,15 @@ const PercentageField = ({
           decimalSeparator={","}
           prefix={" "}
           suffix={" %"}
+          error={error}
+          onBlur={(e) => {
+            if (dispatch) {
+              dispatch({
+                type: HousingFormActionKind.TOUCHED,
+                payload: { name: name, data: true },
+              });
+            }
+          }}
           onValueChange={({ value: v }) => {
             if (dispatch) {
               dispatch({

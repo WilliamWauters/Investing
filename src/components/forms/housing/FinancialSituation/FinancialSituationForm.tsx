@@ -16,18 +16,24 @@ const FinancialSituationForm = () => {
         label="Price"
         name="housePrice"
         value={housingFormState.housePrice}
+        required
+        touched={housingFormState.touched.housePrice}
         dispatch={dispatch}
       />
       <MoneyField
         name="initialContribution"
         label="Initial Contribution"
         value={housingFormState.initialContribution}
+        required
+        touched={housingFormState.touched.initialContribution}
         dispatch={dispatch}
       />
       <PercentageField
         name="creditInterestRate"
         label="Credit Interest Rate"
         value={housingFormState.creditInterestRate}
+        required
+        touched={housingFormState.touched.creditInterestRate}
         dispatch={dispatch}
       />
       <SelectField
@@ -35,6 +41,8 @@ const FinancialSituationForm = () => {
         label="Credit Duration"
         value={housingFormState.creditDuration || ""}
         dispatch={dispatch}
+        required
+        touched={housingFormState.touched.creditDuration}
         options={creditDurations}
       />
       <FinancialSituationResults collapsed={false} />

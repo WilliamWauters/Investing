@@ -16,9 +16,10 @@ interface RenderItemOptions {
   i: number;
   borrower: Borrower;
   dispatch: any;
+  touched: any;
 }
 
-function renderItem({ i, borrower, dispatch }: RenderItemOptions) {
+function renderItem({ i, borrower, dispatch, touched }: RenderItemOptions) {
   return (
     <Box key={`borrower_${i}`} sx={{ my: 2 }}>
       <Box
@@ -50,7 +51,9 @@ function renderItem({ i, borrower, dispatch }: RenderItemOptions) {
         name="monthlyIncome"
         index={i}
         label="Net monthly salary"
+        required
         value={borrower.monthlyIncome}
+        touched={touched["monthlyIncome_" + i]}
         dispatch={dispatch}
       />
     </Box>
@@ -66,7 +69,12 @@ const PersonalSituationForm = () => {
         {housingFormState.borrowers.map((borrower, i) => {
           return (
             <Collapse key={`borrowerCollapse_${i}`}>
-              {renderItem({ i, borrower, dispatch })}
+              {renderItem({
+                i,
+                borrower,
+                dispatch,
+                touched: housingFormState.touched,
+              })}
             </Collapse>
           );
         })}

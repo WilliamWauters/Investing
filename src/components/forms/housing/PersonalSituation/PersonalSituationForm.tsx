@@ -62,6 +62,20 @@ function renderItem({ i, borrower, dispatch, touched }: RenderItemOptions) {
 
 const PersonalSituationForm = () => {
   const { housingFormState, dispatch } = useHousingForm();
+
+  const isFormValid = () => {
+    var isValid = true;
+    housingFormState.borrowers.forEach((borrower) => {
+      if (
+        borrower.monthlyIncome === undefined ||
+        borrower.monthlyIncome === 0
+      ) {
+        isValid = false;
+      }
+    });
+    return isValid;
+  };
+
   return (
     <>
       <FormPaneHeader title="Personal Situation" />
@@ -102,7 +116,7 @@ const PersonalSituationForm = () => {
           </IconButton>
         </Box>
       )}
-      <PersonalSituationResults />
+      {isFormValid() && <PersonalSituationResults />}
     </>
   );
 };

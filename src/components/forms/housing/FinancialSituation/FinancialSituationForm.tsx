@@ -8,7 +8,22 @@ import FinancialSituationResults from "./FinancialSituationResults";
 
 const FinancialSituationForm = () => {
   const { housingFormState, dispatch } = useHousingForm();
-
+  const isFormValid = () => {
+    var isValid = true;
+    if (housingFormState.housePrice === undefined) {
+      isValid = false;
+    }
+    if (housingFormState.initialContribution === undefined) {
+      isValid = false;
+    }
+    if (housingFormState.creditInterestRate === undefined) {
+      isValid = false;
+    }
+    if (housingFormState.creditDuration === "") {
+      isValid = false;
+    }
+    return isValid;
+  };
   return (
     <>
       <FormPaneHeader title="Financial Situation" />
@@ -45,7 +60,7 @@ const FinancialSituationForm = () => {
         touched={housingFormState.touched.creditDuration}
         options={creditDurations}
       />
-      <FinancialSituationResults collapsed={false} />
+      {isFormValid() && <FinancialSituationResults collapsed={false} />}
     </>
   );
 };

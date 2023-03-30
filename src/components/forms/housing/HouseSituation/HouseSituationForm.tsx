@@ -9,9 +9,22 @@ import { houseTypes } from "@/utils/enums/HouseType";
 
 const HouseSituationForm = () => {
   const { housingFormState, dispatch } = useHousingForm();
-
-  console.log(housingFormState.touched);
-
+  const isFormValid = () => {
+    var isValid = true;
+    if (housingFormState.houseLocation === "") {
+      isValid = false;
+    }
+    if (housingFormState.houseType === "") {
+      isValid = false;
+    }
+    if (housingFormState.housePrice === undefined) {
+      isValid = false;
+    }
+    if (housingFormState.taxationRegime === "") {
+      isValid = false;
+    }
+    return isValid;
+  };
   return (
     <>
       <FormPaneHeader title="House Situation" />
@@ -50,7 +63,7 @@ const HouseSituationForm = () => {
         dispatch={dispatch}
         options={taxationRegimes}
       />
-      <HousingSituationResults />
+      {isFormValid() && <HousingSituationResults />}
     </>
   );
 };

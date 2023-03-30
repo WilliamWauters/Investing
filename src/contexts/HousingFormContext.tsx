@@ -39,6 +39,7 @@ enum HousingFormActionKind {
   UPD_BORROWER_DECREASE = "UPD_BORROWER_DECREASE",
   TOUCHED = "TOUCHED",
   TOUCHED_BORROWER = "TOUCHED_BORROWER",
+  TOUCHED_FORM = "TOUCHED_FORM",
 }
 
 interface HousingFormAction {
@@ -57,21 +58,18 @@ function HousingFormReducer(
       return {
         ...state,
         [payload.name]: payload.data,
-        touched: { ...state.touched, [payload.name]: true },
       };
     case HousingFormActionKind.UPD_PRICE_INCREASE:
       return {
         ...state,
         [payload.name]:
           +state[payload.name as keyof HousingFormState] + payload.step,
-        touched: { ...state.touched, [payload.name]: true },
       };
     case HousingFormActionKind.UPD_PRICE_DECREASE:
       return {
         ...state,
         [payload.name]:
           +state[payload.name as keyof HousingFormState] - payload.step,
-        touched: { ...state.touched, [payload.name]: true },
       };
     case HousingFormActionKind.ADD_BORROWER:
       return {
@@ -141,6 +139,20 @@ function HousingFormReducer(
           [payload.name + "_" + payload.index]: true,
         },
       };
+    case HousingFormActionKind.TOUCHED_FORM:
+      if (payload.data === 0) {
+        return {
+          ...state,
+          touched: {
+            ...state.touched,
+            ["houseLocation"]: true,
+            ["houseType"]: true,
+            ["housePrice"]: true,
+            ["taxationRegime"]: true,
+          },
+        };
+      }
+
     default:
       return state;
   }

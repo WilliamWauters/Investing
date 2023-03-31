@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Fade,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -31,41 +32,43 @@ const ExpensePane = ({ title, collapsed, children }: ExpensePaneProps) => {
     };
 
   return (
-    <Box
-      sx={{
-        mx: 2,
-        mt: 3,
-        mb: 2,
-      }}
-    >
-      <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
+    <Fade in={true} timeout={500}>
+      <Box
         sx={{
-          backgroundColor: "#1E293B",
+          mx: 2,
+          mt: 3,
+          mb: 2,
         }}
       >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
+        <Accordion
+          expanded={expanded === "panel1"}
+          onChange={handleChange("panel1")}
+          sx={{
+            backgroundColor: "#1E293B",
+          }}
         >
-          <Typography
-            variant="h6"
-            align="center"
-            sx={{
-              width: "100%",
-              color: "#38BDF8",
-              fontSize: "1rem",
-              fontWeight: "bold",
-            }}
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
           >
-            {title}
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>{children}</AccordionDetails>
-      </Accordion>
-    </Box>
+            <Typography
+              variant="h6"
+              align="center"
+              sx={{
+                width: "100%",
+                color: "#38BDF8",
+                fontSize: "1rem",
+                fontWeight: "bold",
+              }}
+            >
+              {title}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>{children}</AccordionDetails>
+        </Accordion>
+      </Box>
+    </Fade>
   );
 };
 

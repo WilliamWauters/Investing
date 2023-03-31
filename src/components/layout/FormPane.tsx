@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Fade, Typography } from "@mui/material";
 
 type FormPaneProps = {
   title?: string;

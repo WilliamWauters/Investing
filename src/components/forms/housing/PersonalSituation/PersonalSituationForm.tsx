@@ -5,7 +5,7 @@ import {
   HousingFormActionKind,
   useHousingForm,
 } from "@/contexts/HousingFormContext";
-import { Box, Collapse, IconButton } from "@mui/material";
+import { Box, Collapse, Fade, Grow, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Typography from "@mui/material/Typography";
@@ -78,44 +78,48 @@ const PersonalSituationForm = () => {
 
   return (
     <>
-      <FormPaneHeader title="Personal Situation" />
-      <TransitionGroup>
-        {housingFormState.borrowers.map((borrower, i) => {
-          return (
-            <Collapse key={`borrowerCollapse_${i}`}>
-              {renderItem({
-                i,
-                borrower,
-                dispatch,
-                touched: housingFormState.touched,
-              })}
-            </Collapse>
-          );
-        })}
-      </TransitionGroup>
-      {housingFormState.borrowers.length === 1 && (
-        <Box
-          sx={{
-            mx: 3,
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <IconButton
-            onClick={(e) =>
-              dispatch({
-                type: HousingFormActionKind.ADD_BORROWER,
-                payload: {},
-              })
-            }
-            sx={{ border: 1 }}
-            color="primary"
-            size="small"
-          >
-            <AddIcon />
-          </IconButton>
-        </Box>
-      )}
+      <Fade in={true} timeout={500}>
+        <div>
+          <FormPaneHeader title="Personal Situation" />
+          <TransitionGroup>
+            {housingFormState.borrowers.map((borrower, i) => {
+              return (
+                <Collapse key={`borrowerCollapse_${i}`}>
+                  {renderItem({
+                    i,
+                    borrower,
+                    dispatch,
+                    touched: housingFormState.touched,
+                  })}
+                </Collapse>
+              );
+            })}
+          </TransitionGroup>
+          {housingFormState.borrowers.length === 1 && (
+            <Box
+              sx={{
+                mx: 3,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <IconButton
+                onClick={(e) =>
+                  dispatch({
+                    type: HousingFormActionKind.ADD_BORROWER,
+                    payload: {},
+                  })
+                }
+                sx={{ border: 1 }}
+                color="primary"
+                size="small"
+              >
+                <AddIcon />
+              </IconButton>
+            </Box>
+          )}
+        </div>
+      </Fade>
       {isFormValid() && <PersonalSituationResults />}
     </>
   );

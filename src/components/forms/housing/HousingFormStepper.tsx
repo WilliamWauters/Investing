@@ -1,4 +1,12 @@
-import { Box, Button, Step, Stepper, StepButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  Step,
+  Stepper,
+  StepButton,
+  StepContent,
+  Fade,
+} from "@mui/material";
 import React from "react";
 import FormSection from "@/components/layout/FormSection";
 import FormPane from "@/components/layout/FormPane";

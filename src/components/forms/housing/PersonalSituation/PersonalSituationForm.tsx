@@ -62,20 +62,6 @@ function renderItem({ i, borrower, dispatch, touched }: RenderItemOptions) {
 
 const PersonalSituationForm = () => {
   const { housingFormState, dispatch } = useHousingForm();
-
-  const isFormValid = () => {
-    var isValid = true;
-    housingFormState.borrowers.forEach((borrower) => {
-      if (
-        borrower.monthlyIncome === undefined ||
-        borrower.monthlyIncome === 0
-      ) {
-        isValid = false;
-      }
-    });
-    return isValid;
-  };
-
   return (
     <>
       <Fade in={true} timeout={500}>
@@ -120,7 +106,9 @@ const PersonalSituationForm = () => {
           )}
         </div>
       </Fade>
-      {isFormValid() && <PersonalSituationResults />}
+      {housingFormState.formValidation.personalSituation && (
+        <PersonalSituationResults />
+      )}
     </>
   );
 };

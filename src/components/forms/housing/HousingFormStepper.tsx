@@ -21,21 +21,25 @@ import FinancialSituationResults from "@/components/forms/housing/FinancialSitua
 
 const forms = [
   {
+    id: "houseSituation",
     label: "House",
     component: <HouseSituationForm />,
     results: <HouseSituationResults />,
   },
   {
+    id: "personalSituation",
     label: "Person",
     component: <PersonalSituationForm />,
     results: <PersonalSituationResults />,
   },
   {
+    id: "financialSituation",
     label: "Finance",
     component: <FinancialSituationForm />,
     results: <FinancialSituationResults />,
   },
   {
+    id: "houseResults",
     label: "Results",
     component: <ResultsForm />,
   },

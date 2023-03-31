@@ -10,25 +10,6 @@ import { Fade, Grow } from "@mui/material";
 
 const HouseSituationForm = () => {
   const { housingFormState, dispatch } = useHousingForm();
-  const isFormValid = () => {
-    var isValid = true;
-    if (housingFormState.houseLocation === "") {
-      isValid = false;
-    }
-    if (housingFormState.houseType === "") {
-      isValid = false;
-    }
-    if (
-      housingFormState.housePrice === undefined ||
-      housingFormState.housePrice === 0
-    ) {
-      isValid = false;
-    }
-    if (housingFormState.taxationRegime === "") {
-      isValid = false;
-    }
-    return isValid;
-  };
   return (
     <>
       <Fade in={true} timeout={500}>
@@ -71,7 +52,9 @@ const HouseSituationForm = () => {
           />
         </div>
       </Fade>
-      {isFormValid() && <HousingSituationResults />}
+      {housingFormState.formValidation.houseSituation && (
+        <HousingSituationResults />
+      )}
     </>
   );
 };

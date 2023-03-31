@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useState } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 interface HousingForm {
   housingFormState: HousingFormState;
@@ -16,6 +16,7 @@ interface HousingFormState {
   creditInterestRate: number;
   creditDuration: string;
   touched: any;
+  formValidation: any;
 }
 
 interface Borrower {
@@ -53,23 +54,27 @@ function HousingFormReducer(
   action: HousingFormAction
 ) {
   const { type, payload } = action;
+  const formValidationState = getFormValidationState(state);
   switch (type) {
     case HousingFormActionKind.UPD_INPUT:
       return {
         ...state,
         [payload.name]: payload.data,
+        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.UPD_PRICE_INCREASE:
       return {
         ...state,
         [payload.name]:
           +state[payload.name as keyof HousingFormState] + payload.step,
+        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.UPD_PRICE_DECREASE:
       return {
         ...state,
         [payload.name]:
           +state[payload.name as keyof HousingFormState] - payload.step,
+        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.ADD_BORROWER:
       return {
@@ -82,6 +87,7 @@ function HousingFormReducer(
             monthlyExpenses: 0,
           },
         ],
+        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.DEL_BORROWER:
       const copyArr = [...state.borrowers];
@@ -90,6 +96,7 @@ function HousingFormReducer(
         ...state,
         nbBorrowers: 1,
         borrowers: [...copyArr],
+        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.UPD_BORROWER:
       // 1. Make a shallow copy of the items
@@ -101,7 +108,11 @@ function HousingFormReducer(
       // 4. Put it back into our array. N.B. we *are* mutating the array here,
       //    but that's why we made a copy first
       borrowers[payload.index] = borrower;
-      return { ...state, ["borrowers"]: borrowers };
+      return {
+        ...state,
+        ["borrowers"]: borrowers,
+        ["formValidation"]: formValidationState,
+      };
     case HousingFormActionKind.UPD_BORROWER_INCREASE:
       // 1. Make a shallow copy of the items
       let borrowersInc = [...state.borrowers];
@@ -113,7 +124,11 @@ function HousingFormReducer(
       // 4. Put it back into our array. N.B. we *are* mutating the array here,
       //    but that's why we made a copy first
       borrowersInc[payload.index] = borrowerInc;
-      return { ...state, ["borrowers"]: borrowersInc };
+      return {
+        ...state,
+        ["borrowers"]: borrowersInc,
+        ["formValidation"]: formValidationState,
+      };
     case HousingFormActionKind.UPD_BORROWER_DECREASE:
       // 1. Make a shallow copy of the items
       let borrowersDec = [...state.borrowers];
@@ -125,11 +140,16 @@ function HousingFormReducer(
       // 4. Put it back into our array. N.B. we *are* mutating the array here,
       //    but that's why we made a copy first
       borrowersDec[payload.index] = borrowerDec;
-      return { ...state, ["borrowers"]: borrowersDec };
+      return {
+        ...state,
+        ["borrowers"]: borrowersDec,
+        ["formValidation"]: formValidationState,
+      };
     case HousingFormActionKind.TOUCHED:
       return {
         ...state,
         touched: { ...state.touched, [payload.name]: true },
+        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.TOUCHED_BORROWER:
       return {
@@ -138,6 +158,7 @@ function HousingFormReducer(
           ...state.touched,
           [payload.name + "_" + payload.index]: true,
         },
+        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.TOUCHED_FORM:
       if (payload.data === 0) {
@@ -152,11 +173,91 @@ function HousingFormReducer(
           },
         };
       }
-
+      if (payload.data === 1) {
+        return {
+          ...state,
+          touched: {
+            ...state.touched,
+            ["monthlyIncome_0"]: true,
+            ["monthlyIncome_1"]: state.borrowers.length > 1,
+          },
+        };
+      }
+      if (payload.data === 2) {
+        return {
+          ...state,
+          touched: {
+            ...state.touched,
+            ["initialContribution"]: true,
+            ["monthlyIncome_0"]: true,
+            ["creditInterestRate"]: true,
+            ["creditDuration"]: true,
+          },
+        };
+      }
     default:
       return state;
   }
 }
+
+const getFormValidationState = (state: any) => {
+  return {
+    houseSituation: isHouseSituationFormValid(state),
+    personalSituation: isPersonalSituationFormValid(state),
+    financialSituation: isFinancialSituationFormValid(state),
+    housingResults: true,
+  };
+};
+
+const isHouseSituationFormValid = (state: any) => {
+  var isValid = true;
+  if (state.houseLocation === "") {
+    isValid = false;
+  }
+  if (state.houseType === "") {
+    isValid = false;
+  }
+  if (state.housePrice === undefined || state.housePrice === 0) {
+    isValid = false;
+  }
+  if (state.taxationRegime === "") {
+    isValid = false;
+  }
+  return isValid;
+};
+
+const isPersonalSituationFormValid = (state: any) => {
+  var isValid = true;
+  state.borrowers.forEach((element: Borrower) => {
+    if (element.monthlyIncome === 0 || element.monthlyIncome === undefined) {
+      isValid = false;
+    }
+  });
+  return isValid;
+};
+
+const isFinancialSituationFormValid = (state: any) => {
+  var isValid = true;
+  if (state.housePrice === undefined || state.housePrice === 0) {
+    isValid = false;
+  }
+  if (
+    state.initialContribution === undefined ||
+    state.initialContribution === 0
+  ) {
+    isValid = false;
+  }
+  if (
+    state.creditInterestRate === undefined ||
+    state.creditInterestRate === 0
+  ) {
+    isValid = false;
+  }
+  if (state.creditDuration === "") {
+    isValid = false;
+  }
+  return isValid;
+};
 
 // 1 - CREATING CONTEXT
 const HousingFormContext = createContext<HousingForm>({} as HousingForm);
@@ -174,6 +275,12 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     creditInterestRate: 0,
     creditDuration: "",
     touched: {},
+    formValidation: {
+      houseSituation: false,
+      personalSituation: false,
+      financialSituation: false,
+      housingResults: false,
+    },
   });
 
   return (

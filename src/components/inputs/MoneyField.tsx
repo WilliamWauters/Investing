@@ -113,8 +113,10 @@ const MoneyField = ({
               handleChangeInput(+v);
             }
           }}
-          InputProps={{
+          inputProps={{
             inputMode: "numeric",
+          }}
+          InputProps={{
             style: {
               paddingRight: 0,
             },

@@ -11,62 +11,36 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 type ExpensePaneProps = {
   title: string;
-  collapsed?: boolean;
   children: any;
 };
 
-const ExpensePane = ({ title, collapsed, children }: ExpensePaneProps) => {
-  let defaultState;
-  if (collapsed) {
-    defaultState = false;
-  } else {
-    defaultState = "panel1";
-  }
-  const [expanded, setExpanded] = React.useState<string | false>(
-    defaultState.toString()
-  );
-
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
-
+const ExpensePane = ({ title, children }: ExpensePaneProps) => {
   return (
     <Fade in={true} timeout={500}>
       <Box
         sx={{
+          pt: 2,
+          pb: 2,
+          px: 3,
           mx: 2,
           mt: 3,
           mb: 2,
+          backgroundColor: "#1E293B",
         }}
       >
-        <Accordion
-          expanded={expanded === "panel1"}
-          onChange={handleChange("panel1")}
+        <Typography
+          variant="h6"
+          align="center"
           sx={{
-            backgroundColor: "#1E293B",
+            width: "100%",
+            color: "#38BDF8",
+            fontSize: "1rem",
+            fontWeight: "bold",
           }}
         >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-          >
-            <Typography
-              variant="h6"
-              align="center"
-              sx={{
-                width: "100%",
-                color: "#38BDF8",
-                fontSize: "1rem",
-                fontWeight: "bold",
-              }}
-            >
-              {title}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>{children}</AccordionDetails>
-        </Accordion>
+          {title}
+        </Typography>
+        <Box sx={{}}>{children}</Box>
       </Box>
     </Fade>
   );

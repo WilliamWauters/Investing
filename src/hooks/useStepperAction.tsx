@@ -6,7 +6,8 @@ import { useState } from "react";
 
 const useStepper = (forms: Array<any>) => {
   const [activeForm, setActiveStep] = useState<number>(0);
-  const { housingFormState, dispatch } = useHousingForm();
+  const { housingFormState, housingFormValidationState, dispatch } =
+    useHousingForm();
 
   const handleNext = () => {
     const newActiveStep = activeForm + 1;
@@ -14,7 +15,7 @@ const useStepper = (forms: Array<any>) => {
       type: HousingFormActionKind.TOUCHED_FORM,
       payload: { data: activeForm },
     });
-    if (housingFormState.formValidation[forms[activeForm].id]) {
+    if (housingFormValidationState[forms[activeForm].id]) {
       setActiveStep(newActiveStep);
     }
   };

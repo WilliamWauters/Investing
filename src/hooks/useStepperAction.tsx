@@ -25,7 +25,13 @@ const useStepper = (forms: Array<any>) => {
   };
 
   const handleStep = (step: number) => () => {
-    setActiveStep(step);
+    dispatch({
+      type: HousingFormActionKind.TOUCHED_FORM,
+      payload: { data: activeForm },
+    });
+    if (housingFormValidationState[forms[activeForm].id] || step < activeForm) {
+      setActiveStep(step);
+    }
   };
 
   const isLastStep = () => {

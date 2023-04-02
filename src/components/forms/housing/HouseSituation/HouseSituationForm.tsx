@@ -9,7 +9,8 @@ import { houseTypes } from "@/utils/enums/HouseType";
 import { Fade, Grow } from "@mui/material";
 
 const HouseSituationForm = () => {
-  const { housingFormState, dispatch } = useHousingForm();
+  const { housingFormState, housingFormValidationState, dispatch } =
+    useHousingForm();
   return (
     <>
       <Fade in={true} timeout={500}>
@@ -52,9 +53,7 @@ const HouseSituationForm = () => {
           />
         </div>
       </Fade>
-      {housingFormState.formValidation.houseSituation && (
-        <HousingSituationResults />
-      )}
+      {housingFormValidationState.houseSituation && <HousingSituationResults />}
     </>
   );
 };

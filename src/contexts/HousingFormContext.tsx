@@ -1,7 +1,14 @@
-import { createContext, useContext, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 
 interface HousingForm {
   housingFormState: HousingFormState;
+  housingFormValidationState: any;
   dispatch: any;
 }
 
@@ -16,7 +23,6 @@ interface HousingFormState {
   creditInterestRate: number;
   creditDuration: string;
   touched: any;
-  formValidation: any;
 }
 
 interface Borrower {
@@ -54,27 +60,23 @@ function HousingFormReducer(
   action: HousingFormAction
 ) {
   const { type, payload } = action;
-  const formValidationState = getFormValidationState(state);
   switch (type) {
     case HousingFormActionKind.UPD_INPUT:
       return {
         ...state,
         [payload.name]: payload.data,
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.UPD_PRICE_INCREASE:
       return {
         ...state,
         [payload.name]:
           +state[payload.name as keyof HousingFormState] + payload.step,
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.UPD_PRICE_DECREASE:
       return {
         ...state,
         [payload.name]:
           +state[payload.name as keyof HousingFormState] - payload.step,
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.ADD_BORROWER:
       return {
@@ -87,7 +89,6 @@ function HousingFormReducer(
             monthlyExpenses: 0,
           },
         ],
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.DEL_BORROWER:
       const copyArr = [...state.borrowers];
@@ -96,7 +97,6 @@ function HousingFormReducer(
         ...state,
         nbBorrowers: 1,
         borrowers: [...copyArr],
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.UPD_BORROWER:
       // 1. Make a shallow copy of the items
@@ -111,7 +111,6 @@ function HousingFormReducer(
       return {
         ...state,
         ["borrowers"]: borrowers,
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.UPD_BORROWER_INCREASE:
       // 1. Make a shallow copy of the items
@@ -127,7 +126,6 @@ function HousingFormReducer(
       return {
         ...state,
         ["borrowers"]: borrowersInc,
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.UPD_BORROWER_DECREASE:
       // 1. Make a shallow copy of the items
@@ -143,13 +141,11 @@ function HousingFormReducer(
       return {
         ...state,
         ["borrowers"]: borrowersDec,
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.TOUCHED:
       return {
         ...state,
         touched: { ...state.touched, [payload.name]: true },
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.TOUCHED_BORROWER:
       return {
@@ -158,7 +154,6 @@ function HousingFormReducer(
           ...state.touched,
           [payload.name + "_" + payload.index]: true,
         },
-        ["formValidation"]: formValidationState,
       };
     case HousingFormActionKind.TOUCHED_FORM:
       if (payload.data === 0) {
@@ -275,18 +270,23 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     creditInterestRate: 0,
     creditDuration: "",
     touched: {},
-    formValidation: {
-      houseSituation: false,
-      personalSituation: false,
-      financialSituation: false,
-      housingResults: false,
-    },
   });
+  const [housingFormValidationState, setHousingFormValidationState] = useState({
+    houseSituation: false,
+    personalSituation: false,
+    financialSituation: false,
+    housingResults: false,
+  });
+
+  useEffect(() => {
+    setHousingFormValidationState(getFormValidationState(housingFormState));
+  }, [housingFormState]);
 
   return (
     <HousingFormContext.Provider
       value={{
         housingFormState,
+        housingFormValidationState,
         dispatch,
       }}
     >

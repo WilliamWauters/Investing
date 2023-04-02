@@ -8,7 +8,8 @@ import { Fade, Grow } from "@mui/material";
 import FinancialSituationResults from "./FinancialSituationResults";
 
 const FinancialSituationForm = () => {
-  const { housingFormState, dispatch } = useHousingForm();
+  const { housingFormState, housingFormValidationState, dispatch } =
+    useHousingForm();
   return (
     <>
       <Fade in={true} timeout={500}>
@@ -49,7 +50,7 @@ const FinancialSituationForm = () => {
           />
         </div>
       </Fade>
-      {housingFormState.formValidation.financialSituation && (
+      {housingFormValidationState.financialSituation && (
         <FinancialSituationResults collapsed={false} />
       )}
     </>

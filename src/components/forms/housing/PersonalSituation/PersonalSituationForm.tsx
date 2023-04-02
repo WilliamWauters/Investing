@@ -61,7 +61,9 @@ function renderItem({ i, borrower, dispatch, touched }: RenderItemOptions) {
 }
 
 const PersonalSituationForm = () => {
-  const { housingFormState, dispatch } = useHousingForm();
+  const { housingFormState, housingFormValidationState, dispatch } =
+    useHousingForm();
+
   return (
     <>
       <Fade in={true} timeout={500}>
@@ -106,7 +108,7 @@ const PersonalSituationForm = () => {
           )}
         </div>
       </Fade>
-      {housingFormState.formValidation.personalSituation && (
+      {housingFormValidationState.personalSituation && (
         <PersonalSituationResults />
       )}
     </>

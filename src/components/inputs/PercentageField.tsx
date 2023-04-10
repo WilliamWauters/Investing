@@ -5,6 +5,7 @@ import {
 import {
   Box,
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   TextField,
@@ -21,6 +22,7 @@ type PercentageProps = {
   label: string;
   value?: number;
   touched?: boolean;
+  errorMsg?: string;
   required?: boolean;
   dispatch?: any;
   step?: number;
@@ -31,6 +33,7 @@ const PercentageField = ({
   label,
   value,
   touched,
+  errorMsg,
   required,
   dispatch,
   step,
@@ -65,7 +68,7 @@ const PercentageField = ({
   }
 
   var error = false;
-  if (touched && required && valueOfInput === undefined) {
+  if (touched && errorMsg !== "") {
     error = true;
   }
 
@@ -86,7 +89,7 @@ const PercentageField = ({
           onBlur={(e) => {
             if (dispatch) {
               dispatch({
-                type: HousingFormActionKind.TOUCHED,
+                type: HousingFormActionKind.TOCUHED_INPUT,
                 payload: { name: name, data: true },
               });
             }
@@ -94,7 +97,7 @@ const PercentageField = ({
           onValueChange={({ value: v }) => {
             if (dispatch) {
               dispatch({
-                type: HousingFormActionKind.UPD_INPUT,
+                type: HousingFormActionKind.UPDATE_INPUT,
                 payload: { name: name, data: +v },
               });
             } else {
@@ -128,7 +131,7 @@ const PercentageField = ({
                     onClick={() => {
                       if (dispatch) {
                         dispatch({
-                          type: HousingFormActionKind.UPD_PRICE_DECREASE,
+                          type: HousingFormActionKind.UPDATE_MONEY_DECREASE,
                           payload: { name: name, step: 0.25 },
                         });
                       } else {
@@ -155,7 +158,7 @@ const PercentageField = ({
                     onClick={() => {
                       if (dispatch) {
                         dispatch({
-                          type: HousingFormActionKind.UPD_PRICE_INCREASE,
+                          type: HousingFormActionKind.UPDATE_MONEY_INCREASE,
                           payload: { name: name, step: 0.25 },
                         });
                       } else {
@@ -175,6 +178,9 @@ const PercentageField = ({
             ),
           }}
         />
+        {touched && errorMsg && (
+          <FormHelperText error={error}>{errorMsg}</FormHelperText>
+        )}
       </FormControl>
     </InputSection>
   );

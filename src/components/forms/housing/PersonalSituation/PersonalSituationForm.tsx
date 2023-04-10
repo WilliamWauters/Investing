@@ -16,10 +16,15 @@ interface RenderItemOptions {
   i: number;
   borrower: Borrower;
   dispatch: any;
-  touched: any;
+  housingFormErrorState: any;
 }
 
-function renderItem({ i, borrower, dispatch, touched }: RenderItemOptions) {
+function renderItem({
+  i,
+  borrower,
+  dispatch,
+  housingFormErrorState,
+}: RenderItemOptions) {
   return (
     <Box key={`borrower_${i}`} sx={{ my: 2 }}>
       <Box
@@ -52,8 +57,9 @@ function renderItem({ i, borrower, dispatch, touched }: RenderItemOptions) {
         index={i}
         label="Net monthly salary"
         required
-        value={borrower.monthlyIncome}
-        touched={touched["monthlyIncome_" + i]}
+        value={borrower.monthlyIncome.value || ""}
+        touched={borrower.monthlyIncome.touched}
+        errorMsg={housingFormErrorState["monthlyIncome_" + (i + 1)]}
         dispatch={dispatch}
       />
     </Box>
@@ -61,8 +67,12 @@ function renderItem({ i, borrower, dispatch, touched }: RenderItemOptions) {
 }
 
 const PersonalSituationForm = () => {
-  const { housingFormState, housingFormValidationState, dispatch } =
-    useHousingForm();
+  const {
+    housingFormState,
+    housingFormValidationState,
+    housingFormErrorState,
+    dispatch,
+  } = useHousingForm();
 
   return (
     <>
@@ -77,7 +87,7 @@ const PersonalSituationForm = () => {
                     i,
                     borrower,
                     dispatch,
-                    touched: housingFormState.touched,
+                    housingFormErrorState,
                   })}
                 </Collapse>
               );

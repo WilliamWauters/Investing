@@ -17,44 +17,46 @@ const FinancialSituationResults = ({
 }: FinancialSituationResultsProps) => {
   const { housingFormState } = useHousingForm();
   const notaryFees = getNotaryFees(
-    housingFormState.housePrice,
-    housingFormState.taxationRegime
+    housingFormState.housePrice.value,
+    housingFormState.taxationRegime.value
   );
   const monthlyPaymentCapacity = getMonthlyPaymentCapacity(
     housingFormState.borrowers.reduce(
       (accumulator, currentValue) =>
-        accumulator +
-        (currentValue.monthlyIncome - currentValue.monthlyExpenses),
+        accumulator + currentValue.monthlyIncome.value,
       0
     )
   );
   const { loan, monthlyPayment, totalPayment } = getLaonPaymentInfo(
-    housingFormState.housePrice,
-    housingFormState.initialContribution,
+    housingFormState.housePrice.value,
+    housingFormState.initialContribution.value,
     notaryFees.total,
-    housingFormState.creditInterestRate,
-    Number(housingFormState.creditDuration)
+    housingFormState.creditInterestRate.value,
+    Number(housingFormState.creditDuration.value)
   );
 
   return (
-    <ExpensePane collapsed={collapsed} title="LOAN">
+    <ExpensePane title="LOAN">
       <ExpenseLine label="Notary Fees" value={notaryFees.total} />
       <ExpenseLine
         label="Initial Contribution"
-        value={housingFormState.initialContribution}
+        value={housingFormState.initialContribution.value}
       />
       <ExpenseResult
-        result={housingFormState.initialContribution - notaryFees.total}
+        result={housingFormState.initialContribution.value - notaryFees.total}
       />
       <ExpenseLine
         label={`Rest of Initial Contribution (${(
-          ((housingFormState.initialContribution - notaryFees.total) /
-            housingFormState.housePrice) *
+          ((housingFormState.initialContribution.value - notaryFees.total) /
+            housingFormState.housePrice.value) *
           100
         ).toFixed(2)}% of House Price)`}
-        value={housingFormState.initialContribution - notaryFees.total}
+        value={housingFormState.initialContribution.value - notaryFees.total}
       />
-      <ExpenseLine label="House Price" value={housingFormState.housePrice} />
+      <ExpenseLine
+        label="House Price"
+        value={housingFormState.housePrice.value}
+      />
       <ExpenseResult result={loan} />
       <ExpenseLine label="Loan" value={loan} />
       <ExpenseLine label="Loan monthly payment" value={monthlyPayment} />

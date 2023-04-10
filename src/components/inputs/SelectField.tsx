@@ -1,5 +1,11 @@
 import { HousingFormActionKind } from "@/contexts/HousingFormContext";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import InputSection from "../layout/InputSection";
 
 type SelectFieldProps = {
@@ -8,6 +14,7 @@ type SelectFieldProps = {
   value?: string;
   options: any[];
   touched?: boolean;
+  errorMsg?: string;
   required?: boolean;
   dispatch?: any;
 };
@@ -18,11 +25,12 @@ const SelectField = ({
   value,
   options,
   touched,
+  errorMsg,
   required,
   dispatch,
 }: SelectFieldProps) => {
   var error = false;
-  if (touched && required && value === "") {
+  if (touched && errorMsg !== "") {
     error = true;
   }
 
@@ -36,13 +44,13 @@ const SelectField = ({
           value={value}
           onChange={(e) =>
             dispatch({
-              type: HousingFormActionKind.UPD_INPUT,
+              type: HousingFormActionKind.UPDATE_INPUT,
               payload: { name: name, data: e.target.value },
             })
           }
           onClose={(e) => {
             dispatch({
-              type: HousingFormActionKind.TOUCHED,
+              type: HousingFormActionKind.TOCUHED_INPUT,
               payload: { name: name, data: true },
             });
           }}
@@ -55,6 +63,9 @@ const SelectField = ({
             </MenuItem>
           ))}
         </Select>
+        {touched && errorMsg && (
+          <FormHelperText error={error}>{errorMsg}</FormHelperText>
+        )}
       </FormControl>
     </InputSection>
   );

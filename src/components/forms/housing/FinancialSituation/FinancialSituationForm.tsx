@@ -8,8 +8,12 @@ import { Fade, Grow } from "@mui/material";
 import FinancialSituationResults from "./FinancialSituationResults";
 
 const FinancialSituationForm = () => {
-  const { housingFormState, housingFormValidationState, dispatch } =
-    useHousingForm();
+  const {
+    housingFormState,
+    housingFormErrorState,
+    housingFormValidationState,
+    dispatch,
+  } = useHousingForm();
   return (
     <>
       <Fade in={true} timeout={500}>
@@ -18,34 +22,34 @@ const FinancialSituationForm = () => {
           <MoneyField
             label="Price"
             name="housePrice"
-            value={housingFormState.housePrice}
-            required
-            touched={housingFormState.touched.housePrice}
+            value={housingFormState.housePrice.value || ""}
+            touched={housingFormState.housePrice.touched}
+            errorMsg={housingFormErrorState.housePrice}
             dispatch={dispatch}
           />
           <MoneyField
             name="initialContribution"
             label="Initial Contribution"
-            value={housingFormState.initialContribution}
-            required
-            touched={housingFormState.touched.initialContribution}
+            value={housingFormState.initialContribution.value || ""}
+            touched={housingFormState.initialContribution.touched}
+            errorMsg={housingFormErrorState.initialContribution}
             dispatch={dispatch}
           />
           <PercentageField
             name="creditInterestRate"
             label="Credit Interest Rate"
-            value={housingFormState.creditInterestRate}
-            required
-            touched={housingFormState.touched.creditInterestRate}
+            value={housingFormState.creditInterestRate.value || ""}
+            touched={housingFormState.creditInterestRate.touched}
+            errorMsg={housingFormErrorState.creditInterestRate}
             dispatch={dispatch}
           />
           <SelectField
             name="creditDuration"
             label="Credit Duration"
-            value={housingFormState.creditDuration || ""}
+            value={housingFormState.creditDuration.value || ""}
+            touched={housingFormState.creditDuration.touched}
+            errorMsg={housingFormErrorState.creditDuration}
             dispatch={dispatch}
-            required
-            touched={housingFormState.touched.creditDuration}
             options={creditDurations}
           />
         </div>

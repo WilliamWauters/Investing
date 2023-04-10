@@ -9,8 +9,12 @@ import { houseTypes } from "@/utils/enums/HouseType";
 import { Fade, Grow } from "@mui/material";
 
 const HouseSituationForm = () => {
-  const { housingFormState, housingFormValidationState, dispatch } =
-    useHousingForm();
+  const {
+    housingFormState,
+    housingFormValidationState,
+    housingFormErrorState,
+    dispatch,
+  } = useHousingForm();
   return (
     <>
       <Fade in={true} timeout={500}>
@@ -19,9 +23,10 @@ const HouseSituationForm = () => {
           <SelectField
             name="houseLocation"
             label="Location"
-            value={housingFormState.houseLocation || ""}
             required
-            touched={housingFormState.touched.houseLocation}
+            value={housingFormState.houseLocation.value || ""}
+            touched={housingFormState.houseLocation.touched}
+            errorMsg={housingFormErrorState.houseLocation}
             dispatch={dispatch}
             options={locations}
           />
@@ -29,8 +34,9 @@ const HouseSituationForm = () => {
             name="houseType"
             label="Type"
             required
-            value={housingFormState.houseType || ""}
-            touched={housingFormState.touched.houseType}
+            value={housingFormState.houseType.value || ""}
+            touched={housingFormState.houseType.touched}
+            errorMsg={housingFormErrorState.houseType}
             dispatch={dispatch}
             options={houseTypes}
           />
@@ -38,16 +44,18 @@ const HouseSituationForm = () => {
             label="Price"
             name="housePrice"
             required
-            value={housingFormState.housePrice}
-            touched={housingFormState.touched.housePrice}
+            value={housingFormState.housePrice.value || ""}
+            touched={housingFormState.housePrice.touched}
+            errorMsg={housingFormErrorState.housePrice}
             dispatch={dispatch}
           />
           <SelectField
             name="taxationRegime"
             label="Taxation Regime"
             required
-            value={housingFormState.taxationRegime || ""}
-            touched={housingFormState.touched.taxationRegime}
+            value={housingFormState.taxationRegime.value || ""}
+            touched={housingFormState.taxationRegime.touched}
+            errorMsg={housingFormErrorState.taxationRegime}
             dispatch={dispatch}
             options={taxationRegimes}
           />

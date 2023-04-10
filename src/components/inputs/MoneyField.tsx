@@ -5,6 +5,7 @@ import {
 import {
   Box,
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   TextField,
@@ -21,6 +22,7 @@ type MoneyFieldProps = {
   label: string;
   value?: number;
   touched?: boolean;
+  errorMsg?: string;
   required?: boolean;
   dispatch?: any;
   step?: number;
@@ -32,6 +34,7 @@ const MoneyField = ({
   label,
   value,
   touched,
+  errorMsg,
   required,
   dispatch,
   step,
@@ -66,7 +69,7 @@ const MoneyField = ({
   }
 
   var error = false;
-  if (touched && required && valueOfInput === undefined) {
+  if (touched && errorMsg !== "") {
     error = true;
   }
 
@@ -92,7 +95,7 @@ const MoneyField = ({
               });
             } else if (dispatch) {
               dispatch({
-                type: HousingFormActionKind.TOUCHED,
+                type: HousingFormActionKind.TOCUHED_INPUT,
                 payload: { name: name, data: true },
               });
             }
@@ -101,12 +104,12 @@ const MoneyField = ({
           onValueChange={({ value: v }) => {
             if (index !== undefined) {
               dispatch({
-                type: HousingFormActionKind.UPD_BORROWER,
+                type: HousingFormActionKind.UPDATE_INPUT_BORROWER,
                 payload: { name: name, data: +v, index: index },
               });
             } else if (dispatch) {
               dispatch({
-                type: HousingFormActionKind.UPD_INPUT,
+                type: HousingFormActionKind.UPDATE_INPUT,
                 payload: { name: name, data: +v },
               });
             } else {
@@ -143,12 +146,12 @@ const MoneyField = ({
                     onClick={() => {
                       if (index !== undefined) {
                         dispatch({
-                          type: HousingFormActionKind.UPD_BORROWER_DECREASE,
+                          type: HousingFormActionKind.UPDATE_MONEY_DECREASE_BORROWER,
                           payload: { name: name, step: 50, index: index },
                         });
                       } else if (dispatch) {
                         dispatch({
-                          type: HousingFormActionKind.UPD_PRICE_DECREASE,
+                          type: HousingFormActionKind.UPDATE_MONEY_DECREASE,
                           payload: { name: name, step: 5000 },
                         });
                       } else {
@@ -175,12 +178,12 @@ const MoneyField = ({
                     onClick={() => {
                       if (index !== undefined) {
                         dispatch({
-                          type: HousingFormActionKind.UPD_BORROWER_INCREASE,
+                          type: HousingFormActionKind.UPDATE_MONEY_INCREASE_BORROWER,
                           payload: { name: name, step: 50, index: index },
                         });
                       } else if (dispatch) {
                         dispatch({
-                          type: HousingFormActionKind.UPD_PRICE_INCREASE,
+                          type: HousingFormActionKind.UPDATE_MONEY_INCREASE,
                           payload: { name: name, step: 5000 },
                         });
                       } else {
@@ -200,6 +203,9 @@ const MoneyField = ({
             ),
           }}
         />
+        {touched && errorMsg && (
+          <FormHelperText error={error}>{errorMsg}</FormHelperText>
+        )}
       </FormControl>
     </InputSection>
   );

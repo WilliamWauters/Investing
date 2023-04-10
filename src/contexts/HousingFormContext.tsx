@@ -6,28 +6,32 @@ import {
   useState,
 } from "react";
 
+interface inputState {
+  value: any;
+  touched: boolean;
+}
+
 interface HousingForm {
   housingFormState: HousingFormState;
   housingFormValidationState: any;
+  housingFormErrorState: any;
   dispatch: any;
 }
 
 interface HousingFormState {
-  houseLocation: string;
-  houseType: string;
-  housePrice: number;
-  taxationRegime: string;
-  initialContribution: number;
-  nbBorrowers: number;
-  borrowers: Borrower[];
-  creditInterestRate: number;
-  creditDuration: string;
+  houseLocation: inputState;
+  houseType: inputState;
+  housePrice: inputState;
+  taxationRegime: inputState;
+  initialContribution: inputState;
+  creditInterestRate: inputState;
+  creditDuration: inputState;
   touched: any;
+  borrowers: Borrower[];
 }
 
 interface Borrower {
-  monthlyIncome: number;
-  monthlyExpenses: number;
+  monthlyIncome: inputState;
 }
 
 type HousingFormProviderProps = {
@@ -35,16 +39,19 @@ type HousingFormProviderProps = {
 };
 
 enum HousingFormActionKind {
+  UPDATE_INPUT_ERROR = "UPDATE_INPUT_ERROR",
+  UPDATE_INPUT = "UPDATE_INPUT",
+  UPDATE_INPUT_BORROWER = "UPDATE_INPUT_BORROWER",
+  UPDATE_MONEY_INCREASE = "UPDATE_MONEY_INCREASE",
+  UPDATE_MONEY_INCREASE_BORROWER = "UPDATE_MONEY_INCREASE_BORROWER",
+  UPDATE_MONEY_DECREASE = "UPDATE_MONEY_DECREASE",
+  UPDATE_MONEY_DECREASE_BORROWER = "UPDATE_MONEY_DECREASE_BORROWER",
+  TOCUHED_INPUT = "TOCUHED_INPUT",
   UPD_INPUT = "UPD_INPUT",
   UPD_ENUM = "UPD_ENUM",
-  UPD_PRICE_INCREASE = "UPD_PRICE_INCREASE",
-  UPD_PRICE_DECREASE = "UPD_PRICE_DECREASE",
   ADD_BORROWER = "ADD_BORROWER",
   DEL_BORROWER = "DEL_BORROWER",
   UPD_BORROWER = "UPD_BORROWER",
-  UPD_BORROWER_INCREASE = "UPD_BORROWER_INCREASE",
-  UPD_BORROWER_DECREASE = "UPD_BORROWER_DECREASE",
-  TOUCHED = "TOUCHED",
   TOUCHED_BORROWER = "TOUCHED_BORROWER",
   TOUCHED_FORM = "TOUCHED_FORM",
 }
@@ -61,32 +68,58 @@ function HousingFormReducer(
 ) {
   const { type, payload } = action;
   switch (type) {
+    case HousingFormActionKind.UPDATE_INPUT:
+      return {
+        ...state,
+        [payload.name]: {
+          ...state[payload.name as keyof HousingFormState],
+          value: payload.data,
+        },
+      };
+    case HousingFormActionKind.UPDATE_MONEY_INCREASE:
+      console.log(state[payload.name as keyof HousingFormState]);
+      return {
+        ...state,
+        [payload.name]: {
+          ...state[payload.name as keyof HousingFormState],
+          value:
+            state[payload.name as keyof HousingFormState].value + payload.step,
+        },
+      };
+    case HousingFormActionKind.UPDATE_MONEY_DECREASE:
+      console.log(state[payload.name as keyof HousingFormState]);
+      return {
+        ...state,
+        [payload.name]: {
+          ...state[payload.name as keyof HousingFormState],
+          value:
+            state[payload.name as keyof HousingFormState].value - payload.step,
+        },
+      };
+    case HousingFormActionKind.TOCUHED_INPUT:
+      return {
+        ...state,
+        [payload.name]: {
+          ...state[payload.name as keyof HousingFormState],
+          touched: true,
+        },
+      };
     case HousingFormActionKind.UPD_INPUT:
       return {
         ...state,
         [payload.name]: payload.data,
       };
-    case HousingFormActionKind.UPD_PRICE_INCREASE:
-      return {
-        ...state,
-        [payload.name]:
-          +state[payload.name as keyof HousingFormState] + payload.step,
-      };
-    case HousingFormActionKind.UPD_PRICE_DECREASE:
-      return {
-        ...state,
-        [payload.name]:
-          +state[payload.name as keyof HousingFormState] - payload.step,
-      };
     case HousingFormActionKind.ADD_BORROWER:
       return {
         ...state,
-        nbBorrowers: 2,
         borrowers: [
           ...state.borrowers,
           {
-            monthlyIncome: 0,
-            monthlyExpenses: 0,
+            monthlyIncome: {
+              value: 0,
+              touched: false,
+              error: "",
+            },
           },
         ],
       };
@@ -95,98 +128,138 @@ function HousingFormReducer(
       copyArr.splice(-1);
       return {
         ...state,
-        nbBorrowers: 1,
         borrowers: [...copyArr],
       };
-    case HousingFormActionKind.UPD_BORROWER:
+    case HousingFormActionKind.UPDATE_INPUT_BORROWER:
       // 1. Make a shallow copy of the items
       let borrowers = [...state.borrowers];
       // 2. Make a shallow copy of the item you want to mutate
       let borrower = { ...borrowers[payload.index] };
-      // 3. Replace the property you're intested in
-      borrower[payload.name as keyof Borrower] = payload.data;
-      // 4. Put it back into our array. N.B. we *are* mutating the array here,
-      //    but that's why we made a copy first
+      // 3. Make a shallow copy of the prop you want to mutate
+      let borrowerPropCopy = {
+        ...borrower[payload.name as keyof Borrower],
+      };
+      // 4. Replace the property you're intested in
+      borrowerPropCopy.value = payload.data;
+      // 5. Put it back into our object,
+      borrower[payload.name as keyof Borrower] = borrowerPropCopy;
+      // 6. Put it back into our array. N.B. we *are* mutating the array here,
       borrowers[payload.index] = borrower;
       return {
         ...state,
         ["borrowers"]: borrowers,
       };
-    case HousingFormActionKind.UPD_BORROWER_INCREASE:
+    case HousingFormActionKind.UPDATE_MONEY_INCREASE_BORROWER:
       // 1. Make a shallow copy of the items
       let borrowersInc = [...state.borrowers];
       // 2. Make a shallow copy of the item you want to mutate
       let borrowerInc = { ...borrowersInc[payload.index] };
-      // 3. Replace the property you're intested in
-      borrowerInc[payload.name as keyof Borrower] =
-        borrowerInc[payload.name as keyof Borrower] + payload.step;
-      // 4. Put it back into our array. N.B. we *are* mutating the array here,
-      //    but that's why we made a copy first
+      // 3. Make a shallow copy of the prop you want to mutate
+      let borrowerPropCopyInc = {
+        ...borrowerInc[payload.name as keyof Borrower],
+      };
+      // 4. Replace the property you're intested in
+      borrowerPropCopyInc.value = borrowerPropCopyInc.value + payload.step;
+      // 5. Put it back into our object,
+      borrowerInc[payload.name as keyof Borrower] = borrowerPropCopyInc;
+      // 6. Put it back into our array. N.B. we *are* mutating the array here,
       borrowersInc[payload.index] = borrowerInc;
       return {
         ...state,
         ["borrowers"]: borrowersInc,
       };
-    case HousingFormActionKind.UPD_BORROWER_DECREASE:
+    case HousingFormActionKind.UPDATE_MONEY_DECREASE_BORROWER:
       // 1. Make a shallow copy of the items
       let borrowersDec = [...state.borrowers];
       // 2. Make a shallow copy of the item you want to mutate
       let borrowerDec = { ...borrowersDec[payload.index] };
-      // 3. Replace the property you're intested in
-      borrowerDec[payload.name as keyof Borrower] =
-        borrowerDec[payload.name as keyof Borrower] - payload.step;
-      // 4. Put it back into our array. N.B. we *are* mutating the array here,
-      //    but that's why we made a copy first
+      // 3. Make a shallow copy of the prop you want to mutate
+      let borrowerPropCopyDec = {
+        ...borrowerDec[payload.name as keyof Borrower],
+      };
+      // 4. Replace the property you're intested in
+      borrowerPropCopyDec.value = borrowerPropCopyDec.value - payload.step;
+      // 5. Put it back into our object,
+      borrowerDec[payload.name as keyof Borrower] = borrowerPropCopyDec;
+      // 6. Put it back into our array. N.B. we *are* mutating the array here,
       borrowersDec[payload.index] = borrowerDec;
       return {
         ...state,
         ["borrowers"]: borrowersDec,
       };
-    case HousingFormActionKind.TOUCHED:
-      return {
-        ...state,
-        touched: { ...state.touched, [payload.name]: true },
-      };
     case HousingFormActionKind.TOUCHED_BORROWER:
+      // 1. Make a shallow copy of the items
+      let borrowersTouched = [...state.borrowers];
+      // 2. Make a shallow copy of the item you want to mutate
+      let borrowerTouched = { ...borrowersTouched[payload.index] };
+      // 3. Make a shallow copy of the prop you want to mutate
+      let borrowerPropCopyTouched = {
+        ...borrowerTouched[payload.name as keyof Borrower],
+      };
+      // 4. Replace the property you're intested in
+      borrowerPropCopyTouched.touched = true;
+      // 5. Put it back into our object,
+      borrowerTouched[payload.name as keyof Borrower] = borrowerPropCopyTouched;
+      // 6. Put it back into our array. N.B. we *are* mutating the array here,
+      borrowersTouched[payload.index] = borrowerTouched;
       return {
         ...state,
-        touched: {
-          ...state.touched,
-          [payload.name + "_" + payload.index]: true,
-        },
+        ["borrowers"]: borrowersTouched,
       };
     case HousingFormActionKind.TOUCHED_FORM:
       if (payload.data === 0) {
         return {
           ...state,
-          touched: {
-            ...state.touched,
-            ["houseLocation"]: true,
-            ["houseType"]: true,
-            ["housePrice"]: true,
-            ["taxationRegime"]: true,
+          ["houseLocation"]: {
+            ...state["houseLocation" as keyof HousingFormState],
+            touched: true,
+          },
+          ["houseType"]: {
+            ...state["houseType" as keyof HousingFormState],
+            touched: true,
+          },
+          ["housePrice"]: {
+            ...state["housePrice" as keyof HousingFormState],
+            touched: true,
+          },
+          ["taxationRegime"]: {
+            ...state["taxationRegime" as keyof HousingFormState],
+            touched: true,
           },
         };
       }
       if (payload.data === 1) {
+        // 1. Make a shallow copy of the items
+        let borrowersTest = [...state.borrowers];
+
+        console.log(borrowersTest);
+
+        borrowersTest.map((borrowerTest) => {
+          borrowerTest.monthlyIncome.touched = true;
+          return {
+            borrowerTest,
+          };
+        });
+
         return {
           ...state,
-          touched: {
-            ...state.touched,
-            ["monthlyIncome_0"]: true,
-            ["monthlyIncome_1"]: state.borrowers.length > 1,
-          },
+          ["borrowers"]: borrowersTest,
         };
       }
       if (payload.data === 2) {
         return {
           ...state,
-          touched: {
-            ...state.touched,
-            ["initialContribution"]: true,
-            ["monthlyIncome_0"]: true,
-            ["creditInterestRate"]: true,
-            ["creditDuration"]: true,
+          ["initialContribution"]: {
+            ...state["initialContribution" as keyof HousingFormState],
+            touched: true,
+          },
+          ["creditInterestRate"]: {
+            ...state["creditInterestRate" as keyof HousingFormState],
+            touched: true,
+          },
+          ["creditDuration"]: {
+            ...state["creditDuration" as keyof HousingFormState],
+            touched: true,
           },
         };
       }
@@ -195,43 +268,63 @@ function HousingFormReducer(
   }
 }
 
-const getFormValidationState = (state: any) => {
+const getFormValidationState = (state: any, errorState: any) => {
   return {
-    houseSituation: isHouseSituationFormValid(state),
-    personalSituation: isPersonalSituationFormValid(state),
-    financialSituation: isFinancialSituationFormValid(state),
+    houseSituation: isHouseSituationFormValid(state, errorState),
+    personalSituation: isPersonalSituationFormValid(state, errorState),
+    financialSituation: isFinancialSituationFormValid(state, errorState),
     housingResults: true,
   };
 };
 
-const isHouseSituationFormValid = (state: any) => {
+const isHouseSituationFormValid = (state: any, errorState: any) => {
   var isValid = true;
-  if (state.houseLocation === "") {
+  if (state.houseLocation.touched === false) {
     isValid = false;
   }
-  if (state.houseType === "") {
+  if (state.houseType.touched === false) {
     isValid = false;
   }
-  if (state.housePrice === undefined || state.housePrice === 0) {
+  if (state.housePrice.touched === false) {
     isValid = false;
   }
-  if (state.taxationRegime === "") {
+  if (state.taxationRegime.touched === false) {
+    isValid = false;
+  }
+
+  if (errorState.houseLocation !== "") {
+    isValid = false;
+  }
+  if (errorState.houseType !== "") {
+    isValid = false;
+  }
+  if (errorState.housePrice !== "") {
+    isValid = false;
+  }
+  if (errorState.taxationRegime !== "") {
     isValid = false;
   }
   return isValid;
 };
 
-const isPersonalSituationFormValid = (state: any) => {
+const isPersonalSituationFormValid = (state: any, errorState: any) => {
   var isValid = true;
-  state.borrowers.forEach((element: Borrower) => {
-    if (element.monthlyIncome === 0 || element.monthlyIncome === undefined) {
+  state.borrowers.forEach((element: Borrower, i: number) => {
+    if (
+      element.monthlyIncome.value === 0 ||
+      element.monthlyIncome.value === undefined
+    ) {
+      isValid = false;
+    }
+    if (errorState["monthlyIncome_" + (i + 1)] !== "") {
       isValid = false;
     }
   });
+
   return isValid;
 };
 
-const isFinancialSituationFormValid = (state: any) => {
+const isFinancialSituationFormValid = (state: any, errorState: any) => {
   var isValid = true;
   if (state.housePrice === undefined || state.housePrice === 0) {
     isValid = false;
@@ -248,10 +341,73 @@ const isFinancialSituationFormValid = (state: any) => {
   ) {
     isValid = false;
   }
-  if (state.creditDuration === "") {
+  if (state.housePrice === "") {
+    isValid = false;
+  }
+  if (errorState.houseLocation !== "") {
+    isValid = false;
+  }
+  if (errorState.initialContribution !== "") {
+    isValid = false;
+  }
+  if (errorState.creditInterestRate !== "") {
+    isValid = false;
+  }
+  if (errorState.creditDuration !== "") {
     isValid = false;
   }
   return isValid;
+};
+
+const getFormErrorState = (state: any) => {
+  var errors = {
+    houseLocation: "",
+    houseType: "",
+    housePrice: "",
+    taxationRegime: "",
+    initialContribution: "",
+    monthlyIncome_1: "",
+    monthlyIncome_2: "",
+    creditInterestRate: "",
+    creditDuration: "",
+  };
+  if (state.houseLocation.value === "") {
+    errors["houseLocation"] = "This field is required";
+  }
+  if (state.houseType.value === "") {
+    errors["houseType"] = "This field is required";
+  }
+  if (state.housePrice.value === 0) {
+    errors["housePrice"] = "This field is required";
+  }
+  if (state.taxationRegime.value === "") {
+    errors["taxationRegime"] = "This field is required";
+  }
+  if (
+    state.houseLocation.value === "Brussels" &&
+    state.housePrice.value > 600000 &&
+    state.taxationRegime.value === "BXL_WITH_ABATTEMENT_200"
+  ) {
+    errors["taxationRegime"] =
+      "The abbatement is only available for house/appartement under 600.000 €";
+  }
+
+  state.borrowers.forEach((borrower: Borrower, i: number) => {
+    if (borrower.monthlyIncome.value === 0) {
+      errors[("monthlyIncome_" + (i + 1)) as keyof typeof errors] =
+        "This field is required";
+    }
+  });
+  if (state.initialContribution.value === 0) {
+    errors["initialContribution"] = "This field is required";
+  }
+  if (state.creditInterestRate.value === 0) {
+    errors["creditInterestRate"] = "This field is required";
+  }
+  if (state.creditDuration.value === "") {
+    errors["creditDuration"] = "This field is required";
+  }
+  return errors;
 };
 
 // 1 - CREATING CONTEXT
@@ -260,16 +416,43 @@ const HousingFormContext = createContext<HousingForm>({} as HousingForm);
 // 2 - CREATING PROVIDER (will be used in the Housing Page)
 const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
   const [housingFormState, dispatch] = useReducer(HousingFormReducer, {
-    houseLocation: "",
-    houseType: "",
-    housePrice: 0,
-    taxationRegime: "",
-    initialContribution: 0,
-    nbBorrowers: 1,
-    borrowers: [{ monthlyIncome: 0, monthlyExpenses: 0 }],
-    creditInterestRate: 0,
-    creditDuration: "",
+    houseLocation: {
+      value: "",
+      touched: false,
+    },
+    houseType: {
+      value: "",
+      touched: false,
+    },
+    housePrice: {
+      value: 0,
+      touched: false,
+    },
+    taxationRegime: {
+      value: "",
+      touched: false,
+    },
+    initialContribution: {
+      value: 0,
+      touched: false,
+    },
+    creditInterestRate: {
+      value: 0,
+      touched: false,
+    },
+    creditDuration: {
+      value: "",
+      touched: false,
+    },
     touched: {},
+    borrowers: [
+      {
+        monthlyIncome: {
+          value: 0,
+          touched: false,
+        },
+      },
+    ],
   });
   const [housingFormValidationState, setHousingFormValidationState] = useState({
     houseSituation: false,
@@ -277,16 +460,26 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     financialSituation: false,
     housingResults: false,
   });
+  const [housingFormErrorState, setHousingFormErrorState] = useState({});
 
   useEffect(() => {
-    setHousingFormValidationState(getFormValidationState(housingFormState));
+    console.log(housingFormState);
+    setHousingFormErrorState(getFormErrorState(housingFormState));
   }, [housingFormState]);
+
+  useEffect(() => {
+    console.log("ERRORS", housingFormErrorState);
+    setHousingFormValidationState(
+      getFormValidationState(housingFormState, housingFormErrorState)
+    );
+  }, [housingFormState, housingFormErrorState]);
 
   return (
     <HousingFormContext.Provider
       value={{
         housingFormState,
         housingFormValidationState,
+        housingFormErrorState,
         dispatch,
       }}
     >

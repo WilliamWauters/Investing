@@ -14,25 +14,24 @@ const PersonalSituationResults = ({
   const { housingFormState } = useHousingForm();
   const totalNettoSalary = housingFormState.borrowers.reduce(
     (accumulator, currentValue) =>
-      accumulator + (currentValue.monthlyIncome - currentValue.monthlyExpenses),
+      accumulator + currentValue.monthlyIncome.value,
     0
   );
   const monthlyPaymentCapacity = getMonthlyPaymentCapacity(totalNettoSalary);
 
   return (
-    <ExpensePane collapsed={collapsed} title="INCOME">
+    <ExpensePane title="INCOME">
       {housingFormState.borrowers.map((x, i) => (
         <ExpenseLine
           key={`BorrowerIcome${i}`}
           label={`Income Borrower ${i + 1}`}
-          value={x.monthlyIncome}
+          value={x.monthlyIncome.value}
         />
       ))}
       <ExpenseResult
         result={housingFormState.borrowers.reduce(
           (accumulator, currentValue) =>
-            accumulator +
-            (currentValue.monthlyIncome - currentValue.monthlyExpenses),
+            accumulator + currentValue.monthlyIncome.value,
           0
         )}
       />

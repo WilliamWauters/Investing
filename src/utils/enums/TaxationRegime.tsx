@@ -1,14 +1,9 @@
 enum TaxationRegime {
   BXL_WITHOUT_ABATTEMENT = "BXL_WITHOUT_ABATTEMENT",
-  BXL_WITH_ABATTEMENT_175 = "BXL_WITH_ABATTEMENT_175",
   BXL_WITH_ABATTEMENT_200 = "BXL_WITH_ABATTEMENT_200",
 }
 
 var taxationRegimes = [
-  {
-    value: TaxationRegime.BXL_WITH_ABATTEMENT_175,
-    label: "With Abbatement 170.000 €",
-  },
   {
     value: TaxationRegime.BXL_WITH_ABATTEMENT_200,
     label: "With Abbatement 200.000 €",

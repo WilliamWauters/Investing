@@ -13,12 +13,12 @@ const HousingSituationResults = ({
 }: HousingSituationResultsProps) => {
   const { housingFormState } = useHousingForm();
   const notaryFees = getNotaryFees(
-    housingFormState.housePrice,
-    housingFormState.taxationRegime
+    housingFormState.housePrice.value,
+    housingFormState.taxationRegime.value
   );
 
   return (
-    <ExpensePane collapsed={collapsed} title="NOTARY FEES">
+    <ExpensePane title="NOTARY FEES">
       {notaryFees.fees.map((x) => (
         <ExpenseLine
           label={x.name}

@@ -17,14 +17,9 @@ class Fee {
 
 const getRegistrationFee = (price: number, taxationRegime: string) => {
   var priceBase = price;
-  if (
-    taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_175 ||
-    taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_200
-  ) {
+  if (taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_200) {
     var abattement = 0;
-    if (taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_175) {
-      abattement = 175000;
-    } else if (taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_200) {
+    if (taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_200) {
       abattement = 200000;
     }
     if (priceBase < abattement) {

@@ -157,6 +157,17 @@ const MoneyField = ({
                       } else {
                         handleIncrementInput("ArrowDown");
                       }
+                      if (index !== undefined) {
+                        dispatch({
+                          type: HousingFormActionKind.TOUCHED_BORROWER,
+                          payload: { name: name, data: true, index: index },
+                        });
+                      } else if (dispatch) {
+                        dispatch({
+                          type: HousingFormActionKind.TOCUHED_INPUT,
+                          payload: { name: name, data: true },
+                        });
+                      }
                     }}
                   >
                     <RemoveIcon
@@ -188,6 +199,17 @@ const MoneyField = ({
                         });
                       } else {
                         handleIncrementInput("ArrowUp");
+                      }
+                      if (index !== undefined) {
+                        dispatch({
+                          type: HousingFormActionKind.TOUCHED_BORROWER,
+                          payload: { name: name, data: true, index: index },
+                        });
+                      } else if (dispatch) {
+                        dispatch({
+                          type: HousingFormActionKind.TOCUHED_INPUT,
+                          payload: { name: name, data: true },
+                        });
                       }
                     }}
                   >

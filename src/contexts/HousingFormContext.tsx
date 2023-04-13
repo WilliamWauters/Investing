@@ -289,8 +289,10 @@ const isHouseSituationFormValid = (state: any, errorState: any) => {
     isValid = false;
   }
   if (state.taxationRegime.touched === false) {
+    console.log("IS VALID", isValid);
     isValid = false;
   }
+  console.log("IS VALID", isValid);
 
   if (errorState.houseLocation !== "") {
     isValid = false;
@@ -304,6 +306,7 @@ const isHouseSituationFormValid = (state: any, errorState: any) => {
   if (errorState.taxationRegime !== "") {
     isValid = false;
   }
+  console.log("IS VALID", isValid);
   return isValid;
 };
 

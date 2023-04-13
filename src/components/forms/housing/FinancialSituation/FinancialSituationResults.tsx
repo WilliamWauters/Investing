@@ -35,37 +35,45 @@ const FinancialSituationResults = ({
     Number(housingFormState.creditDuration.value)
   );
 
+  const element = document.getElementById("scrollToHere");
+  if (element) {
+    // 👇 Will scroll smoothly to the top of the next section
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
-    <ExpensePane title="LOAN">
-      <ExpenseLine label="Notary Fees" value={notaryFees.total} />
-      <ExpenseLine
-        label="Initial Contribution"
-        value={housingFormState.initialContribution.value}
-      />
-      <ExpenseResult
-        result={housingFormState.initialContribution.value - notaryFees.total}
-      />
-      <ExpenseLine
-        label={`Rest of Initial Contribution (${(
-          ((housingFormState.initialContribution.value - notaryFees.total) /
-            housingFormState.housePrice.value) *
-          100
-        ).toFixed(2)}% of House Price)`}
-        value={housingFormState.initialContribution.value - notaryFees.total}
-      />
-      <ExpenseLine
-        label="House Price"
-        value={housingFormState.housePrice.value}
-      />
-      <ExpenseResult result={loan} />
-      <ExpenseLine label="Loan" value={loan} />
-      <ExpenseLine label="Loan monthly payment" value={monthlyPayment} />
-      <ExpenseLine
-        label="Personal monthly payment capacity"
-        value={monthlyPaymentCapacity}
-      />
-      <ExpenseLine label="Loan total Interest" value={totalPayment} />
-    </ExpensePane>
+    <div className="scrollToHere">
+      <ExpensePane title="LOAN">
+        <ExpenseLine label="Notary Fees" value={notaryFees.total} />
+        <ExpenseLine
+          label="Initial Contribution"
+          value={housingFormState.initialContribution.value}
+        />
+        <ExpenseResult
+          result={housingFormState.initialContribution.value - notaryFees.total}
+        />
+        <ExpenseLine
+          label={`Rest of Initial Contribution (${(
+            ((housingFormState.initialContribution.value - notaryFees.total) /
+              housingFormState.housePrice.value) *
+            100
+          ).toFixed(2)}% of House Price)`}
+          value={housingFormState.initialContribution.value - notaryFees.total}
+        />
+        <ExpenseLine
+          label="House Price"
+          value={housingFormState.housePrice.value}
+        />
+        <ExpenseResult result={loan} />
+        <ExpenseLine label="Loan" value={loan} />
+        <ExpenseLine label="Loan monthly payment" value={monthlyPayment} />
+        <ExpenseLine
+          label="Personal monthly payment capacity"
+          value={monthlyPaymentCapacity}
+        />
+        <ExpenseLine label="Loan total Interest" value={totalPayment} />
+      </ExpensePane>
+    </div>
   );
 };
 

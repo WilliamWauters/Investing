@@ -7,14 +7,9 @@ import {
   getMonthlyPaymentCapacity,
   getNotaryFees,
 } from "@/utils/calculation";
+import FormResults from "@/components/layout/FormResults";
 
-type FinancialSituationResultsProps = {
-  collapsed?: boolean;
-};
-
-const FinancialSituationResults = ({
-  collapsed,
-}: FinancialSituationResultsProps) => {
+const FinancialSituationResults = () => {
   const { housingFormState } = useHousingForm();
   const notaryFees = getNotaryFees(
     housingFormState.housePrice.value,
@@ -35,14 +30,8 @@ const FinancialSituationResults = ({
     Number(housingFormState.creditDuration.value)
   );
 
-  const element = document.getElementById("scrollToHere");
-  if (element) {
-    // 👇 Will scroll smoothly to the top of the next section
-    element.scrollIntoView({ behavior: "smooth" });
-  }
-
   return (
-    <div className="scrollToHere">
+    <FormResults>
       <ExpensePane title="LOAN">
         <ExpenseLine label="Notary Fees" value={notaryFees.total} />
         <ExpenseLine
@@ -73,7 +62,7 @@ const FinancialSituationResults = ({
         />
         <ExpenseLine label="Loan total Interest" value={totalPayment} />
       </ExpensePane>
-    </div>
+    </FormResults>
   );
 };
 

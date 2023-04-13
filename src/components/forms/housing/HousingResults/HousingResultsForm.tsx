@@ -7,9 +7,9 @@ const HousingResultsForm = () => {
   return (
     <>
       <FormPaneHeader title="Results" />
-      <HousingSituationResults collapsed />
-      <PersonalSituationResults collapsed />
-      <FinancialSituationResults collapsed />
+      <HousingSituationResults />
+      <PersonalSituationResults />
+      <FinancialSituationResults />
     </>
   );
 };

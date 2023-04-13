@@ -33,6 +33,12 @@ const SelectField = ({
   if (touched && errorMsg !== "") {
     error = true;
   }
+  if (name === "houseLocation") {
+    console.log(name, error);
+    console.log("touched", touched);
+    console.log("errorMsg", errorMsg);
+    console.log("-----------------------");
+  }
 
   return (
     <InputSection>

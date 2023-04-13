@@ -77,7 +77,6 @@ function HousingFormReducer(
         },
       };
     case HousingFormActionKind.UPDATE_MONEY_INCREASE:
-      console.log(state[payload.name as keyof HousingFormState]);
       return {
         ...state,
         [payload.name]: {
@@ -87,7 +86,6 @@ function HousingFormReducer(
         },
       };
     case HousingFormActionKind.UPDATE_MONEY_DECREASE:
-      console.log(state[payload.name as keyof HousingFormState]);
       return {
         ...state,
         [payload.name]: {
@@ -231,9 +229,6 @@ function HousingFormReducer(
       if (payload.data === 1) {
         // 1. Make a shallow copy of the items
         let borrowersTest = [...state.borrowers];
-
-        console.log(borrowersTest);
-
         borrowersTest.map((borrowerTest) => {
           borrowerTest.monthlyIncome.touched = true;
           return {
@@ -289,10 +284,8 @@ const isHouseSituationFormValid = (state: any, errorState: any) => {
     isValid = false;
   }
   if (state.taxationRegime.touched === false) {
-    console.log("IS VALID", isValid);
     isValid = false;
   }
-  console.log("IS VALID", isValid);
 
   if (errorState.houseLocation !== "") {
     isValid = false;
@@ -306,7 +299,6 @@ const isHouseSituationFormValid = (state: any, errorState: any) => {
   if (errorState.taxationRegime !== "") {
     isValid = false;
   }
-  console.log("IS VALID", isValid);
   return isValid;
 };
 
@@ -374,16 +366,16 @@ const getFormErrorState = (state: any) => {
     creditInterestRate: "",
     creditDuration: "",
   };
-  if (state.houseLocation.value === "") {
+  if (state.houseLocation.touched && state.houseLocation.value === "") {
     errors["houseLocation"] = "This field is required";
   }
-  if (state.houseType.value === "") {
+  if (state.houseType.touched && state.houseType.value === "") {
     errors["houseType"] = "This field is required";
   }
-  if (state.housePrice.value === 0) {
+  if (state.housePrice.touched && state.housePrice.value === 0) {
     errors["housePrice"] = "This field is required";
   }
-  if (state.taxationRegime.value === "") {
+  if (state.taxationRegime.touched && state.taxationRegime.value === "") {
     errors["taxationRegime"] = "This field is required";
   }
   if (
@@ -396,18 +388,24 @@ const getFormErrorState = (state: any) => {
   }
 
   state.borrowers.forEach((borrower: Borrower, i: number) => {
-    if (borrower.monthlyIncome.value === 0) {
+    if (borrower.monthlyIncome.touched && borrower.monthlyIncome.value === 0) {
       errors[("monthlyIncome_" + (i + 1)) as keyof typeof errors] =
         "This field is required";
     }
   });
-  if (state.initialContribution.value === 0) {
+  if (
+    state.initialContribution.touched &&
+    state.initialContribution.value === 0
+  ) {
     errors["initialContribution"] = "This field is required";
   }
-  if (state.creditInterestRate.value === 0) {
+  if (
+    state.creditInterestRate.touched &&
+    state.creditInterestRate.value === 0
+  ) {
     errors["creditInterestRate"] = "This field is required";
   }
-  if (state.creditDuration.value === "") {
+  if (state.creditDuration.touched && state.creditDuration.value === "") {
     errors["creditDuration"] = "This field is required";
   }
   return errors;
@@ -466,12 +464,10 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
   const [housingFormErrorState, setHousingFormErrorState] = useState({});
 
   useEffect(() => {
-    console.log(housingFormState);
     setHousingFormErrorState(getFormErrorState(housingFormState));
   }, [housingFormState]);
 
   useEffect(() => {
-    console.log("ERRORS", housingFormErrorState);
     setHousingFormValidationState(
       getFormValidationState(housingFormState, housingFormErrorState)
     );

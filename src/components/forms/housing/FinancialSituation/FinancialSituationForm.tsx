@@ -4,7 +4,7 @@ import PercentageField from "@/components/inputs/PercentageField";
 import SelectField from "@/components/inputs/SelectField";
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { creditDurations } from "@/utils/enums/CreditDuration";
-import { Fade, Grow } from "@mui/material";
+import { Fade } from "@mui/material";
 import FinancialSituationResults from "./FinancialSituationResults";
 
 const FinancialSituationForm = () => {
@@ -55,7 +55,7 @@ const FinancialSituationForm = () => {
         </div>
       </Fade>
       {housingFormValidationState.financialSituation && (
-        <FinancialSituationResults collapsed={false} />
+        <FinancialSituationResults />
       )}
     </>
   );

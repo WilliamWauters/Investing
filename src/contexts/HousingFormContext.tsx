@@ -222,7 +222,7 @@ function HousingFormReducer(
           },
           ["taxationRegime"]: {
             ...state["taxationRegime" as keyof HousingFormState],
-            touched: true,
+            touched: state.houseLocation.value ? true : false,
           },
         };
       }
@@ -274,16 +274,22 @@ const getFormValidationState = (state: any, errorState: any) => {
 
 const isHouseSituationFormValid = (state: any, errorState: any) => {
   var isValid = true;
-  if (state.houseLocation.touched === false) {
+  if (
+    state.houseLocation.touched === false ||
+    state.houseLocation.value === ""
+  ) {
     isValid = false;
   }
-  if (state.houseType.touched === false) {
+  if (state.houseType.touched === false || state.houseType.value === "") {
     isValid = false;
   }
-  if (state.housePrice.touched === false) {
+  if (state.housePrice.touched === false || state.housePrice.value === "") {
     isValid = false;
   }
-  if (state.taxationRegime.touched === false) {
+  if (
+    state.taxationRegime.touched === false ||
+    state.taxationRegime.value === ""
+  ) {
     isValid = false;
   }
 
@@ -321,22 +327,22 @@ const isPersonalSituationFormValid = (state: any, errorState: any) => {
 
 const isFinancialSituationFormValid = (state: any, errorState: any) => {
   var isValid = true;
-  if (state.housePrice === undefined || state.housePrice === 0) {
+  if (state.housePrice.value === undefined || state.housePrice.value === 0) {
     isValid = false;
   }
   if (
-    state.initialContribution === undefined ||
-    state.initialContribution === 0
+    state.initialContribution.value === undefined ||
+    state.initialContribution.value === 0
   ) {
     isValid = false;
   }
   if (
-    state.creditInterestRate === undefined ||
-    state.creditInterestRate === 0
+    state.creditInterestRate.value === undefined ||
+    state.creditInterestRate.value === 0
   ) {
     isValid = false;
   }
-  if (state.housePrice === "") {
+  if (state.housePrice.value === "") {
     isValid = false;
   }
   if (errorState.houseLocation !== "") {
@@ -375,7 +381,11 @@ const getFormErrorState = (state: any) => {
   if (state.housePrice.touched && state.housePrice.value === 0) {
     errors["housePrice"] = "This field is required";
   }
-  if (state.taxationRegime.touched && state.taxationRegime.value === "") {
+  if (
+    state.houseLocation.value &&
+    state.taxationRegime.touched &&
+    state.taxationRegime.value === ""
+  ) {
     errors["taxationRegime"] = "This field is required";
   }
   if (

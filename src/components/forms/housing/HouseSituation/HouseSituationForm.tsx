@@ -6,7 +6,7 @@ import HousingSituationResults from "./HouseSituationResults";
 import { taxationRegimes } from "@/utils/enums/TaxationRegime";
 import { locations } from "@/utils/enums/Location";
 import { houseTypes } from "@/utils/enums/HouseType";
-import { Fade, Grow } from "@mui/material";
+import { Fade } from "@mui/material";
 
 const HouseSituationForm = () => {
   const {
@@ -50,16 +50,24 @@ const HouseSituationForm = () => {
             errorMsg={housingFormErrorState.housePrice}
             dispatch={dispatch}
           />
-          <SelectField
-            name="taxationRegime"
-            label="Taxation Regime"
-            required
-            value={housingFormState.taxationRegime.value || ""}
-            touched={housingFormState.taxationRegime.touched}
-            errorMsg={housingFormErrorState.taxationRegime}
-            dispatch={dispatch}
-            options={taxationRegimes}
-          />
+          {housingFormState.houseLocation.value && (
+            <Fade in={true} timeout={500}>
+              <div>
+                <SelectField
+                  name="taxationRegime"
+                  label="Taxation Regime"
+                  required
+                  value={housingFormState.taxationRegime.value || ""}
+                  touched={housingFormState.taxationRegime.touched}
+                  errorMsg={housingFormErrorState.taxationRegime}
+                  dispatch={dispatch}
+                  options={taxationRegimes.filter((x) => {
+                    return x.region === housingFormState.houseLocation.value;
+                  })}
+                />
+              </div>
+            </Fade>
+          )}
         </div>
       </Fade>
       {housingFormValidationState.houseSituation && <HousingSituationResults />}

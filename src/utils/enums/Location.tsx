@@ -5,9 +5,9 @@ enum Location {
 }
 
 var locations = [
-  { value: "Brussels", label: "Brussels" },
-  { value: "Flanders", label: "Flanders" },
-  { value: "Wallonia", label: "Wallonia" },
+  { value: Location.BXL, label: "Brussels" },
+  { value: Location.FLA, label: "Flanders" },
+  { value: Location.WAL, label: "Wallonia" },
 ];
 
 export { Location, locations };

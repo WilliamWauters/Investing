@@ -17,11 +17,13 @@ const useStepper = (forms: Array<any>) => {
     });
     if (housingFormValidationState[forms[activeForm].id]) {
       setActiveStep(newActiveStep);
+      window.scroll({ top: 0, left: 0, behavior: "smooth" });
     }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
   };
 
   const handleStep = (step: number) => () => {
@@ -31,6 +33,7 @@ const useStepper = (forms: Array<any>) => {
     });
     if (housingFormValidationState[forms[activeForm].id] || step < activeForm) {
       setActiveStep(step);
+      window.scroll({ top: 0, left: 0, behavior: "smooth" });
     }
   };
 

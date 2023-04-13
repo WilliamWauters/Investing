@@ -26,7 +26,6 @@ const SelectField = ({
   options,
   touched,
   errorMsg,
-  required,
   dispatch,
 }: SelectFieldProps) => {
   var error = false;

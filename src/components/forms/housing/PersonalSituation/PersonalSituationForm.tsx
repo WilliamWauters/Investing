@@ -61,6 +61,7 @@ function renderItem({
         touched={borrower.monthlyIncome.touched}
         errorMsg={housingFormErrorState["monthlyIncome_" + (i + 1)]}
         dispatch={dispatch}
+        onlyPositif
       />
     </Box>
   );

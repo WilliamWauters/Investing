@@ -26,6 +26,7 @@ type PercentageProps = {
   required?: boolean;
   dispatch?: any;
   step?: number;
+  onlyPositif?: boolean;
 };
 
 const PercentageField = ({
@@ -34,9 +35,9 @@ const PercentageField = ({
   value,
   touched,
   errorMsg,
-  required,
   dispatch,
   step,
+  onlyPositif,
 }: PercentageProps) => {
   const [valueInput, setValueInput] = useState(0);
   const handleChangeInput = (newPrice: number | number[]) => {
@@ -67,6 +68,19 @@ const PercentageField = ({
     valueOfInput = valueInput;
   }
 
+  var disabledDecreasButton = false;
+  if (onlyPositif === true) {
+    if (valueOfInput === undefined) {
+      disabledDecreasButton = true;
+    }
+    if (valueOfInput === 0) {
+      disabledDecreasButton = true;
+    }
+    if (!valueOfInput) {
+      disabledDecreasButton = true;
+    }
+  }
+
   var error = false;
   if (touched && errorMsg !== "") {
     error = true;
@@ -95,13 +109,16 @@ const PercentageField = ({
             }
           }}
           onValueChange={({ value: v }) => {
+            var isNegatif = +v < 0 || v.includes("-");
+            var newValue = onlyPositif && isNegatif ? Math.abs(+v) : +v;
+
             if (dispatch) {
               dispatch({
                 type: HousingFormActionKind.UPDATE_INPUT,
-                payload: { name: name, data: +v },
+                payload: { name: name, data: newValue },
               });
             } else {
-              handleChangeInput(+v);
+              handleChangeInput(newValue);
             }
           }}
           InputProps={{
@@ -120,6 +137,7 @@ const PercentageField = ({
                   }}
                 >
                   <IconButton
+                    disabled={disabledDecreasButton}
                     sx={{
                       height: "40px",
                       width: "40px",
@@ -133,6 +151,10 @@ const PercentageField = ({
                         dispatch({
                           type: HousingFormActionKind.UPDATE_MONEY_DECREASE,
                           payload: { name: name, step: 0.25 },
+                        });
+                        dispatch({
+                          type: HousingFormActionKind.TOCUHED_INPUT,
+                          payload: { name: name, data: true },
                         });
                       } else {
                         handleIncrementInput("ArrowDown");
@@ -160,6 +182,10 @@ const PercentageField = ({
                         dispatch({
                           type: HousingFormActionKind.UPDATE_MONEY_INCREASE,
                           payload: { name: name, step: 0.25 },
+                        });
+                        dispatch({
+                          type: HousingFormActionKind.TOCUHED_INPUT,
+                          payload: { name: name, data: true },
                         });
                       } else {
                         handleIncrementInput("ArrowUp");

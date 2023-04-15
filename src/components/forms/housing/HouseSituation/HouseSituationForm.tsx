@@ -49,6 +49,7 @@ const HouseSituationForm = () => {
             touched={housingFormState.housePrice.touched}
             errorMsg={housingFormErrorState.housePrice}
             dispatch={dispatch}
+            onlyPositif
           />
           {housingFormState.houseLocation.value && (
             <Fade in={true} timeout={500}>

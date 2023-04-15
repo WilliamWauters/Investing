@@ -69,8 +69,14 @@ function HousingFormReducer(
   const { type, payload } = action;
   switch (type) {
     case HousingFormActionKind.UPDATE_INPUT:
+      var taxationRegimState = state["taxationRegime"];
+      if (payload.name === "houseLocation") {
+        taxationRegimState.touched = false;
+        taxationRegimState.value = "";
+      }
       return {
         ...state,
+        ["taxationRegime"]: taxationRegimState,
         [payload.name]: {
           ...state[payload.name as keyof HousingFormState],
           value: payload.data,
@@ -292,7 +298,6 @@ const isHouseSituationFormValid = (state: any, errorState: any) => {
   ) {
     isValid = false;
   }
-
   if (errorState.houseLocation !== "") {
     isValid = false;
   }
@@ -327,25 +332,28 @@ const isPersonalSituationFormValid = (state: any, errorState: any) => {
 
 const isFinancialSituationFormValid = (state: any, errorState: any) => {
   var isValid = true;
-  if (state.housePrice.value === undefined || state.housePrice.value === 0) {
+  if (state.housePrice.touched === false || state.housePrice.value === "") {
     isValid = false;
   }
   if (
-    state.initialContribution.value === undefined ||
-    state.initialContribution.value === 0
+    state.initialContribution.touched === false ||
+    state.initialContribution.value === ""
   ) {
     isValid = false;
   }
   if (
-    state.creditInterestRate.value === undefined ||
-    state.creditInterestRate.value === 0
+    state.creditInterestRate.touched === false ||
+    state.creditInterestRate.value === ""
   ) {
     isValid = false;
   }
-  if (state.housePrice.value === "") {
+  if (
+    state.creditDuration.touched === false ||
+    state.creditDuration.value === ""
+  ) {
     isValid = false;
   }
-  if (errorState.houseLocation !== "") {
+  if (errorState.housePrice !== "") {
     isValid = false;
   }
   if (errorState.initialContribution !== "") {

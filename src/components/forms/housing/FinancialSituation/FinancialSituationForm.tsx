@@ -26,6 +26,7 @@ const FinancialSituationForm = () => {
             touched={housingFormState.housePrice.touched}
             errorMsg={housingFormErrorState.housePrice}
             dispatch={dispatch}
+            onlyPositif
           />
           <MoneyField
             name="initialContribution"
@@ -34,6 +35,7 @@ const FinancialSituationForm = () => {
             touched={housingFormState.initialContribution.touched}
             errorMsg={housingFormErrorState.initialContribution}
             dispatch={dispatch}
+            onlyPositif
           />
           <PercentageField
             name="creditInterestRate"
@@ -42,6 +44,7 @@ const FinancialSituationForm = () => {
             touched={housingFormState.creditInterestRate.touched}
             errorMsg={housingFormErrorState.creditInterestRate}
             dispatch={dispatch}
+            onlyPositif
           />
           <SelectField
             name="creditDuration"

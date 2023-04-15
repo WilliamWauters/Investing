@@ -1,4 +1,4 @@
-import { TaxationRegime } from "./enums/TaxationRegime";
+import { TaxationRegime, taxationRegimes } from "./enums/TaxationRegime";
 
 interface NotaryFees {
   fees: Fee[];
@@ -17,18 +17,17 @@ class Fee {
 
 const getRegistrationFee = (price: number, taxationRegime: string) => {
   var priceBase = price;
-  if (taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_200) {
-    var abattement = 0;
-    if (taxationRegime === TaxationRegime.BXL_WITH_ABATTEMENT_200) {
-      abattement = 200000;
-    }
-    if (priceBase < abattement) {
-      priceBase = 0;
-    } else {
-      priceBase = priceBase - abattement;
-    }
+  var taxationRegimeDetails = taxationRegimes.filter(
+    (element) => element["value"] === taxationRegime
+  )[0];
+
+  if (priceBase < taxationRegimeDetails.abattement) {
+    priceBase = 0;
+  } else {
+    priceBase = priceBase - taxationRegimeDetails.abattement;
   }
-  return priceBase * 0.125;
+
+  return priceBase * taxationRegimeDetails.rate;
 };
 
 const getNotaryFee = (price: number) => {

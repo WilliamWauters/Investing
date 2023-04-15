@@ -82,8 +82,6 @@ const MoneyField = ({
     }
   }
 
-  console.log(valueOfInput);
-
   var error = false;
   if (touched && errorMsg !== "") {
     error = true;

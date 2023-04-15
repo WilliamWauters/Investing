@@ -17,17 +17,20 @@ class Fee {
 
 const getRegistrationFee = (price: number, taxationRegime: string) => {
   var priceBase = price;
-  var taxationRegimeDetails = taxationRegimes.filter(
-    (element) => element["value"] === taxationRegime
-  )[0];
+  if (taxationRegime) {
+    var taxationRegimeDetails = taxationRegimes.filter(
+      (element) => element["value"] === taxationRegime
+    )[0];
 
-  if (priceBase < taxationRegimeDetails.abattement) {
-    priceBase = 0;
+    if (priceBase < taxationRegimeDetails.abattement) {
+      priceBase = 0;
+    } else {
+      priceBase = priceBase - taxationRegimeDetails.abattement;
+    }
+    return priceBase * taxationRegimeDetails.rate;
   } else {
-    priceBase = priceBase - taxationRegimeDetails.abattement;
+    return 0;
   }
-
-  return priceBase * taxationRegimeDetails.rate;
 };
 
 const getNotaryFee = (price: number) => {

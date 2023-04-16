@@ -4,6 +4,7 @@ import ExpenseResult from "@/components/content/ExpenseResult";
 import FormResults from "@/components/layout/FormResults";
 import { useHousingForm } from "@/contexts/HousingFormContext";
 import { getMonthlyPaymentCapacity } from "@/utils/calculation";
+import { Divider } from "@mui/material";
 
 const PersonalSituationResults = () => {
   const { housingFormState } = useHousingForm();
@@ -18,16 +19,37 @@ const PersonalSituationResults = () => {
     <FormResults>
       <ExpensePane title="INCOME">
         {housingFormState.borrowers.map((x, i) => (
-          <ExpenseLine
-            key={`BorrowerIcome${i}`}
-            label={`Income Borrower ${i + 1}`}
-            value={x.monthlyIncome.value}
-          />
+          <>
+            <ExpenseLine
+              key={`BorrowerIcome${i}`}
+              label={`Borrower ${i + 1} - Income`}
+              value={x.monthlyIncome.value}
+            />
+            <ExpenseLine
+              key={`BorrowerExpenes${i}`}
+              label={`Borrower ${i + 1} - Expenses`}
+              value={x.monthlyExpenses.value}
+            />
+            <ExpenseResult
+              result={x.monthlyIncome.value - x.monthlyExpenses.value}
+            />
+          </>
+        ))}
+        {housingFormState.borrowers.map((x, i) => (
+          <>
+            <ExpenseLine
+              key={`BorrowerIcome${i}`}
+              label={`Borrower ${i + 1} - Disposable Income`}
+              value={x.monthlyIncome.value - x.monthlyExpenses.value}
+            />
+          </>
         ))}
         <ExpenseResult
           result={housingFormState.borrowers.reduce(
             (accumulator, currentValue) =>
-              accumulator + currentValue.monthlyIncome.value,
+              accumulator +
+              currentValue.monthlyIncome.value -
+              currentValue.monthlyExpenses.value,
             0
           )}
         />

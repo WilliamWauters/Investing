@@ -18,7 +18,9 @@ const FinancialSituationResults = () => {
   const monthlyPaymentCapacity = getMonthlyPaymentCapacity(
     housingFormState.borrowers.reduce(
       (accumulator, currentValue) =>
-        accumulator + currentValue.monthlyIncome.value,
+        accumulator +
+        currentValue.monthlyIncome.value -
+        currentValue.monthlyExpenses.value,
       0
     )
   );

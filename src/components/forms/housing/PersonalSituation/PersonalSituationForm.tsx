@@ -63,6 +63,17 @@ function renderItem({
         dispatch={dispatch}
         onlyPositif
       />
+      <MoneyField
+        name="monthlyExpenses"
+        index={i}
+        label="Monthly expenses"
+        required
+        value={borrower.monthlyExpenses.value || ""}
+        touched={borrower.monthlyExpenses.touched}
+        errorMsg={housingFormErrorState["monthlyExpenses_" + (i + 1)]}
+        dispatch={dispatch}
+        onlyPositif
+      />
     </Box>
   );
 }

@@ -20,7 +20,6 @@ interface HousingForm {
 
 interface HousingFormState {
   houseLocation: inputState;
-  houseType: inputState;
   housePrice: inputState;
   taxationRegime: inputState;
   initialContribution: inputState;
@@ -32,6 +31,7 @@ interface HousingFormState {
 
 interface Borrower {
   monthlyIncome: inputState;
+  monthlyExpenses: inputState;
 }
 
 type HousingFormProviderProps = {
@@ -120,6 +120,11 @@ function HousingFormReducer(
           ...state.borrowers,
           {
             monthlyIncome: {
+              value: 0,
+              touched: false,
+              error: "",
+            },
+            monthlyExpenses: {
               value: 0,
               touched: false,
               error: "",
@@ -218,10 +223,6 @@ function HousingFormReducer(
             ...state["houseLocation" as keyof HousingFormState],
             touched: true,
           },
-          ["houseType"]: {
-            ...state["houseType" as keyof HousingFormState],
-            touched: true,
-          },
           ["housePrice"]: {
             ...state["housePrice" as keyof HousingFormState],
             touched: true,
@@ -237,6 +238,7 @@ function HousingFormReducer(
         let borrowersTest = [...state.borrowers];
         borrowersTest.map((borrowerTest) => {
           borrowerTest.monthlyIncome.touched = true;
+          borrowerTest.monthlyExpenses.touched = true;
           return {
             borrowerTest,
           };
@@ -286,9 +288,6 @@ const isHouseSituationFormValid = (state: any, errorState: any) => {
   ) {
     isValid = false;
   }
-  if (state.houseType.touched === false || state.houseType.value === "") {
-    isValid = false;
-  }
   if (state.housePrice.touched === false || state.housePrice.value === "") {
     isValid = false;
   }
@@ -299,9 +298,6 @@ const isHouseSituationFormValid = (state: any, errorState: any) => {
     isValid = false;
   }
   if (errorState.houseLocation !== "") {
-    isValid = false;
-  }
-  if (errorState.houseType !== "") {
     isValid = false;
   }
   if (errorState.housePrice !== "") {
@@ -323,6 +319,9 @@ const isPersonalSituationFormValid = (state: any, errorState: any) => {
       isValid = false;
     }
     if (errorState["monthlyIncome_" + (i + 1)] !== "") {
+      isValid = false;
+    }
+    if (errorState["monthlyExpenses_" + (i + 1)] !== "") {
       isValid = false;
     }
   });
@@ -371,20 +370,18 @@ const isFinancialSituationFormValid = (state: any, errorState: any) => {
 const getFormErrorState = (state: any) => {
   var errors = {
     houseLocation: "",
-    houseType: "",
     housePrice: "",
     taxationRegime: "",
     initialContribution: "",
     monthlyIncome_1: "",
+    monthlyExpenses_1: "",
     monthlyIncome_2: "",
+    monthlyExpenses_2: "",
     creditInterestRate: "",
     creditDuration: "",
   };
   if (state.houseLocation.touched && state.houseLocation.value === "") {
     errors["houseLocation"] = "This field is required";
-  }
-  if (state.houseType.touched && state.houseType.value === "") {
-    errors["houseType"] = "This field is required";
   }
   if (state.housePrice.touched && state.housePrice.value === 0) {
     errors["housePrice"] = "This field is required";
@@ -439,10 +436,6 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
       value: "",
       touched: false,
     },
-    houseType: {
-      value: "",
-      touched: false,
-    },
     housePrice: {
       value: 0,
       touched: false,
@@ -467,6 +460,10 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
     borrowers: [
       {
         monthlyIncome: {
+          value: 0,
+          touched: false,
+        },
+        monthlyExpenses: {
           value: 0,
           touched: false,
         },

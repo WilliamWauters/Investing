@@ -5,7 +5,6 @@ import SelectField from "@/components/inputs/SelectField";
 import HousingSituationResults from "./HouseSituationResults";
 import { taxationRegimes } from "@/utils/enums/TaxationRegime";
 import { locations } from "@/utils/enums/Location";
-import { houseTypes } from "@/utils/enums/HouseType";
 import { Fade } from "@mui/material";
 
 const HouseSituationForm = () => {
@@ -21,26 +20,6 @@ const HouseSituationForm = () => {
       <Fade in={true} timeout={500}>
         <div>
           <FormPaneHeader title="House Situation" />
-          <SelectField
-            name="houseLocation"
-            label="Location"
-            required
-            value={housingFormState.houseLocation.value || ""}
-            touched={housingFormState.houseLocation.touched}
-            errorMsg={housingFormErrorState.houseLocation}
-            dispatch={dispatch}
-            options={locations}
-          />
-          <SelectField
-            name="houseType"
-            label="Type"
-            required
-            value={housingFormState.houseType.value || ""}
-            touched={housingFormState.houseType.touched}
-            errorMsg={housingFormErrorState.houseType}
-            dispatch={dispatch}
-            options={houseTypes}
-          />
           <MoneyField
             label="Price"
             name="housePrice"
@@ -50,6 +29,16 @@ const HouseSituationForm = () => {
             errorMsg={housingFormErrorState.housePrice}
             dispatch={dispatch}
             onlyPositif
+          />
+          <SelectField
+            name="houseLocation"
+            label="Location"
+            required
+            value={housingFormState.houseLocation.value || ""}
+            touched={housingFormState.houseLocation.touched}
+            errorMsg={housingFormErrorState.houseLocation}
+            dispatch={dispatch}
+            options={locations}
           />
           {housingFormState.houseLocation.value && (
             <Fade in={true} timeout={500}>

@@ -121,6 +121,9 @@ const PercentageField = ({
               handleChangeInput(newValue);
             }
           }}
+          inputProps={{
+            inputMode: "numeric",
+          }}
           InputProps={{
             style: {
               paddingRight: 0,

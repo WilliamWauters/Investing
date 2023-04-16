@@ -20,7 +20,7 @@ type DrawerNavigationButtonsProps = {
 const routes = [
   {
     path: "/calculators/Housing",
-    name: "Housing",
+    name: "Real Estate",
   },
   {
     path: "/calculators/PaymentInterval",
@@ -113,7 +113,7 @@ const getIcon = (iconName: string) => {
         </ListItemIcon>
       );
       break;
-    case "Housing":
+    case "Real Estate":
       return (
         <ListItemIcon>
           <HouseIcon

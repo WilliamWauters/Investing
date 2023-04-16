@@ -22,18 +22,21 @@ export default function Home() {
           <Button
             sx={{
               border: 1,
+              py: 4,
             }}
             onClick={() => {
               router.push("/calculators/Housing");
             }}
           >
             <HouseIcon sx={{ mr: 2 }} />
-            Housing
+            Real Estate
           </Button>
           <Box sx={{ my: 1 }} />
           <Button
+            disabled={true}
             sx={{
               border: 1,
+              py: 4,
             }}
             onClick={() => {
               router.push("/calculators/PaymentInterval");
@@ -44,8 +47,10 @@ export default function Home() {
           </Button>
           <Box sx={{ my: 1 }} />
           <Button
+            disabled={true}
             sx={{
               border: 1,
+              py: 4,
             }}
             onClick={() => {
               router.push("/calculators/ExpectedReturns");

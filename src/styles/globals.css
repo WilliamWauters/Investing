@@ -13,7 +13,6 @@ body {
 body {
   color: rgb(var(--foreground-rgb));
   background: #0f172a;
-  height: "100%";
 }
 
 a {

@@ -17,13 +17,17 @@ const useStepper = (forms: Array<any>) => {
     });
     if (housingFormValidationState[forms[activeForm].id]) {
       setActiveStep(newActiveStep);
-      window.scroll({ top: 0, left: 0, behavior: "smooth" });
+      setTimeout(function () {
+        window.scrollTo(0, 0);
+      }, 2);
     }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    window.scroll({ top: 0, left: 0, behavior: "smooth" });
+    setTimeout(function () {
+      window.scrollTo(0, 0);
+    }, 2);
   };
 
   const handleStep = (step: number) => () => {
@@ -33,7 +37,9 @@ const useStepper = (forms: Array<any>) => {
     });
     if (housingFormValidationState[forms[activeForm].id] || step < activeForm) {
       setActiveStep(step);
-      window.scroll({ top: 0, left: 0, behavior: "smooth" });
+      setTimeout(function () {
+        window.scrollTo(0, 0);
+      }, 2);
     }
   };
 

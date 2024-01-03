@@ -134,7 +134,7 @@ const MoneyField = ({
             }
           }}
           inputProps={{
-            inputMode: "numeric",
+            inputMode: "decimal",
           }}
           InputProps={{
             style: {

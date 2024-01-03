@@ -122,7 +122,7 @@ const PercentageField = ({
             }
           }}
           inputProps={{
-            inputMode: "numeric",
+            inputMode: "decimal",
           }}
           InputProps={{
             style: {

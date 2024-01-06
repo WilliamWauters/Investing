@@ -2,14 +2,14 @@ import ExpenseLine from "@/components/content/ExpenseLine";
 import ExpensePane from "@/components/content/ExpensePane";
 import ExpenseResult from "@/components/content/ExpenseResult";
 import FormResults from "@/components/layout/FormResults";
-import { useHousingForm } from "@/contexts/HousingFormContext";
+import { useRealEstateForm } from "@/contexts/RealEstateFormContext";
 import { getNotaryFees } from "@/utils/calculation";
 
-const HousingSituationResults = () => {
-  const { housingFormState } = useHousingForm();
+const RealEstateSituationResults = () => {
+  const { realEstateFormState } = useRealEstateForm();
   const notaryFees = getNotaryFees(
-    housingFormState.housePrice.value,
-    housingFormState.taxationRegime.value
+    realEstateFormState.housePrice.value,
+    realEstateFormState.taxationRegime.value
   );
 
   return (
@@ -28,4 +28,4 @@ const HousingSituationResults = () => {
   );
 };
 
-export default HousingSituationResults;
+export default RealEstateSituationResults;

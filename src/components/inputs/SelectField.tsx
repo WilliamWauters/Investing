@@ -1,4 +1,4 @@
-import { HousingFormActionKind } from "@/contexts/HousingFormContext";
+import { RealEstateFormActionKind } from "@/contexts/RealEstateFormContext";
 import {
   FormControl,
   FormHelperText,
@@ -43,13 +43,13 @@ const SelectField = ({
           value={value}
           onChange={(e) =>
             dispatch({
-              type: HousingFormActionKind.UPDATE_INPUT,
+              type: RealEstateFormActionKind.UPDATE_INPUT,
               payload: { name: name, data: e.target.value },
             })
           }
           onClose={(e) => {
             dispatch({
-              type: HousingFormActionKind.TOCUHED_INPUT,
+              type: RealEstateFormActionKind.TOCUHED_INPUT,
               payload: { name: name, data: true },
             });
           }}

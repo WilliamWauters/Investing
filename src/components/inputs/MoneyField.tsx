@@ -1,7 +1,7 @@
 import {
-  HousingFormActionKind,
-  useHousingForm,
-} from "@/contexts/HousingFormContext";
+  RealEstateFormActionKind,
+  useRealEstateForm,
+} from "@/contexts/RealEstateFormContext";
 import {
   Box,
   FormControl,
@@ -104,12 +104,12 @@ const MoneyField = ({
           onBlur={(e) => {
             if (index !== undefined) {
               dispatch({
-                type: HousingFormActionKind.TOUCHED_BORROWER,
+                type: RealEstateFormActionKind.TOUCHED_BORROWER,
                 payload: { name: name, data: true, index: index },
               });
             } else if (dispatch) {
               dispatch({
-                type: HousingFormActionKind.TOCUHED_INPUT,
+                type: RealEstateFormActionKind.TOCUHED_INPUT,
                 payload: { name: name, data: true },
               });
             }
@@ -121,12 +121,12 @@ const MoneyField = ({
 
             if (index !== undefined) {
               dispatch({
-                type: HousingFormActionKind.UPDATE_INPUT_BORROWER,
+                type: RealEstateFormActionKind.UPDATE_INPUT_BORROWER,
                 payload: { name: name, data: newValue, index: index },
               });
             } else if (dispatch) {
               dispatch({
-                type: HousingFormActionKind.UPDATE_INPUT,
+                type: RealEstateFormActionKind.UPDATE_INPUT,
                 payload: { name: name, data: newValue },
               });
             } else {
@@ -164,20 +164,20 @@ const MoneyField = ({
                     onClick={() => {
                       if (index !== undefined) {
                         dispatch({
-                          type: HousingFormActionKind.UPDATE_MONEY_DECREASE_BORROWER,
+                          type: RealEstateFormActionKind.UPDATE_MONEY_DECREASE_BORROWER,
                           payload: { name: name, step: 50, index: index },
                         });
                         dispatch({
-                          type: HousingFormActionKind.TOUCHED_BORROWER,
+                          type: RealEstateFormActionKind.TOUCHED_BORROWER,
                           payload: { name: name, data: true, index: index },
                         });
                       } else if (dispatch) {
                         dispatch({
-                          type: HousingFormActionKind.UPDATE_MONEY_DECREASE,
+                          type: RealEstateFormActionKind.UPDATE_MONEY_DECREASE,
                           payload: { name: name, step: 5000 },
                         });
                         dispatch({
-                          type: HousingFormActionKind.TOCUHED_INPUT,
+                          type: RealEstateFormActionKind.TOCUHED_INPUT,
                           payload: { name: name, data: true },
                         });
                       } else {
@@ -204,20 +204,20 @@ const MoneyField = ({
                     onClick={() => {
                       if (index !== undefined) {
                         dispatch({
-                          type: HousingFormActionKind.UPDATE_MONEY_INCREASE_BORROWER,
+                          type: RealEstateFormActionKind.UPDATE_MONEY_INCREASE_BORROWER,
                           payload: { name: name, step: 50, index: index },
                         });
                         dispatch({
-                          type: HousingFormActionKind.TOUCHED_BORROWER,
+                          type: RealEstateFormActionKind.TOUCHED_BORROWER,
                           payload: { name: name, data: true, index: index },
                         });
                       } else if (dispatch) {
                         dispatch({
-                          type: HousingFormActionKind.UPDATE_MONEY_INCREASE,
+                          type: RealEstateFormActionKind.UPDATE_MONEY_INCREASE,
                           payload: { name: name, step: 5000 },
                         });
                         dispatch({
-                          type: HousingFormActionKind.TOCUHED_INPUT,
+                          type: RealEstateFormActionKind.TOCUHED_INPUT,
                           payload: { name: name, data: true },
                         });
                       } else {

@@ -10,14 +10,14 @@ import {
 import React from "react";
 import FormSection from "@/components/layout/FormSection";
 import FormPane from "@/components/layout/FormPane";
-import HouseSituationForm from "@/components/forms/housing/HouseSituation/HouseSituationForm";
-import PersonalSituationForm from "@/components/forms/housing/PersonalSituation/PersonalSituationForm";
-import FinancialSituationForm from "@/components/forms/housing/FinancialSituation/FinancialSituationForm";
+import HouseSituationForm from "@/components/forms/realEstate/HouseSituation/HouseSituationForm";
+import PersonalSituationForm from "@/components/forms/realEstate/PersonalSituation/PersonalSituationForm";
+import FinancialSituationForm from "@/components/forms/realEstate/FinancialSituation/FinancialSituationForm";
 import useStepper from "@/hooks/useStepperAction";
-import ResultsForm from "@/components/forms/housing/HousingResults/HousingResultsForm";
-import HouseSituationResults from "@/components/forms/housing/HouseSituation/HouseSituationResults";
-import PersonalSituationResults from "@/components/forms/housing/PersonalSituation/PersonalSituationResults";
-import FinancialSituationResults from "@/components/forms/housing/FinancialSituation/FinancialSituationResults";
+import ResultsForm from "@/components/forms/realEstate/RealEstateResults/RealEstateResultsForm";
+import HouseSituationResults from "@/components/forms/realEstate/HouseSituation/HouseSituationResults";
+import PersonalSituationResults from "@/components/forms/realEstate/PersonalSituation/PersonalSituationResults";
+import FinancialSituationResults from "@/components/forms/realEstate/FinancialSituation/FinancialSituationResults";
 
 const forms = [
   {
@@ -45,7 +45,7 @@ const forms = [
   },
 ];
 
-const HousingFormStepper = () => {
+const RealEstateFormStepper = () => {
   const [activeForm, handleNext, handleBack, handleStep] = useStepper(forms);
 
   return (
@@ -102,4 +102,4 @@ const HousingFormStepper = () => {
   );
 };
 
-export default HousingFormStepper;
+export default RealEstateFormStepper;

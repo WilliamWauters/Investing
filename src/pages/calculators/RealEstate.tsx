@@ -1,10 +1,10 @@
 import Page from "../../components/layout/Page";
 import Head from "next/head";
 import React from "react";
-import { HousingFormProvider } from "@/contexts/HousingFormContext";
-import HousingFormStepper from "@/components/forms/housing/HousingFormStepper";
+import { RealEstateFormProvider } from "@/contexts/RealEstateFormContext";
+import RealEstateFormStepper from "@/components/forms/realEstate/RealEstateFormStepper";
 
-export default function Housing() {
+export default function RealEstate() {
   return (
     <>
       <Head>
@@ -14,9 +14,9 @@ export default function Housing() {
       </Head>
       <main>
         <Page>
-          <HousingFormProvider>
-            <HousingFormStepper />
-          </HousingFormProvider>
+          <RealEstateFormProvider>
+            <RealEstateFormStepper />
+          </RealEstateFormProvider>
         </Page>
       </main>
     </>

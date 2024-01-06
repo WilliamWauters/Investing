@@ -1,7 +1,7 @@
 import {
-  HousingFormActionKind,
-  useHousingForm,
-} from "@/contexts/HousingFormContext";
+  RealEstateFormActionKind,
+  useRealEstateForm,
+} from "@/contexts/RealEstateFormContext";
 import {
   Box,
   FormControl,
@@ -103,7 +103,7 @@ const PercentageField = ({
           onBlur={(e) => {
             if (dispatch) {
               dispatch({
-                type: HousingFormActionKind.TOCUHED_INPUT,
+                type: RealEstateFormActionKind.TOCUHED_INPUT,
                 payload: { name: name, data: true },
               });
             }
@@ -114,7 +114,7 @@ const PercentageField = ({
 
             if (dispatch) {
               dispatch({
-                type: HousingFormActionKind.UPDATE_INPUT,
+                type: RealEstateFormActionKind.UPDATE_INPUT,
                 payload: { name: name, data: newValue },
               });
             } else {
@@ -152,11 +152,11 @@ const PercentageField = ({
                     onClick={() => {
                       if (dispatch) {
                         dispatch({
-                          type: HousingFormActionKind.UPDATE_MONEY_DECREASE,
+                          type: RealEstateFormActionKind.UPDATE_MONEY_DECREASE,
                           payload: { name: name, step: 0.25 },
                         });
                         dispatch({
-                          type: HousingFormActionKind.TOCUHED_INPUT,
+                          type: RealEstateFormActionKind.TOCUHED_INPUT,
                           payload: { name: name, data: true },
                         });
                       } else {
@@ -183,11 +183,11 @@ const PercentageField = ({
                     onClick={() => {
                       if (dispatch) {
                         dispatch({
-                          type: HousingFormActionKind.UPDATE_MONEY_INCREASE,
+                          type: RealEstateFormActionKind.UPDATE_MONEY_INCREASE,
                           payload: { name: name, step: 0.25 },
                         });
                         dispatch({
-                          type: HousingFormActionKind.TOCUHED_INPUT,
+                          type: RealEstateFormActionKind.TOCUHED_INPUT,
                           payload: { name: name, data: true },
                         });
                       } else {

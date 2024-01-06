@@ -1,19 +1,19 @@
-import { useHousingForm } from "@/contexts/HousingFormContext";
+import { useRealEstateForm } from "@/contexts/RealEstateFormContext";
 import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 import SelectField from "@/components/inputs/SelectField";
-import HousingSituationResults from "./HouseSituationResults";
+import RealEstateSituationResults from "./HouseSituationResults";
 import { taxationRegimes } from "@/utils/enums/TaxationRegime";
 import { locations } from "@/utils/enums/Location";
 import { Fade } from "@mui/material";
 
 const HouseSituationForm = () => {
   const {
-    housingFormState,
-    housingFormValidationState,
-    housingFormErrorState,
+    realEstateFormState,
+    realEstateFormValidationState,
+    realEstateFormErrorState,
     dispatch,
-  } = useHousingForm();
+  } = useRealEstateForm();
 
   return (
     <>
@@ -24,9 +24,9 @@ const HouseSituationForm = () => {
             label="Price"
             name="housePrice"
             required
-            value={housingFormState.housePrice.value || ""}
-            touched={housingFormState.housePrice.touched}
-            errorMsg={housingFormErrorState.housePrice}
+            value={realEstateFormState.housePrice.value || ""}
+            touched={realEstateFormState.housePrice.touched}
+            errorMsg={realEstateFormErrorState.housePrice}
             dispatch={dispatch}
             onlyPositif
           />
@@ -34,25 +34,25 @@ const HouseSituationForm = () => {
             name="houseLocation"
             label="Location"
             required
-            value={housingFormState.houseLocation.value || ""}
-            touched={housingFormState.houseLocation.touched}
-            errorMsg={housingFormErrorState.houseLocation}
+            value={realEstateFormState.houseLocation.value || ""}
+            touched={realEstateFormState.houseLocation.touched}
+            errorMsg={realEstateFormErrorState.houseLocation}
             dispatch={dispatch}
             options={locations}
           />
-          {housingFormState.houseLocation.value && (
+          {realEstateFormState.houseLocation.value && (
             <Fade in={true} timeout={500}>
               <div>
                 <SelectField
                   name="taxationRegime"
                   label="Taxation Regime"
                   required
-                  value={housingFormState.taxationRegime.value || ""}
-                  touched={housingFormState.taxationRegime.touched}
-                  errorMsg={housingFormErrorState.taxationRegime}
+                  value={realEstateFormState.taxationRegime.value || ""}
+                  touched={realEstateFormState.taxationRegime.touched}
+                  errorMsg={realEstateFormErrorState.taxationRegime}
                   dispatch={dispatch}
                   options={taxationRegimes.filter((x) => {
-                    return x.region === housingFormState.houseLocation.value;
+                    return x.region === realEstateFormState.houseLocation.value;
                   })}
                 />
               </div>
@@ -60,7 +60,9 @@ const HouseSituationForm = () => {
           )}
         </div>
       </Fade>
-      {housingFormValidationState.houseSituation && <HousingSituationResults />}
+      {realEstateFormValidationState.houseSituation && (
+        <RealEstateSituationResults />
+      )}
     </>
   );
 };

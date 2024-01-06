@@ -25,7 +25,7 @@ export default function Home() {
               py: 4,
             }}
             onClick={() => {
-              router.push("/calculators/Housing");
+              router.push("/calculators/RealEstate");
             }}
           >
             <HouseIcon sx={{ mr: 2 }} />

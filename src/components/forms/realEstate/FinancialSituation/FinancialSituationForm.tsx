@@ -2,18 +2,18 @@ import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 import PercentageField from "@/components/inputs/PercentageField";
 import SelectField from "@/components/inputs/SelectField";
-import { useHousingForm } from "@/contexts/HousingFormContext";
+import { useRealEstateForm } from "@/contexts/RealEstateFormContext";
 import { creditDurations } from "@/utils/enums/CreditDuration";
 import { Fade } from "@mui/material";
 import FinancialSituationResults from "./FinancialSituationResults";
 
 const FinancialSituationForm = () => {
   const {
-    housingFormState,
-    housingFormErrorState,
-    housingFormValidationState,
+    realEstateFormState,
+    realEstateFormErrorState,
+    realEstateFormValidationState,
     dispatch,
-  } = useHousingForm();
+  } = useRealEstateForm();
   return (
     <>
       <Fade in={true} timeout={500}>
@@ -22,42 +22,42 @@ const FinancialSituationForm = () => {
           <MoneyField
             label="Price"
             name="housePrice"
-            value={housingFormState.housePrice.value || ""}
-            touched={housingFormState.housePrice.touched}
-            errorMsg={housingFormErrorState.housePrice}
+            value={realEstateFormState.housePrice.value || ""}
+            touched={realEstateFormState.housePrice.touched}
+            errorMsg={realEstateFormErrorState.housePrice}
             dispatch={dispatch}
             onlyPositif
           />
           <MoneyField
             name="initialContribution"
             label="Initial Contribution"
-            value={housingFormState.initialContribution.value || ""}
-            touched={housingFormState.initialContribution.touched}
-            errorMsg={housingFormErrorState.initialContribution}
+            value={realEstateFormState.initialContribution.value || ""}
+            touched={realEstateFormState.initialContribution.touched}
+            errorMsg={realEstateFormErrorState.initialContribution}
             dispatch={dispatch}
             onlyPositif
           />
           <PercentageField
             name="creditInterestRate"
             label="Credit Interest Rate"
-            value={housingFormState.creditInterestRate.value || ""}
-            touched={housingFormState.creditInterestRate.touched}
-            errorMsg={housingFormErrorState.creditInterestRate}
+            value={realEstateFormState.creditInterestRate.value || ""}
+            touched={realEstateFormState.creditInterestRate.touched}
+            errorMsg={realEstateFormErrorState.creditInterestRate}
             dispatch={dispatch}
             onlyPositif
           />
           <SelectField
             name="creditDuration"
             label="Credit Duration"
-            value={housingFormState.creditDuration.value || ""}
-            touched={housingFormState.creditDuration.touched}
-            errorMsg={housingFormErrorState.creditDuration}
+            value={realEstateFormState.creditDuration.value || ""}
+            touched={realEstateFormState.creditDuration.touched}
+            errorMsg={realEstateFormErrorState.creditDuration}
             dispatch={dispatch}
             options={creditDurations}
           />
         </div>
       </Fade>
-      {housingFormValidationState.financialSituation && (
+      {realEstateFormValidationState.financialSituation && (
         <FinancialSituationResults />
       )}
     </>

@@ -11,14 +11,14 @@ interface inputState {
   touched: boolean;
 }
 
-interface HousingForm {
-  housingFormState: HousingFormState;
-  housingFormValidationState: any;
-  housingFormErrorState: any;
+interface RealEstateForm {
+  realEstateFormState: RealEstateFormState;
+  realEstateFormValidationState: any;
+  realEstateFormErrorState: any;
   dispatch: any;
 }
 
-interface HousingFormState {
+interface RealEstateFormState {
   houseLocation: inputState;
   housePrice: inputState;
   taxationRegime: inputState;
@@ -34,11 +34,11 @@ interface Borrower {
   monthlyExpenses: inputState;
 }
 
-type HousingFormProviderProps = {
+type RealEstateFormProviderProps = {
   children: any;
 };
 
-enum HousingFormActionKind {
+enum RealEstateFormActionKind {
   UPDATE_INPUT_ERROR = "UPDATE_INPUT_ERROR",
   UPDATE_INPUT = "UPDATE_INPUT",
   UPDATE_INPUT_BORROWER = "UPDATE_INPUT_BORROWER",
@@ -56,19 +56,19 @@ enum HousingFormActionKind {
   TOUCHED_FORM = "TOUCHED_FORM",
 }
 
-interface HousingFormAction {
-  type: HousingFormActionKind;
+interface RealEstateFormAction {
+  type: RealEstateFormActionKind;
   payload: any;
 }
 
 // Our reducer function that uses a switch statement to handle our actions
-function HousingFormReducer(
-  state: HousingFormState,
-  action: HousingFormAction
+function RealEstateFormReducer(
+  state: RealEstateFormState,
+  action: RealEstateFormAction
 ) {
   const { type, payload } = action;
   switch (type) {
-    case HousingFormActionKind.UPDATE_INPUT:
+    case RealEstateFormActionKind.UPDATE_INPUT:
       var taxationRegimState = state["taxationRegime"];
       if (payload.name === "houseLocation") {
         taxationRegimState.touched = false;
@@ -78,42 +78,44 @@ function HousingFormReducer(
         ...state,
         ["taxationRegime"]: taxationRegimState,
         [payload.name]: {
-          ...state[payload.name as keyof HousingFormState],
+          ...state[payload.name as keyof RealEstateFormState],
           value: payload.data,
         },
       };
-    case HousingFormActionKind.UPDATE_MONEY_INCREASE:
+    case RealEstateFormActionKind.UPDATE_MONEY_INCREASE:
       return {
         ...state,
         [payload.name]: {
-          ...state[payload.name as keyof HousingFormState],
+          ...state[payload.name as keyof RealEstateFormState],
           value:
-            state[payload.name as keyof HousingFormState].value + payload.step,
+            state[payload.name as keyof RealEstateFormState].value +
+            payload.step,
         },
       };
-    case HousingFormActionKind.UPDATE_MONEY_DECREASE:
+    case RealEstateFormActionKind.UPDATE_MONEY_DECREASE:
       return {
         ...state,
         [payload.name]: {
-          ...state[payload.name as keyof HousingFormState],
+          ...state[payload.name as keyof RealEstateFormState],
           value:
-            state[payload.name as keyof HousingFormState].value - payload.step,
+            state[payload.name as keyof RealEstateFormState].value -
+            payload.step,
         },
       };
-    case HousingFormActionKind.TOCUHED_INPUT:
+    case RealEstateFormActionKind.TOCUHED_INPUT:
       return {
         ...state,
         [payload.name]: {
-          ...state[payload.name as keyof HousingFormState],
+          ...state[payload.name as keyof RealEstateFormState],
           touched: true,
         },
       };
-    case HousingFormActionKind.UPD_INPUT:
+    case RealEstateFormActionKind.UPD_INPUT:
       return {
         ...state,
         [payload.name]: payload.data,
       };
-    case HousingFormActionKind.ADD_BORROWER:
+    case RealEstateFormActionKind.ADD_BORROWER:
       return {
         ...state,
         borrowers: [
@@ -132,14 +134,14 @@ function HousingFormReducer(
           },
         ],
       };
-    case HousingFormActionKind.DEL_BORROWER:
+    case RealEstateFormActionKind.DEL_BORROWER:
       const copyArr = [...state.borrowers];
       copyArr.splice(-1);
       return {
         ...state,
         borrowers: [...copyArr],
       };
-    case HousingFormActionKind.UPDATE_INPUT_BORROWER:
+    case RealEstateFormActionKind.UPDATE_INPUT_BORROWER:
       // 1. Make a shallow copy of the items
       let borrowers = [...state.borrowers];
       // 2. Make a shallow copy of the item you want to mutate
@@ -158,7 +160,7 @@ function HousingFormReducer(
         ...state,
         ["borrowers"]: borrowers,
       };
-    case HousingFormActionKind.UPDATE_MONEY_INCREASE_BORROWER:
+    case RealEstateFormActionKind.UPDATE_MONEY_INCREASE_BORROWER:
       // 1. Make a shallow copy of the items
       let borrowersInc = [...state.borrowers];
       // 2. Make a shallow copy of the item you want to mutate
@@ -177,7 +179,7 @@ function HousingFormReducer(
         ...state,
         ["borrowers"]: borrowersInc,
       };
-    case HousingFormActionKind.UPDATE_MONEY_DECREASE_BORROWER:
+    case RealEstateFormActionKind.UPDATE_MONEY_DECREASE_BORROWER:
       // 1. Make a shallow copy of the items
       let borrowersDec = [...state.borrowers];
       // 2. Make a shallow copy of the item you want to mutate
@@ -196,7 +198,7 @@ function HousingFormReducer(
         ...state,
         ["borrowers"]: borrowersDec,
       };
-    case HousingFormActionKind.TOUCHED_BORROWER:
+    case RealEstateFormActionKind.TOUCHED_BORROWER:
       // 1. Make a shallow copy of the items
       let borrowersTouched = [...state.borrowers];
       // 2. Make a shallow copy of the item you want to mutate
@@ -215,20 +217,20 @@ function HousingFormReducer(
         ...state,
         ["borrowers"]: borrowersTouched,
       };
-    case HousingFormActionKind.TOUCHED_FORM:
+    case RealEstateFormActionKind.TOUCHED_FORM:
       if (payload.data === 0) {
         return {
           ...state,
           ["houseLocation"]: {
-            ...state["houseLocation" as keyof HousingFormState],
+            ...state["houseLocation" as keyof RealEstateFormState],
             touched: true,
           },
           ["housePrice"]: {
-            ...state["housePrice" as keyof HousingFormState],
+            ...state["housePrice" as keyof RealEstateFormState],
             touched: true,
           },
           ["taxationRegime"]: {
-            ...state["taxationRegime" as keyof HousingFormState],
+            ...state["taxationRegime" as keyof RealEstateFormState],
             touched: state.houseLocation.value ? true : false,
           },
         };
@@ -253,15 +255,15 @@ function HousingFormReducer(
         return {
           ...state,
           ["initialContribution"]: {
-            ...state["initialContribution" as keyof HousingFormState],
+            ...state["initialContribution" as keyof RealEstateFormState],
             touched: true,
           },
           ["creditInterestRate"]: {
-            ...state["creditInterestRate" as keyof HousingFormState],
+            ...state["creditInterestRate" as keyof RealEstateFormState],
             touched: true,
           },
           ["creditDuration"]: {
-            ...state["creditDuration" as keyof HousingFormState],
+            ...state["creditDuration" as keyof RealEstateFormState],
             touched: true,
           },
         };
@@ -276,7 +278,7 @@ const getFormValidationState = (state: any, errorState: any) => {
     houseSituation: isHouseSituationFormValid(state, errorState),
     personalSituation: isPersonalSituationFormValid(state, errorState),
     financialSituation: isFinancialSituationFormValid(state, errorState),
-    housingResults: true,
+    realEstateResults: true,
   };
 };
 
@@ -427,11 +429,13 @@ const getFormErrorState = (state: any) => {
 };
 
 // 1 - CREATING CONTEXT
-const HousingFormContext = createContext<HousingForm>({} as HousingForm);
+const RealEstateFormContext = createContext<RealEstateForm>(
+  {} as RealEstateForm
+);
 
-// 2 - CREATING PROVIDER (will be used in the Housing Page)
-const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
-  const [housingFormState, dispatch] = useReducer(HousingFormReducer, {
+// 2 - CREATING PROVIDER (will be used in the RealEstate Page)
+const RealEstateFormProvider = ({ children }: RealEstateFormProviderProps) => {
+  const [realEstateFormState, dispatch] = useReducer(RealEstateFormReducer, {
     houseLocation: {
       value: "",
       touched: false,
@@ -470,43 +474,44 @@ const HousingFormProvider = ({ children }: HousingFormProviderProps) => {
       },
     ],
   });
-  const [housingFormValidationState, setHousingFormValidationState] = useState({
-    houseSituation: false,
-    personalSituation: false,
-    financialSituation: false,
-    housingResults: false,
-  });
-  const [housingFormErrorState, setHousingFormErrorState] = useState({});
+  const [realEstateFormValidationState, setRealEstateFormValidationState] =
+    useState({
+      houseSituation: false,
+      personalSituation: false,
+      financialSituation: false,
+      realEstateResults: false,
+    });
+  const [realEstateFormErrorState, setRealEstateFormErrorState] = useState({});
 
   useEffect(() => {
-    setHousingFormErrorState(getFormErrorState(housingFormState));
-  }, [housingFormState]);
+    setRealEstateFormErrorState(getFormErrorState(realEstateFormState));
+  }, [realEstateFormState]);
 
   useEffect(() => {
-    setHousingFormValidationState(
-      getFormValidationState(housingFormState, housingFormErrorState)
+    setRealEstateFormValidationState(
+      getFormValidationState(realEstateFormState, realEstateFormErrorState)
     );
-  }, [housingFormState, housingFormErrorState]);
+  }, [realEstateFormState, realEstateFormErrorState]);
 
   return (
-    <HousingFormContext.Provider
+    <RealEstateFormContext.Provider
       value={{
-        housingFormState,
-        housingFormValidationState,
-        housingFormErrorState,
+        realEstateFormState,
+        realEstateFormValidationState,
+        realEstateFormErrorState,
         dispatch,
       }}
     >
       {children}
-    </HousingFormContext.Provider>
+    </RealEstateFormContext.Provider>
   );
 };
 
 // 3 - EXPOSING CONTEXT THROUGH HOOK
-const useHousingForm = () => {
-  return useContext(HousingFormContext);
+const useRealEstateForm = () => {
+  return useContext(RealEstateFormContext);
 };
 
-export { HousingFormProvider, useHousingForm, HousingFormActionKind };
+export { RealEstateFormProvider, useRealEstateForm, RealEstateFormActionKind };
 export type { Borrower };
-export type { HousingFormState };
+export type { RealEstateFormState };

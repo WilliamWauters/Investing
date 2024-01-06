@@ -2,9 +2,9 @@ import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 import {
   Borrower,
-  HousingFormActionKind,
-  useHousingForm,
-} from "@/contexts/HousingFormContext";
+  RealEstateFormActionKind,
+  useRealEstateForm,
+} from "@/contexts/RealEstateFormContext";
 import { Box, Collapse, Fade, Grow, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -16,14 +16,14 @@ interface RenderItemOptions {
   i: number;
   borrower: Borrower;
   dispatch: any;
-  housingFormErrorState: any;
+  realEstateFormErrorState: any;
 }
 
 function renderItem({
   i,
   borrower,
   dispatch,
-  housingFormErrorState,
+  realEstateFormErrorState,
 }: RenderItemOptions) {
   return (
     <Box key={`borrower_${i}`} sx={{ my: 2 }}>
@@ -39,7 +39,7 @@ function renderItem({
           <IconButton
             onClick={(e) =>
               dispatch({
-                type: HousingFormActionKind.DEL_BORROWER,
+                type: RealEstateFormActionKind.DEL_BORROWER,
                 payload: {},
               })
             }
@@ -59,7 +59,7 @@ function renderItem({
         required
         value={borrower.monthlyIncome.value || ""}
         touched={borrower.monthlyIncome.touched}
-        errorMsg={housingFormErrorState["monthlyIncome_" + (i + 1)]}
+        errorMsg={realEstateFormErrorState["monthlyIncome_" + (i + 1)]}
         dispatch={dispatch}
         onlyPositif
       />
@@ -70,7 +70,7 @@ function renderItem({
         required
         value={borrower.monthlyExpenses.value || ""}
         touched={borrower.monthlyExpenses.touched}
-        errorMsg={housingFormErrorState["monthlyExpenses_" + (i + 1)]}
+        errorMsg={realEstateFormErrorState["monthlyExpenses_" + (i + 1)]}
         dispatch={dispatch}
         onlyPositif
       />
@@ -80,11 +80,11 @@ function renderItem({
 
 const PersonalSituationForm = () => {
   const {
-    housingFormState,
-    housingFormValidationState,
-    housingFormErrorState,
+    realEstateFormState,
+    realEstateFormValidationState,
+    realEstateFormErrorState,
     dispatch,
-  } = useHousingForm();
+  } = useRealEstateForm();
 
   return (
     <>
@@ -92,20 +92,20 @@ const PersonalSituationForm = () => {
         <div>
           <FormPaneHeader title="Personal Situation" />
           <TransitionGroup>
-            {housingFormState.borrowers.map((borrower, i) => {
+            {realEstateFormState.borrowers.map((borrower, i) => {
               return (
                 <Collapse key={`borrowerCollapse_${i}`}>
                   {renderItem({
                     i,
                     borrower,
                     dispatch,
-                    housingFormErrorState,
+                    realEstateFormErrorState,
                   })}
                 </Collapse>
               );
             })}
           </TransitionGroup>
-          {housingFormState.borrowers.length === 1 && (
+          {realEstateFormState.borrowers.length === 1 && (
             <Box
               sx={{
                 mx: 3,
@@ -116,7 +116,7 @@ const PersonalSituationForm = () => {
               <IconButton
                 onClick={(e) =>
                   dispatch({
-                    type: HousingFormActionKind.ADD_BORROWER,
+                    type: RealEstateFormActionKind.ADD_BORROWER,
                     payload: {},
                   })
                 }
@@ -130,7 +130,7 @@ const PersonalSituationForm = () => {
           )}
         </div>
       </Fade>
-      {housingFormValidationState.personalSituation && (
+      {realEstateFormValidationState.personalSituation && (
         <PersonalSituationResults />
       )}
     </>

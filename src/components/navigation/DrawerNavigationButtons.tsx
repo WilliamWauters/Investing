@@ -19,7 +19,7 @@ type DrawerNavigationButtonsProps = {
 
 const routes = [
   {
-    path: "/calculators/RealEstate",
+    path: "/RealEstate/SimulationList",
     name: "Real Estate",
   },
   {

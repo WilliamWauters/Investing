@@ -4,7 +4,7 @@ import Head from "next/head";
 import React from "react";
 import { RealEstateFormProvider } from "@/contexts/RealEstateFormContext";
 import { Box, Button, ListItemButton, ListItemText } from "@mui/material";
-import FormPaneHeader from "@/components/content/FormPaneHeader";
+import PaneHeader from "@/components/content/PaneHeader";
 import SimulationList from "./components/SimulationList";
 
 export default function RealEstate() {
@@ -19,7 +19,7 @@ export default function RealEstate() {
       <main>
         <Page>
           <RealEstateFormProvider>
-            <FormPaneHeader title="Real Estate Investment Simulations" />
+            <PaneHeader title="Real Estate Investment Simulations" />
             <SimulationList />
             <SimulationList />
             <SimulationList />

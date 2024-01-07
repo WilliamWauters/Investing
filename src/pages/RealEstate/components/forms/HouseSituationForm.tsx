@@ -1,5 +1,5 @@
 import { useRealEstateForm } from "@/contexts/RealEstateFormContext";
-import FormPaneHeader from "@/components/content/FormPaneHeader";
+import PaneHeader from "@/components/content/PaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 import SelectField from "@/components/inputs/SelectField";
 import RealEstateSituationResults from "../HouseSituationResults";
@@ -19,7 +19,7 @@ const HouseSituationForm = () => {
     <>
       <Fade in={true} timeout={500}>
         <div>
-          <FormPaneHeader title="House Situation" />
+          <PaneHeader title="House Situation" />
           <MoneyField
             label="Price"
             name="housePrice"

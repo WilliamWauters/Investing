@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
 
-type FormPaneHeaderProps = {
+type PaneHeaderProps = {
   title: string;
 };
 
-const FormPaneHeader = ({ title }: FormPaneHeaderProps) => {
+const PaneHeader = ({ title }: PaneHeaderProps) => {
   return (
     <Box
       sx={{
@@ -34,4 +34,4 @@ const FormPaneHeader = ({ title }: FormPaneHeaderProps) => {
   );
 };
 
-export default FormPaneHeader;
+export default PaneHeader;

@@ -1,4 +1,4 @@
-import FormPaneHeader from "@/components/content/FormPaneHeader";
+import PaneHeader from "@/components/content/PaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 import {
   Borrower,
@@ -90,7 +90,7 @@ const PersonalSituationForm = () => {
     <>
       <Fade in={true} timeout={500}>
         <div>
-          <FormPaneHeader title="Personal Situation" />
+          <PaneHeader title="Personal Situation" />
           <TransitionGroup>
             {realEstateFormState.borrowers.map((borrower, i) => {
               return (

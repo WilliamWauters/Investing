@@ -1,4 +1,4 @@
-import FormPaneHeader from "@/components/content/FormPaneHeader";
+import PaneHeader from "@/components/content/PaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 import PercentageField from "@/components/inputs/PercentageField";
 import SelectField from "@/components/inputs/SelectField";
@@ -18,7 +18,7 @@ const FinancialSituationForm = () => {
     <>
       <Fade in={true} timeout={500}>
         <div>
-          <FormPaneHeader title="Financial Situation" />
+          <PaneHeader title="Financial Situation" />
           <MoneyField
             label="Price"
             name="housePrice"

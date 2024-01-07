@@ -2,7 +2,7 @@ import Page from "../../components/layout/Page";
 import Head from "next/head";
 import React from "react";
 import { RealEstateFormProvider } from "@/contexts/RealEstateFormContext";
-import RealEstateFormStepper from "@/components/forms/realEstate/RealEstateFormStepper";
+import RealEstateFormStepper from "@/pages/RealEstate/components/RealEstateFormStepper";
 
 export default function RealEstate() {
   return (

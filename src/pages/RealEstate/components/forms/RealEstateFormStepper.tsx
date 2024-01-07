@@ -10,14 +10,14 @@ import {
 import React from "react";
 import FormSection from "@/components/layout/FormSection";
 import FormPane from "@/components/layout/FormPane";
-import HouseSituationForm from "@/components/forms/realEstate/HouseSituation/HouseSituationForm";
-import PersonalSituationForm from "@/components/forms/realEstate/PersonalSituation/PersonalSituationForm";
-import FinancialSituationForm from "@/components/forms/realEstate/FinancialSituation/FinancialSituationForm";
+import HouseSituationForm from "@/pages/RealEstate/components/forms/HouseSituationForm";
+import PersonalSituationForm from "@/pages/RealEstate/components/forms/PersonalSituationForm";
+import FinancialSituationForm from "@/pages/RealEstate/components/forms/FinancialSituationForm";
 import useStepper from "@/hooks/useStepperAction";
-import ResultsForm from "@/components/forms/realEstate/RealEstateResults/RealEstateResultsForm";
-import HouseSituationResults from "@/components/forms/realEstate/HouseSituation/HouseSituationResults";
-import PersonalSituationResults from "@/components/forms/realEstate/PersonalSituation/PersonalSituationResults";
-import FinancialSituationResults from "@/components/forms/realEstate/FinancialSituation/FinancialSituationResults";
+import ResultsForm from "@/pages/RealEstate/components/RealEstateResultsForm";
+import HouseSituationResults from "@/pages/RealEstate/components/HouseSituationResults";
+import PersonalSituationResults from "@/pages/RealEstate/components/PersonalSituationResults";
+import FinancialSituationResults from "@/pages/RealEstate/components/FinancialSituationResults";
 
 const forms = [
   {

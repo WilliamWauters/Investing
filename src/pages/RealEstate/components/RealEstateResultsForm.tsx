@@ -1,7 +1,7 @@
 import FormPaneHeader from "@/components/content/FormPaneHeader";
-import FinancialSituationResults from "../FinancialSituation/FinancialSituationResults";
-import RealEstateSituationResults from "../HouseSituation/HouseSituationResults";
-import PersonalSituationResults from "../PersonalSituation/PersonalSituationResults";
+import FinancialSituationResults from "./FinancialSituationResults";
+import RealEstateSituationResults from "./HouseSituationResults";
+import PersonalSituationResults from "./PersonalSituationResults";
 
 const RealEstateResultsForm = () => {
   return (

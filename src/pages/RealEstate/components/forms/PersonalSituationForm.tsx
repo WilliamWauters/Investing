@@ -10,7 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Typography from "@mui/material/Typography";
 import { TransitionGroup } from "react-transition-group";
-import PersonalSituationResults from "./PersonalSituationResults";
+import PersonalSituationResults from "../PersonalSituationResults";
 
 interface RenderItemOptions {
   i: number;

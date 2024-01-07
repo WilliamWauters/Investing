@@ -2,7 +2,7 @@ import { useRealEstateForm } from "@/contexts/RealEstateFormContext";
 import FormPaneHeader from "@/components/content/FormPaneHeader";
 import MoneyField from "@/components/inputs/MoneyField";
 import SelectField from "@/components/inputs/SelectField";
-import RealEstateSituationResults from "./HouseSituationResults";
+import RealEstateSituationResults from "../HouseSituationResults";
 import { taxationRegimes } from "@/utils/enums/TaxationRegime";
 import { locations } from "@/utils/enums/Location";
 import { Fade } from "@mui/material";

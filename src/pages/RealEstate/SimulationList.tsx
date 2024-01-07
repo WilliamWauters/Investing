@@ -5,6 +5,7 @@ import React from "react";
 import { RealEstateFormProvider } from "@/contexts/RealEstateFormContext";
 import { Box, Button, ListItemButton, ListItemText } from "@mui/material";
 import FormPaneHeader from "@/components/content/FormPaneHeader";
+import SimulationList from "./components/SimulationList";
 
 export default function RealEstate() {
   const router = useRouter();
@@ -19,6 +20,9 @@ export default function RealEstate() {
         <Page>
           <RealEstateFormProvider>
             <FormPaneHeader title="Real Estate Investment Simulations" />
+            <SimulationList />
+            <SimulationList />
+            <SimulationList />
             <Box
               sx={{
                 display: "flex",

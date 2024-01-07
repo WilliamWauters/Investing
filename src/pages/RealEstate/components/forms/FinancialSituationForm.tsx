@@ -5,7 +5,7 @@ import SelectField from "@/components/inputs/SelectField";
 import { useRealEstateForm } from "@/contexts/RealEstateFormContext";
 import { creditDurations } from "@/utils/enums/CreditDuration";
 import { Fade } from "@mui/material";
-import FinancialSituationResults from "./FinancialSituationResults";
+import FinancialSituationResults from "../FinancialSituationResults";
 
 const FinancialSituationForm = () => {
   const {

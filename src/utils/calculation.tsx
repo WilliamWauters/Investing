@@ -1,6 +1,6 @@
 import { TaxationRegime, taxationRegimes } from "./enums/TaxationRegime";
 
-interface NotaryFees {
+export interface NotaryFees {
   fees: Fee[];
   total: number;
 }

@@ -1,4 +1,10 @@
 import {
+  NotaryFees,
+  getLaonPaymentInfo,
+  getMonthlyPaymentCapacity,
+  getNotaryFees,
+} from "@/utils/calculation";
+import {
   createContext,
   useContext,
   useEffect,
@@ -19,6 +25,9 @@ interface RealEstateForm {
 }
 
 interface RealEstateFormState {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
   houseLocation: inputState;
   housePrice: inputState;
   taxationRegime: inputState;
@@ -27,6 +36,12 @@ interface RealEstateFormState {
   creditDuration: inputState;
   touched: any;
   borrowers: Borrower[];
+  notaryFees: NotaryFees;
+  monthlyIncomeTotal: number;
+  monthlyPaymentCapacity: number;
+  loan: number;
+  loanMonthlyPayment: number;
+  loanTotalPayment: number;
 }
 
 interface Borrower {
@@ -54,6 +69,7 @@ enum RealEstateFormActionKind {
   UPD_BORROWER = "UPD_BORROWER",
   TOUCHED_BORROWER = "TOUCHED_BORROWER",
   TOUCHED_FORM = "TOUCHED_FORM",
+  SET_FORM = "SET_FORM",
 }
 
 interface RealEstateFormAction {
@@ -61,19 +77,77 @@ interface RealEstateFormAction {
   payload: any;
 }
 
+const editSimulation = (state: RealEstateFormState) => {
+  // Check if there is already an value created for the list of simualtion
+  const realEstateSimulationsJSON = localStorage.getItem(
+    "realEstateSimulationsJSON"
+  );
+  var simulations = realEstateSimulationsJSON
+    ? JSON.parse(realEstateSimulationsJSON)
+    : null;
+
+  if (simulations) {
+    const itemIndex = simulations.findIndex(
+      (item: RealEstateFormState) => item.id === state.id
+    );
+    if (itemIndex !== -1) {
+      simulations[itemIndex] = state;
+      localStorage.setItem(
+        "realEstateSimulationsJSON",
+        JSON.stringify(simulations)
+      );
+    }
+  }
+};
+
 // Our reducer function that uses a switch statement to handle our actions
 function RealEstateFormReducer(
   state: RealEstateFormState,
   action: RealEstateFormAction
 ) {
+  state.notaryFees = getNotaryFees(
+    state.housePrice.value,
+    state.taxationRegime.value
+  );
+  state.monthlyPaymentCapacity = getMonthlyPaymentCapacity(
+    state.borrowers.reduce(
+      (accumulator, currentValue) =>
+        accumulator +
+        currentValue.monthlyIncome.value -
+        currentValue.monthlyExpenses.value,
+      0
+    )
+  );
+  state.monthlyIncomeTotal = state.borrowers.reduce(
+    (accumulator, currentValue) =>
+      accumulator +
+      currentValue.monthlyIncome.value -
+      currentValue.monthlyExpenses.value,
+    0
+  );
+  const { loan, monthlyPayment, totalPayment } = getLaonPaymentInfo(
+    state.housePrice.value,
+    state.initialContribution.value,
+    state.notaryFees.total,
+    state.creditInterestRate.value,
+    Number(state.creditDuration.value)
+  );
+  state.loan = loan;
+  state.loanMonthlyPayment = monthlyPayment;
+  state.loanTotalPayment = totalPayment;
+
   const { type, payload } = action;
+
   switch (type) {
+    case RealEstateFormActionKind.SET_FORM:
+      return payload;
     case RealEstateFormActionKind.UPDATE_INPUT:
       var taxationRegimState = state["taxationRegime"];
       if (payload.name === "houseLocation") {
         taxationRegimState.touched = false;
         taxationRegimState.value = "";
       }
+      editSimulation(state);
       return {
         ...state,
         ["taxationRegime"]: taxationRegimState,
@@ -83,6 +157,7 @@ function RealEstateFormReducer(
         },
       };
     case RealEstateFormActionKind.UPDATE_MONEY_INCREASE:
+      editSimulation(state);
       return {
         ...state,
         [payload.name]: {
@@ -93,6 +168,7 @@ function RealEstateFormReducer(
         },
       };
     case RealEstateFormActionKind.UPDATE_MONEY_DECREASE:
+      editSimulation(state);
       return {
         ...state,
         [payload.name]: {
@@ -103,6 +179,7 @@ function RealEstateFormReducer(
         },
       };
     case RealEstateFormActionKind.TOCUHED_INPUT:
+      editSimulation(state);
       return {
         ...state,
         [payload.name]: {
@@ -111,11 +188,13 @@ function RealEstateFormReducer(
         },
       };
     case RealEstateFormActionKind.UPD_INPUT:
+      editSimulation(state);
       return {
         ...state,
         [payload.name]: payload.data,
       };
     case RealEstateFormActionKind.ADD_BORROWER:
+      editSimulation(state);
       return {
         ...state,
         borrowers: [
@@ -137,6 +216,7 @@ function RealEstateFormReducer(
     case RealEstateFormActionKind.DEL_BORROWER:
       const copyArr = [...state.borrowers];
       copyArr.splice(-1);
+      editSimulation(state);
       return {
         ...state,
         borrowers: [...copyArr],
@@ -156,6 +236,7 @@ function RealEstateFormReducer(
       borrower[payload.name as keyof Borrower] = borrowerPropCopy;
       // 6. Put it back into our array. N.B. we *are* mutating the array here,
       borrowers[payload.index] = borrower;
+      editSimulation(state);
       return {
         ...state,
         ["borrowers"]: borrowers,
@@ -175,6 +256,7 @@ function RealEstateFormReducer(
       borrowerInc[payload.name as keyof Borrower] = borrowerPropCopyInc;
       // 6. Put it back into our array. N.B. we *are* mutating the array here,
       borrowersInc[payload.index] = borrowerInc;
+      editSimulation(state);
       return {
         ...state,
         ["borrowers"]: borrowersInc,
@@ -194,6 +276,7 @@ function RealEstateFormReducer(
       borrowerDec[payload.name as keyof Borrower] = borrowerPropCopyDec;
       // 6. Put it back into our array. N.B. we *are* mutating the array here,
       borrowersDec[payload.index] = borrowerDec;
+      editSimulation(state);
       return {
         ...state,
         ["borrowers"]: borrowersDec,
@@ -213,12 +296,14 @@ function RealEstateFormReducer(
       borrowerTouched[payload.name as keyof Borrower] = borrowerPropCopyTouched;
       // 6. Put it back into our array. N.B. we *are* mutating the array here,
       borrowersTouched[payload.index] = borrowerTouched;
+      editSimulation(state);
       return {
         ...state,
         ["borrowers"]: borrowersTouched,
       };
     case RealEstateFormActionKind.TOUCHED_FORM:
       if (payload.data === 0) {
+        editSimulation(state);
         return {
           ...state,
           ["houseLocation"]: {
@@ -241,17 +326,20 @@ function RealEstateFormReducer(
         borrowersTest.map((borrowerTest) => {
           borrowerTest.monthlyIncome.touched = true;
           borrowerTest.monthlyExpenses.touched = true;
+          editSimulation(state);
           return {
             borrowerTest,
           };
         });
 
+        editSimulation(state);
         return {
           ...state,
           ["borrowers"]: borrowersTest,
         };
       }
       if (payload.data === 2) {
+        editSimulation(state);
         return {
           ...state,
           ["initialContribution"]: {
@@ -269,6 +357,7 @@ function RealEstateFormReducer(
         };
       }
     default:
+      editSimulation(state);
       return state;
   }
 }
@@ -473,6 +562,12 @@ const RealEstateFormProvider = ({ children }: RealEstateFormProviderProps) => {
         },
       },
     ],
+    notaryFees: 0,
+    monthlyIncomeTotal: 0,
+    monthlyPaymentCapacity: 0,
+    loan: 0,
+    loanMonthlyPayment: 0,
+    loanTotalPayment: 0,
   });
   const [realEstateFormValidationState, setRealEstateFormValidationState] =
     useState({

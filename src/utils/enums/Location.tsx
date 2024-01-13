@@ -10,4 +10,9 @@ var locations = [
   { value: Location.WAL, label: "Wallonia" },
 ];
 
-export { Location, locations };
+function getLabelByLocation(locationValue: Location) {
+  const locationObj = locations.find((loc) => loc.value === locationValue);
+  return locationObj ? locationObj.label : null;
+}
+
+export { Location, locations, getLabelByLocation };

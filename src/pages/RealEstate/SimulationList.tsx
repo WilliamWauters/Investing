@@ -8,7 +8,7 @@ import {
 } from "@/contexts/RealEstateFormContext";
 import { Box, Button, ListItemButton, ListItemText } from "@mui/material";
 import PaneHeader from "@/components/content/PaneHeader";
-import SimulationList from "./components/SimulationList";
+import SimulationList from "../../components/realestate/components/SimulationList";
 
 export default function RealEstate() {
   const router = useRouter();

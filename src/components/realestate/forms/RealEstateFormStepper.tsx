@@ -10,14 +10,14 @@ import {
 import React, { useEffect } from "react";
 import FormSection from "@/components/layout/FormSection";
 import FormPane from "@/components/layout/FormPane";
-import HouseSituationForm from "@/pages/RealEstate/components/forms/HouseSituationForm";
-import PersonalSituationForm from "@/pages/RealEstate/components/forms/PersonalSituationForm";
-import FinancialSituationForm from "@/pages/RealEstate/components/forms/FinancialSituationForm";
+import HouseSituationForm from "@/components/realestate/forms/HouseSituationForm";
+import PersonalSituationForm from "@/components/realestate/forms/PersonalSituationForm";
+import FinancialSituationForm from "@/components/realestate/forms/FinancialSituationForm";
 import useStepper from "@/hooks/useStepperAction";
-import ResultsForm from "@/pages/RealEstate/components/RealEstateResultsForm";
-import HouseSituationResults from "@/pages/RealEstate/components/HouseSituationResults";
-import PersonalSituationResults from "@/pages/RealEstate/components/PersonalSituationResults";
-import FinancialSituationResults from "@/pages/RealEstate/components/FinancialSituationResults";
+import ResultsForm from "@/components/realestate/components/RealEstateResultsForm";
+import HouseSituationResults from "@/components/realestate/components/HouseSituationResults";
+import PersonalSituationResults from "@/components/realestate/components/PersonalSituationResults";
+import FinancialSituationResults from "@/components/realestate/components/FinancialSituationResults";
 import {
   RealEstateFormActionKind,
   RealEstateFormState,

@@ -147,12 +147,40 @@ const RealEstateFormStepper = () => {
     }
   };
 
+  const deleteSimulation = (id: string) => {
+    // Retrieve the existing simulations from localStorage
+    const realEstateSimulationsJSON = localStorage.getItem(
+      "realEstateSimulationsJSON"
+    );
+    let simulations = realEstateSimulationsJSON
+      ? JSON.parse(realEstateSimulationsJSON)
+      : [];
+
+    // Find the index of the simulation to be deleted
+    const itemIndex = simulations.findIndex(
+      (item: RealEstateFormState) => item.id === id
+    );
+
+    // Check if the simulation exists
+    if (itemIndex !== -1) {
+      // Remove the simulation from the array
+      simulations.splice(itemIndex, 1);
+
+      // Update the localStorage with the new array
+      localStorage.setItem(
+        "realEstateSimulationsJSON",
+        JSON.stringify(simulations)
+      );
+    }
+  };
+
   return (
     <>
       <PaneHeader
         title={realEstateFormState.id ? realEstateFormState.id : "NEW"}
         style={{ mx: 0 }}
         backButton={true}
+        idSimulation={realEstateFormState.id}
       />
       <FormSection>
         <Box

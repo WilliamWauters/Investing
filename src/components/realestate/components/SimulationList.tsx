@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { RealEstateFormState } from "@/contexts/RealEstateFormContext";
 import router from "next/router";
 import { getLabelByLocation } from "@/utils/enums/Location";
 import { NumericFormat } from "react-number-format";
 import formatMoney from "@/utils/formatMoney";
-import GroupIcon from "@mui/icons-material/Group";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import PersonIcon from "@mui/icons-material/Person";
+
 interface SimulationListProp {
   data: RealEstateFormState[];
 }
@@ -16,11 +14,15 @@ const defaultProps: SimulationListProp = {
   data: [],
 };
 
+const sortArrayByPriceDesc = (array: any) => {
+  return [...array].sort((a, b) => b.housePrice.value - a.housePrice.value);
+};
+
 export default function SimulationList(props: SimulationListProp) {
   return (
     <>
       <Grid container columns={{ xs: 6, sm: 6, md: 12 }}>
-        {props.data.map((x) => (
+        {sortArrayByPriceDesc(props.data).map((x) => (
           <Grid
             item
             xs={6}
@@ -53,13 +55,7 @@ export default function SimulationList(props: SimulationListProp) {
                   borderRadius: 1,
                 }}
               >
-                <Box
-                  sx={{
-                    color: "white",
-                  }}
-                >
-                  {getLabelByLocation(x.houseLocation.value)}
-                </Box>
+                <Box>{getLabelByLocation(x.houseLocation.value)}</Box>
                 <Box>
                   <Typography
                     variant="h6"
@@ -113,41 +109,6 @@ export default function SimulationList(props: SimulationListProp) {
                 }}
               >
                 <Box>
-                  {x.borrowers.length == 1 && (
-                    <PersonIcon
-                      sx={{
-                        color: "white",
-                      }}
-                      fontSize="small"
-                    />
-                  )}
-                  {x.borrowers.length > 1 && (
-                    <GroupIcon
-                      sx={{
-                        color: "white",
-                      }}
-                      fontSize="small"
-                    />
-                  )}
-                </Box>
-                <Box>
-                  <AccountBalanceIcon
-                    sx={{
-                      color: "white",
-                    }}
-                    fontSize="small"
-                  />
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  borderRadius: 1,
-                }}
-              >
-                <Box>
                   <Typography
                     variant="h6"
                     sx={{
@@ -173,8 +134,14 @@ export default function SimulationList(props: SimulationListProp) {
                       fontSize: "0.85rem",
                     }}
                   >
-                    {`${x.creditInterestRate.value} %`}
-                    {" for "}
+                    {`${x.creditInterestRate.value} %`}{" "}
+                    <span
+                      style={{
+                        fontSize: "0.65rem",
+                      }}
+                    >
+                      for
+                    </span>{" "}
                     {`${x.creditDuration.value}`}{" "}
                     <span
                       style={{

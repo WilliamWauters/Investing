@@ -53,7 +53,13 @@ export default function SimulationList(props: SimulationListProp) {
                   borderRadius: 1,
                 }}
               >
-                <Box>{getLabelByLocation(x.houseLocation.value)}</Box>
+                <Box
+                  sx={{
+                    color: "white",
+                  }}
+                >
+                  {getLabelByLocation(x.houseLocation.value)}
+                </Box>
                 <Box>
                   <Typography
                     variant="h6"
@@ -107,8 +113,22 @@ export default function SimulationList(props: SimulationListProp) {
                 }}
               >
                 <Box>
-                  {x.borrowers.length == 1 && <PersonIcon fontSize="small" />}
-                  {x.borrowers.length > 1 && <GroupIcon fontSize="small" />}
+                  {x.borrowers.length == 1 && (
+                    <PersonIcon
+                      sx={{
+                        color: "white",
+                      }}
+                      fontSize="small"
+                    />
+                  )}
+                  {x.borrowers.length > 1 && (
+                    <GroupIcon
+                      sx={{
+                        color: "white",
+                      }}
+                      fontSize="small"
+                    />
+                  )}
                 </Box>
                 <Box>
                   <AccountBalanceIcon fontSize="small" />

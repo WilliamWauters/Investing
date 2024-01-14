@@ -131,7 +131,12 @@ export default function SimulationList(props: SimulationListProp) {
                   )}
                 </Box>
                 <Box>
-                  <AccountBalanceIcon fontSize="small" />
+                  <AccountBalanceIcon
+                    sx={{
+                      color: "white",
+                    }}
+                    fontSize="small"
+                  />
                 </Box>
               </Box>
               <Box

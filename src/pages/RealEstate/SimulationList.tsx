@@ -40,14 +40,14 @@ export default function RealEstate() {
           <RealEstateFormProvider>
             <PaneHeader
               title="Real Estate Investment Simulations"
-              style={{ mx: 0 }}
+              style={{ mx: 0.6 }}
             />
             <SimulationList data={simulations} />
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "row",
-                mx: 2,
+                mx: 1,
                 my: 1,
               }}
             >
@@ -55,9 +55,10 @@ export default function RealEstate() {
                 onClick={() => {
                   router.push("./SimulationForm");
                 }}
+                variant="outlined"
                 sx={{
-                  bgcolor: "#1E293B",
-                  width: "220px",
+                  height: "60px",
+                  width: "100%",
                 }}
               >
                 Create new simulation

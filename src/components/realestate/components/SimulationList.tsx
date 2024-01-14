@@ -5,7 +5,9 @@ import router from "next/router";
 import { getLabelByLocation } from "@/utils/enums/Location";
 import { NumericFormat } from "react-number-format";
 import formatMoney from "@/utils/formatMoney";
-
+import GroupIcon from "@mui/icons-material/Group";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import PersonIcon from "@mui/icons-material/Person";
 interface SimulationListProp {
   data: RealEstateFormState[];
 }
@@ -105,6 +107,22 @@ export default function SimulationList(props: SimulationListProp) {
                 }}
               >
                 <Box>
+                  {x.borrowers.length == 1 && <PersonIcon fontSize="small" />}
+                  {x.borrowers.length > 1 && <GroupIcon fontSize="small" />}
+                </Box>
+                <Box>
+                  <AccountBalanceIcon fontSize="small" />
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  borderRadius: 1,
+                }}
+              >
+                <Box>
                   <Typography
                     variant="h6"
                     sx={{
@@ -130,12 +148,16 @@ export default function SimulationList(props: SimulationListProp) {
                       fontSize: "0.85rem",
                     }}
                   >
-                    {`${x.creditInterestRate.value} %`}{" "}
+                    {`${x.creditInterestRate.value} %`}
+                    {" for "}
+                    {`${x.creditDuration.value}`}{" "}
                     <span
                       style={{
                         fontSize: "0.65rem",
                       }}
-                    ></span>
+                    >
+                      year
+                    </span>
                   </Typography>
                 </Box>
               </Box>

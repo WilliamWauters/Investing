@@ -12,13 +12,13 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Investement Calculators</title>
+        <title>Investment Calculators</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <Page>
-          <Header text="Investement Calculators" />
+          <Header text="Investment Calculators" />
           <Button
             sx={{
               border: 1,

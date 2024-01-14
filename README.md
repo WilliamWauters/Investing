@@ -1,5 +1,5 @@
-# Investement Calculators
+# Investment Calculators
 
-Collection of investement calculators.
+Collection of investment calculators.
 
 [https://williamwauters.github.io/investment-calculators](https://williamwauters.github.io/investment-calculators/)

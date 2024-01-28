@@ -142,7 +142,7 @@ const getTotalLoanPayement = (
   monthlyLoandPayment: number,
   duration: number
 ) => {
-  return monthlyLoandPayment * Number(duration) * 12;
+  return monthlyLoandPayment * (Number(duration) * 12);
 };
 
 const getLaonPaymentInfo = (
@@ -161,7 +161,7 @@ const getLaonPaymentInfo = (
       2
     ),
     totalPayment: getTotalLoanPayement(
-      roundTo(getMonthlyLoanPayement(housePrice, interest, duration), 2),
+      roundTo(getMonthlyLoanPayement(loan, interest, duration), 2),
       duration
     ),
   };

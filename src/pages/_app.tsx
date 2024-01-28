@@ -28,7 +28,7 @@ export default function App(props: MyAppProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container maxWidth="md">
-          <Box borderColor="primary.main" sx={{ height: "95vh" }}>
+          <Box borderColor="primary.main">
             <Component {...pageProps} />
             <Drawer />
           </Box>

@@ -10,7 +10,7 @@ const Page = ({ children }: PagePrpops) => {
       <Box
         sx={{
           display: "grid",
-          my: 6,
+          my: 5,
         }}
       >
         {children}

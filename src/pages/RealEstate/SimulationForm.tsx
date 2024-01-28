@@ -15,7 +15,12 @@ export default function RealEstate() {
       </Head>
       <main>
         <Page>
-          <Container maxWidth="sm">
+          <Container
+            maxWidth="sm"
+            sx={{
+              px: 0,
+            }}
+          >
             <RealEstateFormProvider>
               <RealEstateFormStepper />
             </RealEstateFormProvider>

@@ -177,7 +177,9 @@ const RealEstateFormStepper = () => {
   return (
     <>
       <PaneHeader
-        title={realEstateFormState.id ? realEstateFormState.id : "NEW"}
+        title={
+          realEstateFormState.id ? realEstateFormState.id.split("-")[0] : "NEW"
+        }
         style={{ mx: 0 }}
         backButton={true}
         idSimulation={realEstateFormState.id}
